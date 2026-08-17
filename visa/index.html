@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J-1 美签材料自查清单</title>
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --card: #ffffff;
+    --ink: #1a2333;
+    --ink-2: #5a6577;
+    --line: #e6eaf2;
+    --blue: #2b5cff;
+    --blue-soft: #eaf0ff;
+    --green: #0fa968;
+    --green-soft: #e6f7ef;
+    --gray: #8b93a3;
+    --gray-soft: #eef0f4;
+    --amber: #c77800;
+    --amber-soft: #fff4e0;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(20, 30, 60, .05), 0 8px 24px rgba(20, 30, 60, .06);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .hero {
+    background: linear-gradient(135deg, #10245e 0%, #1f3fa8 55%, #2b5cff 100%);
+    color: #fff;
+    padding: 44px 20px 96px;
+  }
+  .hero-inner { max-width: 880px; margin: 0 auto; }
+  .hero .tag {
+    display: inline-block;
+    font-size: 12.5px;
+    letter-spacing: .06em;
+    background: rgba(255,255,255,.14);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-bottom: 14px;
+  }
+  .hero h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; letter-spacing: .01em; }
+  .hero p.sub { margin-top: 10px; color: rgba(255,255,255,.78); font-size: 15px; max-width: 620px; }
+  .wrap { max-width: 880px; margin: -58px auto 0; padding: 0 20px 80px; }
+  .dashboard {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    flex-wrap: wrap;
+  }
+  .ring-box { position: relative; width: 92px; height: 92px; flex-shrink: 0; }
+  .ring-box svg { transform: rotate(-90deg); }
+  .ring-bg { stroke: var(--gray-soft); }
+  .ring-fg { stroke: var(--green); transition: stroke-dashoffset .45s ease; }
+  .ring-label {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .ring-label b { font-size: 20px; line-height: 1.1; }
+  .ring-label span { font-size: 11px; color: var(--ink-2); }
+  .stats { display: flex; gap: 28px; flex-wrap: wrap; flex: 1; }
+  .stat b { display: block; font-size: 24px; line-height: 1.2; }
+  .stat span { font-size: 13px; color: var(--ink-2); }
+  .stat.todo b { color: var(--amber); }
+  .stat.done b { color: var(--green); }
+  .stat.na b { color: var(--gray); }
+  .dash-msg {
+    width: 100%;
+    font-size: 14px;
+    color: var(--ink-2);
+    background: var(--blue-soft);
+    border-radius: 10px;
+    padding: 10px 14px;
+  }
+  .dash-msg.all-done { background: var(--green-soft); color: var(--green); font-weight: 600; }
+  .toolbar {
+    display: flex; align-items: center; gap: 10px;
+    margin: 22px 0 6px; flex-wrap: wrap;
+  }
+  .toolbar .spacer { flex: 1; }
+  .btn {
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 13.5px;
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .btn:hover { border-color: var(--blue); color: var(--blue); }
+  .btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .btn.danger:hover { border-color: #d64545; color: #d64545; }
+  .section {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-top: 18px;
+    overflow: hidden;
+  }
+  .section-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-head .emoji {
+    width: 40px; height: 40px; border-radius: 11px;
+    background: var(--blue-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .section-head h2 { font-size: 17px; font-weight: 700; }
+  .section-head .desc { font-size: 12.5px; color: var(--ink-2); margin-top: 1px; }
+  .section-head .count {
+    margin-left: auto; font-size: 12.5px; color: var(--ink-2);
+    background: var(--gray-soft); border-radius: 999px; padding: 3px 11px;
+    white-space: nowrap;
+  }
+  .section-head .count.ok { background: var(--green-soft); color: var(--green); }
+  .item {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 15px 22px;
+    border-bottom: 1px solid var(--line);
+    transition: background .15s ease;
+  }
+  .item:last-child { border-bottom: none; }
+  .item.state-done { background: #fbfefc; }
+  .item.state-done .item-name { color: var(--ink-2); text-decoration: line-through; text-decoration-color: rgba(15,169,104,.5); }
+  .item.state-na { opacity: .55; }
+  .item.state-na .item-name { text-decoration: line-through; }
+  .item-main { flex: 1; min-width: 0; }
+  .item-name { font-size: 15px; font-weight: 600; }
+  .badge {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    border-radius: 5px; padding: 1px 7px; margin-left: 7px;
+    vertical-align: 2px;
+  }
+  .badge.must { background: #ffe9e9; color: #c0392b; }
+  .badge.cond { background: var(--amber-soft); color: var(--amber); }
+  .badge.opt  { background: var(--gray-soft); color: var(--gray); }
+  .item-note { font-size: 13px; color: var(--ink-2); margin-top: 3px; }
+  .item-meta {
+    display: flex; gap: 8px;
+    font-size: 12.5px; color: var(--ink-2);
+    margin-top: 7px;
+    background: #f8f9fc;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 7px 11px;
+    line-height: 1.55;
+  }
+  .item-meta + .item-meta { margin-top: 5px; }
+  .item-meta .meta-icon { flex-shrink: 0; }
+  .item-meta b.meta-label { color: var(--ink); font-weight: 600; margin-right: 2px; }
+  .item-meta a { color: var(--blue); text-decoration: none; }
+  .item-meta a:hover { text-decoration: underline; }
+  .item.state-na .item-meta { display: none; }
+  .item-actions { display: flex; gap: 7px; flex-shrink: 0; padding-top: 2px; }
+  .chip {
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 999px;
+    font-size: 12.5px;
+    padding: 5px 13px;
+    cursor: pointer;
+    color: var(--ink-2);
+    transition: all .13s ease;
+    white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--green); color: var(--green); }
+  .chip.na-chip:hover { border-color: var(--gray); color: var(--ink); }
+  .chip.on-done { background: var(--green); border-color: var(--green); color: #fff; }
+  .chip.on-na { background: var(--gray); border-color: var(--gray); color: #fff; }
+  .item.hidden { display: none; }
+  .section.hidden { display: none; }
+  .tips {
+    margin-top: 26px;
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 22px 24px;
+  }
+  .tips h3 { font-size: 16px; margin-bottom: 12px; }
+  .tips li { margin: 8px 0 8px 20px; font-size: 14px; color: var(--ink-2); }
+  .tips li b { color: var(--ink); }
+  .disclaimer {
+    margin-top: 20px;
+    font-size: 12.5px;
+    color: var(--gray);
+    text-align: center;
+    padding: 0 12px;
+  }
+  @media (max-width: 560px) {
+    .item { flex-direction: column; gap: 9px; }
+    .item-actions { padding-top: 0; }
+  }
+  @media print {
+    .hero { padding: 20px; }
+    .toolbar, .item-actions, .dash-msg { display: none !important; }
+    .section, .dashboard, .tips { box-shadow: none; border: 1px solid var(--line); }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="tag">J-1 EXCHANGE VISITOR · 学生类</span>
+    <h1>美签 J-1 材料自查清单</h1>
+    <p class="sub">逐项核对面签所需材料，每项都标注了去哪里获取、长什么样。标记「已备好」或「不适用」，页面会自动统计你还缺哪些，进度保存在本机浏览器。</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="dashboard">
+    <div class="ring-box">
+      <svg width="92" height="92" viewBox="0 0 92 92">
+        <circle class="ring-bg" cx="46" cy="46" r="40" fill="none" stroke-width="9"/>
+        <circle class="ring-fg" id="ring" cx="46" cy="46" r="40" fill="none" stroke-width="9"
+                stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="251.3"/>
+      </svg>
+      <div class="ring-label"><b id="pct">0%</b><span>完成度</span></div>
+    </div>
+    <div class="stats">
+      <div class="stat todo"><b id="n-todo">0</b><span>还需准备</span></div>
+      <div class="stat done"><b id="n-done">0</b><span>已备好</span></div>
+      <div class="stat na"><b id="n-na">0</b><span>不适用</span></div>
+    </div>
+    <div class="dash-msg" id="dash-msg"></div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn active" data-filter="all">全部材料</button>
+    <button class="btn" data-filter="todo">只看还缺的</button>
+    <span class="spacer"></span>
+    <button class="btn" id="btn-print">打印清单</button>
+    <button class="btn danger" id="btn-reset">重置进度</button>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="tips">
+    <h3>💡 面签小贴士（J-1）</h3>
+    <ul>
+      <li><b>DS-2019 一定要本人签字</b>（底部学生签名栏），面签前检查 SEVIS 编号与 DS-160 填写一致。</li>
+      <li>SEVIS I-901 缴费后收据打印出来，缴费信息需与 DS-2019 上的 SEVIS ID 对应。</li>
+      <li>敏感专业（理工科研究类）可能被行政审查（Check），<b>研究计划和导师简历</b>建议认真准备。</li>
+      <li>注意 J-1 可能附带 <b>212(e) 两年回国服务要求</b>，受政府资助（如 CSC）通常适用，面签时如实回答即可。</li>
+      <li>面签当天除文件袋外，大包、手机、电子设备通常不能带入使馆，提前安排存放。</li>
+      <li>回答面签官问题时围绕：<b>去美国做什么、谁出钱、为什么会回国</b>三个核心点，简洁如实。</li>
+    </ul>
+  </div>
+
+  <p class="disclaimer">本清单基于公开的常规要求整理，仅供个人自查参考。费用金额与办理流程可能调整，请以 <a href="https://www.ustraveldocs.com/cn" target="_blank" rel="noopener">ustraveldocs.com</a> 及美国驻华使领馆官方要求为准。</p>
+</main>
+
+<script>
+const DATA = [
+  {
+    id: "core", emoji: "🛂", title: "核心必备材料",
+    desc: "面签硬性要求，缺一不可",
+    items: [
+      { id: "passport", name: "有效护照", tag: "must",
+        note: "有效期需超出预计在美停留期至少 6 个月，且至少有一页空白签证页。",
+        where: "还没办的去户籍地/居住地出入境管理局办理（约 7–10 个工作日）；已有护照翻到资料页核对有效期。",
+        look: "紫红色小本，资料页有照片、姓名拼音、护照号（E 开头字母+数字共 9 位）、签发日期和有效期至。" },
+      { id: "ds2019", name: "DS-2019 表（原件）", tag: "must",
+        note: "J-1 身份的核心文件，须有校方负责人（RO/ARO）签字，并由你本人在底部签名栏签字。",
+        where: "不用自己申请——由美方学校/项目主办方（一般是国际学生办公室 ISSO）制作后邮寄纸质原件，或按新规发电子版让你自行彩色打印。没收到就催美方学校。",
+        look: "一页 A4 表格，标题为 “Certificate of Eligibility for Exchange Visitor (J-1) Status”，左上角有 SEVIS ID（N 开头 + 10 位数字），中间列项目起止日期和资助金额，底部有签名栏。" },
+      { id: "sevis", name: "SEVIS I-901 缴费收据", tag: "must",
+        note: "J-1 学生费用 $220，收据上的 SEVIS ID 须与 DS-2019 一致。",
+        where: "在 <a href='https://www.fmjfee.com' target='_blank'>fmjfee.com</a> 在线缴纳（需要 DS-2019 上的 SEVIS ID 和 Program Number，用信用卡支付），缴完当场就能打印收据；丢了可以回该网站用 SEVIS ID 补打。",
+        look: "一页英文确认单，标题 “I-901 SEVIS Fee Payment Confirmation”，含你的姓名、SEVIS ID、缴费金额 $220 和交易日期。" },
+      { id: "ds160", name: "DS-160 确认页（带条形码）", tag: "must",
+        note: "填写内容（SEVIS 编号、学校、行程）须与实际一致，提交后不可修改。",
+        where: "在美国国务院 CEAC 官网 <a href='https://ceac.state.gov/genniv' target='_blank'>ceac.state.gov/genniv</a> 在线填写并提交，提交成功后系统生成确认页（Confirmation Page），自己打印；也会发送到你填的邮箱。",
+        look: "一页纸，右上角是你上传的照片（若上传成功），中间有一个大条形码，标注 “Application ID: AA 开头的编号”，下方是你的姓名和申请地点。" },
+      { id: "mrv", name: "签证申请费（MRV）缴费收据", tag: "must",
+        note: "即签证申请费（约 $185，按领事汇率折算人民币）。注意：它不是一张传统的纸质发票，本质是一个「收据编号」。",
+        where: "在美国签证预约服务官网 <a href='https://www.ustraveldocs.com/cn' target='_blank'>ustraveldocs.com/cn</a> 注册个人档案 → 点“安排面谈时间”→ 走到缴费步骤 → 选支付方式：① 支付宝在线扫码（最方便）；② 中信银行柜台现金 / 智慧柜员机。支付宝付完后页面跳回并显示收据编号，<b>务必立刻截屏或抄下</b>——系统不会再次展示，客服也查不到。",
+        look: "支付宝支付：就是跳转回 ustraveldocs 页面上显示的一串收据编号（Receipt Number，十几位数字），把这个页面截图/打印即可；中信银行柜台缴费：会给一张打印的缴费凭条，上面印有收据号。面签带上含编号的打印页或截图就行。" },
+      { id: "appointment", name: "面签预约确认单", tag: "must",
+        note: "核对使领馆地点、日期、时间是否正确。",
+        where: "缴完 MRV 费后，在 ustraveldocs 个人档案里输入收据编号即可预约面签；预约成功后系统生成确认页并发邮件，自己打印。",
+        look: "一页 “Appointment Confirmation”，含姓名、护照号、预约的使领馆地址、日期时间和一个条形码。" },
+      { id: "photo", name: "签证照片（51mm × 51mm 白底）", tag: "must",
+        note: "6 个月内近照，免冠、不戴眼镜。DS-160 已成功上传照片的也建议携带 1–2 张纸质备用。",
+        where: "任意照相馆说拍“美国签证照 2×2 英寸（51×51mm）白底”即可；也可手机拍摄后用官方工具检查合规：<a href='https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos.html' target='_blank'>travel.state.gov 照片要求</a>。",
+        look: "正方形白底彩色照片，头部（下巴到头顶）占照片高度 50%–69%，正面免冠，露眉露耳，无边框。" }
+    ]
+  },
+  {
+    id: "academic", emoji: "🎓", title: "学术与项目材料",
+    desc: "证明你去美国的目的",
+    items: [
+      { id: "offer", name: "录取通知书 / 邀请函", tag: "must",
+        note: "美方学校或项目主办方出具的 offer / invitation letter。",
+        where: "美方学校研究生院/院系通过邮件发放 PDF（自行打印）或纸质邮寄；联合培养/访学的是美方导师或院系出具的邀请信，没有就发邮件向对方索要。",
+        look: "学校抬头信纸（有校徽 logo），正文写明录取/邀请你参加的项目、起止时间，落款有负责人签名。" },
+      { id: "transcript", name: "成绩单（中英文）", tag: "must",
+        note: "建议学校教务处盖章版本。",
+        where: "本校教务处/研究生院的自助打印机直接打印，或到窗口申请开具中英文密封盖章成绩单（部分学校可在教务系统在线申请邮寄）。",
+        look: "学校抬头的成绩列表，每学期课程+分数+绩点，盖教务处红章。" },
+      { id: "diploma", name: "学位证 / 毕业证 / 在读证明", tag: "must",
+        note: "已毕业带学位证+毕业证，在读学生带在读证明（中英文）。",
+        where: "学位证毕业证是自己保管的原件；在读证明到教务处/研究生院窗口或自助机开具（说明要中英文版），一般当场可取。",
+        look: "在读证明为一页学校抬头证明信，写明你的学号、院系、年级、预计毕业时间，盖学校红章。" },
+      { id: "cv", name: "个人简历（CV）", tag: "must",
+        note: "英文版，包含教育背景、研究经历、发表论文等。",
+        where: "自己撰写（可让导师或师兄师姐把关），网上搜 “academic CV template” 有大量模板。",
+        look: "1–2 页英文 PDF：教育经历、研究经历、论文/项目、技能、获奖。" },
+      { id: "study-plan", name: "学习 / 研究计划", tag: "cond",
+        note: "研究类 J-1（访问学生、联合培养）强烈建议准备；敏感专业更要认真写。",
+        where: "自己撰写并请国内外导师把关；联合培养的可参考 CSC 申请时提交的研修计划改写成英文版。",
+        look: "1–2 页英文说明（Study/Research Plan）：研究背景、具体研究内容与方法、时间安排、回国后的计划，可附导师信息。" },
+      { id: "advisor-cv", name: "美方导师简历", tag: "cond",
+        note: "研究类项目建议携带。",
+        where: "直接发邮件向美方导师要一份 CV，或到其学校个人主页 / Google Scholar 页面打印。",
+        look: "导师的英文简历或学校官网教授介绍页打印件，含研究方向和发表成果。" },
+      { id: "english", name: "英语成绩单（托福/雅思等）", tag: "opt",
+        note: "如有可携带，佐证语言能力。",
+        where: "托福在 ETS 官网、雅思在雅思报名官网的个人账户里下载电子成绩单打印。",
+        look: "官方成绩单 PDF，含各科分数和总分。" },
+      { id: "publications", name: "发表论文 / 学术成果清单", tag: "opt",
+        note: "研究类申请者可携带。",
+        where: "自己整理：论文首页打印件 + 一页成果列表（标题、期刊/会议、年份）。",
+        look: "论文 PDF 首页打印件若干 + 一页英文成果清单。" }
+    ]
+  },
+  {
+    id: "finance", emoji: "💰", title: "资金证明材料",
+    desc: "证明有足够经费支持在美期间的学习生活",
+    items: [
+      { id: "funding", name: "资金证明（与 DS-2019 金额匹配）", tag: "must",
+        note: "总额需覆盖 DS-2019 第 5 栏（Financial Support）列明的费用。",
+        where: "到银行柜台或手机银行 App 申请开具「存款证明」（说明要中英文版），开具时资金会冻结一段时间（可自选冻结期，覆盖到面签日之后即可）。",
+        look: "银行制式证明书，盖银行章，列明账户持有人、存款金额（人民币和/或美元）、冻结期限。" },
+      { id: "csc", name: "国家留学基金委（CSC）资助证明", tag: "cond",
+        note: "公派/联合培养学生适用；注意 CSC 资助通常触发 212(e) 两年回国要求。",
+        where: "CSC 录取后登录国家公派留学管理信息平台 <a href='https://apply.csc.edu.cn' target='_blank'>apply.csc.edu.cn</a>，在个人账户中下载英文版资助证明（Award Letter / Funding Certificate）打印。",
+        look: "留学基金委抬头的英文证明信，写明你的姓名、留学身份、资助期限和每月资助标准。" },
+      { id: "scholarship", name: "美方奖学金 / RA / TA 证明", tag: "cond",
+        note: "如美方提供资助。",
+        where: "一般随 offer 一起发放（funding/award letter）；没有就发邮件向院系或导师索要。",
+        look: "学校抬头信件，写明资助类型（RA/TA/Fellowship）、金额和期限。" },
+      { id: "parent-income", name: "父母收入证明 + 关系证明", tag: "cond",
+        note: "如由父母资助。",
+        where: "收入证明由父母所在单位人事部门开具（中英文，写明职位与年收入）；关系证明用户口本或出生医学证明。",
+        look: "单位抬头纸打印、盖单位公章的在职收入证明，加上户口本相关页复印件。" }
+    ]
+  },
+  {
+    id: "ties", emoji: "🏠", title: "归国约束力材料",
+    desc: "证明你与国内的紧密联系、项目结束后会回国",
+    items: [
+      { id: "hukou", name: "户口本", tag: "opt",
+        note: "证明家庭关系与国内居住联系。",
+        where: "家里保管的户口簿，带原件或复印首页+户主页+本人页。",
+        look: "红色封皮「居民户口簿」，内页有家庭成员信息。" },
+      { id: "property", name: "房产证 / 车辆证明", tag: "opt",
+        note: "家庭资产证明，佐证国内约束力。",
+        where: "家里保管的不动产权证书/行驶证，带复印件即可。",
+        look: "红色封皮「不动产权证书」或绿色行驶证，复印信息页。" },
+      { id: "return-plan", name: "回国计划说明", tag: "opt",
+        note: "面签口头表达也要准备好。",
+        where: "自己写：项目结束后回国继续学业/就业的简要说明，半页到一页即可。",
+        look: "一段简短英文陈述，说明回国时间点和后续安排（如回校完成学位、已有工作意向等）。" },
+      { id: "family-photo", name: "家庭合影 / 家庭关系材料", tag: "opt",
+        note: "辅助证明家庭纽带。",
+        where: "自己准备：家庭合影打印 1–2 张。",
+        look: "普通照片打印件即可。" }
+    ]
+  },
+  {
+    id: "misc", emoji: "📎", title: "其他建议携带",
+    desc: "视个人情况选带",
+    items: [
+      { id: "old-passport", name: "旧护照 / 历史签证", tag: "cond",
+        note: "佐证良好出入境记录。",
+        where: "自己保管的旧护照原件（含曾获得的各国签证页）。",
+        look: "过期/剪角的旧护照本。" },
+      { id: "id-card", name: "身份证", tag: "opt",
+        note: "进使馆核验身份可能用到。",
+        where: "自己随身携带。",
+        look: "二代身份证。" },
+      { id: "insurance", name: "医疗保险信息", tag: "opt",
+        note: "J-1 有强制保险要求，多数由学校/项目安排。",
+        where: "向美方学校国际学生办公室确认是否代买；自购的在保险公司官网下载保单打印。",
+        look: "保单页或保险确认信，写明保障期限和额度。" },
+      { id: "itinerary", name: "行程安排 / 住宿信息", tag: "opt",
+        note: "不建议在获签前出机票。",
+        where: "如已预订，打印航司确认邮件/酒店或公寓预订单。",
+        look: "订单确认邮件打印件。" }
+    ]
+  }
+];
+
+const TAG_LABEL = { must: "必备", cond: "视情况", opt: "可选" };
+const STORE_KEY = "j1-visa-checklist-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { state = {}; }
+let filter = "all";
+
+const totalItems = DATA.reduce((s, g) => s + g.items.length, 0);
+const $sections = document.getElementById("sections");
+
+function render() {
+  $sections.innerHTML = DATA.map(group => {
+    const rows = group.items.map(it => {
+      const st = state[it.id] || "todo";
+      return `
+      <div class="item state-${st}" data-id="${it.id}" data-state="${st}">
+        <div class="item-main">
+          <div class="item-name">${it.name}<span class="badge ${it.tag}">${TAG_LABEL[it.tag]}</span></div>
+          <div class="item-note">${it.note}</div>
+          <div class="item-meta"><span class="meta-icon">📍</span><span><b class="meta-label">哪里获取：</b>${it.where}</span></div>
+          <div class="item-meta"><span class="meta-icon">🧾</span><span><b class="meta-label">长什么样：</b>${it.look}</span></div>
+        </div>
+        <div class="item-actions">
+          <button class="chip ${st === "done" ? "on-done" : ""}" data-act="done">${st === "done" ? "✓ 已备好" : "已备好"}</button>
+          <button class="chip na-chip ${st === "na" ? "on-na" : ""}" data-act="na">${st === "na" ? "— 不适用" : "不适用"}</button>
+        </div>
+      </div>`;
+    }).join("");
+    return `
+    <section class="section" data-group="${group.id}">
+      <div class="section-head">
+        <div class="emoji">${group.emoji}</div>
+        <div><h2>${group.title}</h2><div class="desc">${group.desc}</div></div>
+        <span class="count" data-count="${group.id}"></span>
+      </div>
+      ${rows}
+    </section>`;
+  }).join("");
+  update();
+}
+
+function update() {
+  let done = 0, na = 0;
+  Object.values(state).forEach(v => { if (v === "done") done++; if (v === "na") na++; });
+  const todo = totalItems - done - na;
+  const effective = totalItems - na;
+  const pct = effective === 0 ? 100 : Math.round(done / effective * 100);
+
+  document.getElementById("n-todo").textContent = todo;
+  document.getElementById("n-done").textContent = done;
+  document.getElementById("n-na").textContent = na;
+  document.getElementById("pct").textContent = pct + "%";
+  const C = 251.3;
+  document.getElementById("ring").style.strokeDashoffset = C * (1 - pct / 100);
+
+  const msg = document.getElementById("dash-msg");
+  if (todo === 0) {
+    msg.className = "dash-msg all-done";
+    msg.textContent = "🎉 所有材料已就绪！面签顺利，一签而过！";
+  } else {
+    msg.className = "dash-msg";
+    const missingMust = [];
+    DATA.forEach(g => g.items.forEach(it => {
+      if ((state[it.id] || "todo") === "todo" && it.tag === "must") missingMust.push(it.name);
+    }));
+    msg.textContent = missingMust.length
+      ? `⚠️ 还缺 ${todo} 项，其中必备材料 ${missingMust.length} 项：${missingMust.slice(0, 4).join("、")}${missingMust.length > 4 ? " 等" : ""}`
+      : `还剩 ${todo} 项建议材料未勾选，必备材料已备齐 👍`;
+  }
+
+  DATA.forEach(g => {
+    const gDone = g.items.filter(it => (state[it.id] || "todo") !== "todo").length;
+    const el = document.querySelector(`[data-count="${g.id}"]`);
+    el.textContent = `${gDone} / ${g.items.length}`;
+    el.classList.toggle("ok", gDone === g.items.length);
+  });
+
+  document.querySelectorAll(".item").forEach(el => {
+    el.classList.toggle("hidden", filter === "todo" && el.dataset.state !== "todo");
+  });
+  document.querySelectorAll(".section").forEach(sec => {
+    const visible = sec.querySelectorAll(".item:not(.hidden)").length;
+    sec.classList.toggle("hidden", filter === "todo" && visible === 0);
+  });
+}
+
+$sections.addEventListener("click", e => {
+  const btn = e.target.closest(".chip");
+  if (!btn) return;
+  const id = btn.closest(".item").dataset.id;
+  const act = btn.dataset.act;
+  state[id] = (state[id] === act) ? "todo" : act;
+  if (state[id] === "todo") delete state[id];
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  render();
+});
+
+document.querySelectorAll("[data-filter]").forEach(b => {
+  b.addEventListener("click", () => {
+    filter = b.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(x => x.classList.toggle("active", x === b));
+    update();
+  });
+});
+
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (confirm("确定要清空所有勾选进度吗？")) {
+    state = {};
+    localStorage.removeItem(STORE_KEY);
+    render();
+  }
+});
+document.getElementById("btn-print").addEventListener("click", () => window.print());
+
+render();
+</script>
+</body>
+</html>
