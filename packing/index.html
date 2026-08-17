@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>南加州行前准备清单 · 9–12 月</title>
+<title>圣地亚哥行前准备清单 · 9–12 月 · 3个月短居</title>
 <style>
   :root {
     --bg: #faf7f2;
@@ -32,7 +32,7 @@
     line-height: 1.6;
   }
   .hero {
-    background: linear-gradient(140deg, #2d1b4e 0%, #a03a5c 45%, #e8590c 80%, #f7b32b 105%);
+    background: linear-gradient(140deg, #16324f 0%, #2d6a8f 40%, #e8590c 85%, #f7b32b 110%);
     color: #fff;
     padding: 44px 20px 130px;
   }
@@ -48,10 +48,9 @@
     margin-bottom: 14px;
   }
   .hero h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; }
-  .hero p.sub { margin-top: 10px; color: rgba(255,255,255,.82); font-size: 15px; max-width: 640px; }
+  .hero p.sub { margin-top: 10px; color: rgba(255,255,255,.85); font-size: 15px; max-width: 660px; }
   .wrap { max-width: 920px; margin: -92px auto 0; padding: 0 20px 80px; }
 
-  /* 气候板块 */
   .climate {
     background: var(--card);
     border-radius: var(--radius);
@@ -60,15 +59,9 @@
   }
   .climate h2 { font-size: 18px; margin-bottom: 4px; }
   .climate .sub { font-size: 13.5px; color: var(--ink-2); margin-bottom: 16px; }
-  .month-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-  }
+  .month-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
   .month {
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 14px 15px;
+    border: 1px solid var(--line); border-radius: 12px; padding: 14px 15px;
     background: linear-gradient(180deg, #fffdf9, #fdf8f1);
   }
   .month .m-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
@@ -77,24 +70,12 @@
   .month .temp { font-size: 13px; color: var(--accent); font-weight: 600; }
   .month .m-desc { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; }
   .climate-tips { margin-top: 16px; display: flex; flex-direction: column; gap: 7px; }
-  .climate-tips .ct {
-    font-size: 13.5px; color: var(--ink-2);
-    background: var(--accent-soft);
-    border-radius: 9px; padding: 8px 13px;
-  }
+  .climate-tips .ct { font-size: 13.5px; color: var(--ink-2); background: var(--accent-soft); border-radius: 9px; padding: 8px 13px; }
   .climate-tips .ct b { color: var(--ink); }
 
-  /* 统计条 */
   .dashboard {
-    background: var(--card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 18px 24px;
-    display: flex;
-    align-items: center;
-    gap: 26px;
-    flex-wrap: wrap;
-    margin-top: 18px;
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 18px 24px; display: flex; align-items: center; gap: 26px; flex-wrap: wrap; margin-top: 18px;
   }
   .ring-box { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
   .ring-box svg { transform: rotate(-90deg); }
@@ -114,27 +95,17 @@
   .toolbar .spacer { flex: 1; }
   .btn {
     border: 1px solid var(--line); background: var(--card); color: var(--ink);
-    border-radius: 999px; padding: 7px 16px; font-size: 13.5px; cursor: pointer;
-    transition: all .15s ease;
+    border-radius: 999px; padding: 7px 16px; font-size: 13.5px; cursor: pointer; transition: all .15s ease;
   }
   .btn:hover { border-color: var(--accent); color: var(--accent); }
   .btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
   .btn.danger:hover { border-color: #d64545; color: #d64545; }
 
-  .section {
-    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
-    margin-top: 18px; overflow: hidden;
-  }
-  .section-head {
-    display: flex; align-items: center; gap: 12px;
-    padding: 18px 22px 14px;
-    border-bottom: 1px solid var(--line);
-  }
+  .section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-top: 18px; overflow: hidden; }
+  .section-head { display: flex; align-items: center; gap: 12px; padding: 18px 22px 14px; border-bottom: 1px solid var(--line); }
   .section-head .emoji {
-    width: 40px; height: 40px; border-radius: 11px;
-    background: var(--accent-soft);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px; flex-shrink: 0;
+    width: 40px; height: 40px; border-radius: 11px; background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
   }
   .section-head h2 { font-size: 17px; font-weight: 700; }
   .section-head .desc { font-size: 12.5px; color: var(--ink-2); margin-top: 1px; }
@@ -144,11 +115,7 @@
   }
   .section-head .count.ok { background: var(--green-soft); color: var(--green); }
 
-  .item {
-    display: flex; gap: 14px; align-items: flex-start;
-    padding: 15px 22px;
-    border-bottom: 1px solid var(--line);
-  }
+  .item { display: flex; gap: 14px; align-items: flex-start; padding: 15px 22px; border-bottom: 1px solid var(--line); }
   .item:last-child { border-bottom: none; }
   .item.state-done { background: #fcfef9; }
   .item.state-done .item-name { color: var(--ink-2); text-decoration: line-through; text-decoration-color: rgba(15,169,104,.5); }
@@ -156,23 +123,14 @@
   .item.state-na .item-name { text-decoration: line-through; }
   .item-main { flex: 1; min-width: 0; }
   .item-name { font-size: 15px; font-weight: 600; }
-  .badge {
-    display: inline-block; font-size: 11px; font-weight: 600;
-    border-radius: 5px; padding: 1px 7px; margin-left: 7px; vertical-align: 2px;
-  }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 5px; padding: 1px 7px; margin-left: 7px; vertical-align: 2px; }
   .badge.must { background: #ffe9e9; color: #c0392b; }
   .badge.sug  { background: var(--amber-soft); color: var(--amber); }
   .badge.skip { background: var(--skip-soft); color: var(--skip); }
   .item-note { font-size: 13px; color: var(--ink-2); margin-top: 3px; }
   .item-meta {
-    display: flex; gap: 8px;
-    font-size: 12.5px; color: var(--ink-2);
-    margin-top: 7px;
-    background: #fbf8f3;
-    border: 1px solid var(--line);
-    border-radius: 9px;
-    padding: 7px 11px;
-    line-height: 1.55;
+    display: flex; gap: 8px; font-size: 12.5px; color: var(--ink-2); margin-top: 7px;
+    background: #fbf8f3; border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; line-height: 1.55;
   }
   .item-meta .meta-icon { flex-shrink: 0; }
   .item-meta b.meta-label { color: var(--ink); font-weight: 600; margin-right: 2px; }
@@ -210,42 +168,42 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <span class="tag">SOUTHERN CALIFORNIA · SEP – DEC</span>
-    <h1>南加州行前准备清单</h1>
-    <p class="sub">带什么、别带什么、电话卡怎么弄，一页搞定。每项标注「必带/办 · 建议 · 别带（美国买）」，勾选进度自动保存。</p>
+    <span class="tag">SAN DIEGO · SEP – DEC · 3 个月短居</span>
+    <h1>圣地亚哥行前准备清单</h1>
+    <p class="sub">为「国行 iPhone 17 + 中国联通 + 只待 3 个多月」量身调整：电话卡双卡方案、必装 App 全列表、大件全部走短居策略（能不买就不买，买了走时转手）。</p>
   </div>
 </header>
 
 <main class="wrap">
 
   <div class="climate">
-    <h2>🌤️ 9–12 月南加州气候速览</h2>
-    <div class="sub">地中海气候：常年晴天、极其干燥、昼夜温差大。以下为洛杉矶/圣地亚哥一带典型温度（沿海更凉爽，内陆如 Riverside 白天更热）。</div>
+    <h2>🌤️ 9–12 月圣地亚哥气候速览</h2>
+    <div class="sub">全美公认气候最舒服的城市：海洋性地中海气候，比洛杉矶更温和，全年温差小、几乎不下雨。</div>
     <div class="month-grid">
       <div class="month">
         <div class="m-head"><span class="m-emoji">☀️</span><b>9 月</b></div>
-        <div class="temp">白天 26–30°C · 夜间 16–18°C</div>
-        <div class="m-desc">还是夏天，晴热干燥，偶有 35°C+ 热浪，短袖为主。</div>
+        <div class="temp">白天 24–27°C · 夜间 17–19°C</div>
+        <div class="m-desc">最暖的月份之一，海水也最适合下水；偶有热浪，内陆更热。</div>
       </div>
       <div class="month">
         <div class="m-head"><span class="m-emoji">🍂</span><b>10 月</b></div>
-        <div class="temp">白天 23–27°C · 夜间 13–16°C</div>
-        <div class="m-desc">舒适宜人，圣塔安娜干燥风，山火季，注意空气质量。</div>
+        <div class="temp">白天 22–24°C · 夜间 14–17°C</div>
+        <div class="m-desc">舒适宜人；晴天为主，圣塔安娜风时干燥，留意山火烟霾。</div>
       </div>
       <div class="month">
         <div class="m-head"><span class="m-emoji">🌥️</span><b>11 月</b></div>
-        <div class="temp">白天 19–23°C · 夜间 9–13°C</div>
-        <div class="m-desc">早晚明显转凉，白天短袖+外套，晚上需要卫衣/夹克。</div>
+        <div class="temp">白天 20–22°C · 夜间 11–13°C</div>
+        <div class="m-desc">白天仍温暖，早晚明显转凉，海边晚上风大要外套。</div>
       </div>
       <div class="month">
         <div class="m-head"><span class="m-emoji">🌧️</span><b>12 月</b></div>
-        <div class="temp">白天 17–20°C · 夜间 6–10°C</div>
-        <div class="m-desc">进入雨季（全年大部分降水集中在 12–3 月），夜里冷，室内可能没暖气。</div>
+        <div class="temp">白天 17–19°C · 夜间 8–10°C</div>
+        <div class="m-desc">最凉的时段，开始有零星降雨（圣地亚哥雨量比 LA 还少），部分老公寓没暖气。</div>
       </div>
     </div>
     <div class="climate-tips">
-      <div class="ct"><b>穿衣逻辑：</b>叠穿为王。T恤 + 卫衣 + 一件厚外套就能覆盖整个 9–12 月，<b>厚羽绒服用不上</b>（除非去滑雪或北方旅游）。</div>
-      <div class="ct"><b>两个容易低估的点：</b>① 紫外线全年都强，墨镜防晒霜是刚需；② 空气极干，润肤乳、润唇膏、鼻腔喷雾比想象中重要。</div>
+      <div class="ct"><b>穿衣结论：</b>T 恤 + 卫衣 + 一件外套走完全程，<b>羽绒服完全用不上</b>。海边（La Jolla、Pacific Beach 一带）早晚比市区凉 2–3°C，随身薄外套是刚需。</div>
+      <div class="ct"><b>容易低估的：</b>紫外线全年很强（墨镜+防晒霜刚需）；空气干燥，润肤乳润唇膏备好；室内冷气常年很足。</div>
     </div>
   </div>
 
@@ -275,134 +233,146 @@
 
   <div id="sections"></div>
 
-  <p class="disclaimer">物价、运营商资费、海关政策会变化，重要事项请以官方最新信息为准。</p>
+  <p class="disclaimer">物价、资费、海关政策会变化，重要事项以官方最新信息为准。</p>
 </main>
 
 <script>
 const DATA = [
   {
-    id: "comms", emoji: "📱", title: "电话卡与通讯",
-    desc: "落地就有网，国内号码别注销",
+    id: "comms", emoji: "📱", title: "电话卡方案（国行 iPhone 17 + 联通）",
+    desc: "你的手机是双实体卡槽、不支持 eSIM——这反而是留学最优配置",
     items: [
-      { id: "us-sim", name: "美国电话卡（重点）", tag: "must",
-        note: "强烈建议出发前就搞定，下飞机开机就有网，方便联系接机和用地图。",
-        tip: "三种方案任选：① 国内淘宝/京东搜「美国电话卡」，买 Ultra Mobile（紫卡，月租 $19 起，含中国无限通话，留学生最常用）或 T-Mobile 预付卡实体卡，出发前插好设置好；② 手机支持 eSIM 的，直接在 Mint Mobile / Tello / Ultra Mobile 官网在线开 eSIM，落地激活；③ 落地后去 T-Mobile 营业厅办（需要护照，最不推荐，前几天没网很麻烦）。学校邮箱下来后可看运营商学生优惠。" },
-      { id: "cn-sim", name: "国内号码保号", tag: "must",
-        note: "国内手机号千万别注销——银行、支付宝、微信都靠它收验证码。",
-        tip: "出发前去营业厅或 App 改成最低价保号套餐（移动 8 元/月、联通 5 元/月左右），并开通国际漫游（接收短信免费，不用流量就不产生费用）。双卡手机：卡1 美国卡，卡2 国内卡只收短信。" },
-      { id: "apps", name: "常用 App 提前下载", tag: "sug",
-        note: "落地前装好，省得机场连不上网干着急。",
-        tip: "Google Maps、Uber/Lyft（绑好双币信用卡）、WhatsApp（美国同学常用）、Zelle/Venmo（转账）、Amazon、Yelp、学校官方 App；微信支付宝照常能用。" }
+      { id: "us-sim", name: "买美国实体电话卡（出发前搞定）", tag: "must",
+        note: "国行 iPhone 17 标准版没有 eSIM 功能，所以线上 eSIM 方案（Mint/Tello 等）都用不了，直接买实体卡最稳。",
+        tip: "淘宝/京东搜「Ultra Mobile 紫卡」或「T-Mobile 美国电话卡」，选 3 个月套餐（Ultra 月租 $19–39，走 T-Mobile 网络，含美国无限流量通话 + 中国方向免费通话，圣地亚哥市区信号好）。收到卡后出发前插入卡槽 1，按卖家说明激活或落地自动激活。3 个月用完即弃，不用解约。" },
+      { id: "cn-sim", name: "联通卡保号 + 开国际漫游", tag: "must",
+        note: "联通号码留着收银行/微信/支付宝验证码，放卡槽 2，与美国卡双卡并行。",
+        tip: "出发前两件事：① 在中国联通 App 或打 10010 把套餐改成最低保号档（5 元/月左右，部分套餐需人工客服办理）；② 免费开通「国际漫游」功能（App 里自助开）。在美国接收短信免费、不插流量不产生费用；平时关掉这张卡的蜂窝数据，只留它收验证码。" },
+      { id: "roam-backup", name: "联通漫游流量包（落地备份）", tag: "sug",
+        note: "防止美国卡激活不顺利，落地前几小时有个兜底。",
+        tip: "联通 App 里买一个 1 天美国漫游流量包（约 25 元）备用，落地如果 Ultra 卡没信号就临时开漫游应急；一切顺利就不用买。" }
+    ]
+  },
+  {
+    id: "apps", emoji: "📲", title: "必装 App 清单",
+    desc: "出发前全部装好登录好，落地即用（部分需美区体验更好，但中国区 Apple ID 基本都能装）",
+    items: [
+      { id: "app-nav", name: "地图导航：Google Maps", tag: "must",
+        note: "美国生活的绝对核心，公交、步行、开车、商家信息全靠它。",
+        tip: "出发前装好并登录 Google 账号（没有就注册一个，后面很多服务都要用）。Apple 自带地图在美国也很好用，作为备份。" },
+      { id: "app-ride", name: "打车：Uber + Lyft", tag: "must",
+        note: "圣地亚哥没车时的主要出行方式，两个都装方便比价（有时差价 30%+）。",
+        tip: "出发前注册好并绑定双币 Visa/Mastercard（国内卡可绑）。机场落地打车到 UCSD 一带约 $30–40。" },
+      { id: "app-transit", name: "公交：PRONTO（圣地亚哥专属）", tag: "must",
+        note: "圣地亚哥 MTS 公交+电车（Trolley）的官方刷卡 App，蓝线电车直达 UCSD。",
+        tip: "App Store 搜 PRONTO San Diego，注册后手机扫码乘车（单程 $2.5，日封顶 $6）。如果你在 UCSD，学生可通过学校激活免费乘车权益（U-Pass），报到后在学校官网操作。" },
+      { id: "app-pay", name: "支付：Apple Pay + Venmo + Zelle", tag: "must",
+        note: "美国日常支付三件套。",
+        tip: "① 出发前把双币信用卡加进 Apple Pay（钱包 App），美国超市餐厅几乎都支持拍手机支付；② Venmo：同学聚餐 AA、二手交易转账标配（需美国手机号，落地办完电话卡就注册）；③ Zelle：不是独立注册的 App，集成在美国银行 App 里，开户后自动就有，转房租用。" },
+      { id: "app-shop", name: "购物：Amazon + Weee! + Yelp", tag: "must",
+        note: "网购、华人生鲜、找餐厅。",
+        tip: "① Amazon：用学校 .edu 邮箱注册 Prime Student（6 个月免费试用，正好覆盖你的 3 个月）；② Weee!（大熊猫图标）：华人生鲜外送，圣地亚哥可送，米面粮油老干妈都有，新人有折扣；③ Yelp：美国版大众点评。" },
+      { id: "app-food", name: "外卖：DoorDash / Uber Eats", tag: "sug",
+        note: "美国外卖贵（一单轻松 $25+，含配送费小费），偶尔应急用。",
+        tip: "装一个就行，DoorDash 在圣地亚哥覆盖最好；新用户常有免运费券。" },
+      { id: "app-chat", name: "社交通讯：WhatsApp + GroupMe", tag: "sug",
+        note: "美国人不用微信。",
+        tip: "① WhatsApp：美国同学、房东最常用的聊天工具；② GroupMe：美国大学生课程群、社团群的标配；③ 微信照常能用，中国同学圈继续微信。落地办好美国号码后都用美国号注册。" },
+      { id: "app-school", name: "学校相关：Canvas + Zoom + 学校 App", tag: "must",
+        note: "选课、作业、上课通知都在里面。",
+        tip: "① Canvas Student：多数美国大学的课程系统（UCSD 就是）；② Zoom：线上会议课；③ 学校官方 App（UCSD 是 UC San Diego Mobile，含校车实时位置）；④ 学校邮箱配置到手机自带邮件 App，美国大学所有正式通知走邮件，每天要看。" },
+      { id: "app-misc", name: "工具：Google Translate + 银行 App", tag: "sug",
+        note: "查词救急 + 管理账户。",
+        tip: "① Google Translate：下载英语离线包，拍照翻译菜单文件很好用；② 到美后如开了银行账户，装对应银行 App（Chase / Bank of America），Zelle 就在里面；③ 国内的银行 App 确认能海外登录（部分需要提前在国内做设备绑定）。" }
     ]
   },
   {
     id: "money", emoji: "💳", title: "钱与银行卡",
     items: [
       { id: "cash", name: "美元现金", tag: "must",
-        note: "带 $500–1000 即可，多带无用且不安全；入境携带超过 $10,000 必须申报。",
-        tip: "国内中国银行等提前 1–2 天预约兑换，要一些 $1/$5/$20 小面额（小费、自动售货机用）。" },
+        note: "3 个月短居带 $500–800 足够；入境超过 $10,000 必须申报。",
+        tip: "国内中国银行等提前 1–2 天预约兑换，要一些 $1/$5/$20 小面额。日常消费基本都刷卡/Apple Pay，现金主要应急。" },
       { id: "credit-card", name: "Visa / Mastercard 双币信用卡", tag: "must",
-        note: "落地初期的主力支付工具，租房押金、超市、网购都靠它。",
-        tip: "出发前让父母办附属卡或自己办一张 Visa/Mastercard 双币卡（免货币转换费的更好），并告知银行出境时间避免风控冻结。" },
-      { id: "us-bank", name: "（落地后）开美国银行账户", tag: "sug",
-        note: "到美后 1–2 周内办，交房租、收工资必需。",
-        tip: "带护照 + DS-2019 + 学校证明/住址证明去 Bank of America 或 Chase 开 checking account；学生账户免月费。开户后申请 Zelle 转账。" }
+        note: "3 个月短居的主力支付工具，配合 Apple Pay 几乎可以覆盖一切消费。",
+        tip: "出发前办好（自己主卡或父母附属卡），选免货币转换费（no foreign transaction fee）的更省；出发前给银行报备出境时间，避免风控锁卡。" },
+      { id: "us-bank", name: "美国银行账户", tag: "sug",
+        note: "只待 3 个月的话看情况：有 RA/TA 工资、或房东要求 Zelle 转房租才需要开；纯自费+房租能刷卡的可以不开。",
+        tip: "需要开的话：带护照 + DS-2019 + 学校证明去 Chase 或 Bank of America 开学生 checking（免月费），当场拿临时卡。离开美国前记得注销，避免账户管理费。" }
     ]
   },
   {
-    id: "clothes", emoji: "👕", title: "衣物与床品",
-    desc: "对照上面的气候带，行李箱一半就够",
+    id: "luggage", emoji: "🧳", title: "行李策略（3 个月短居版）",
+    desc: "核心思路：住带家具的房子，大件能不置办就不置办",
     items: [
-      { id: "layers", name: "叠穿衣物一套逻辑", tag: "must",
-        note: "覆盖 9–12 月：短袖 T 恤 5–7 件、长袖/衬衫 2–3 件、卫衣/薄外套 2 件、厚一点的夹克或大衣 1 件、牛仔裤/休闲裤 3–4 条。",
-        tip: "9–10 月基本短袖，11 月起早晚加外套，12 月晚上要厚外套。室内空调常年很冷，随身带件薄外套是南加州生存技能。" },
-      { id: "down-jacket", name: "厚羽绒服", tag: "skip",
-        note: "南加州整个冬天都用不上，别占行李空间。",
-        tip: "如果计划去滑雪（Big Bear）或圣诞去东部/北方旅游，带一件轻薄压缩羽绒，或到时在 Costco/Uniqlo 买。" },
-      { id: "bedding", name: "被子、枕头、床垫", tag: "skip",
-        note: "别带！被子占半个行李箱，美国买又便宜又方便。",
-        tip: "落地当天在 Amazon 下单（被子+枕头+床单套装 $40–70，Prime 次日达），或去 Target/IKEA/Costco 现买。恋家的最多带一套自己喜欢的被套+床单（不占地方）。" },
-      { id: "shoes", name: "鞋子", tag: "sug",
-        note: "舒适运动鞋 1–2 双、拖鞋、一双正式场合的鞋（presentation/面试用）。",
-        tip: "美国鞋不贵（尤其打折季），不用多带；人字拖海滩必备，当地 $5 能买。" },
-      { id: "formal", name: "一套正装", tag: "sug",
-        note: "开学 orientation、presentation、job fair 都可能用到。",
-        tip: "男生衬衫+西裤即可，女生 business casual 一套；不用太正式。" },
+      { id: "furnished", name: "找「带家具」的住处（最重要的一条）", tag: "must",
+        note: "这一条做对了，床、书桌、沙发全都不用操心，直接省掉所有大件烦恼。",
+        tip: "找房时只看 furnished（带家具）房源：学校宿舍/校外学生公寓基本都带；sublease（转租）大多带全套家具甚至厨具。渠道：学校 housing 官网、圣地亚哥 CSSA 微信租房群、Facebook Marketplace 的 sublet 板块。签约前确认清单里有床和床垫。" },
+      { id: "bedding", name: "床品：可以从国内带一套薄的", tag: "sug",
+        note: "只住 3 个月，策略和长期留学相反——从国内带反而更划算，省去买了又扔的浪费。",
+        tip: "方案 A（推荐）：国内带一套真空压缩的薄被/空调被 + 床单枕套（压缩后就一件衣服的体积，9–12 月圣地亚哥盖薄被正合适，回国还能带走）；方案 B：房源如已含床品（部分 sublease 有）就啥都不用带；方案 C：落地 Target 买最便宜套装约 $35，走时捐给 Goodwill。" },
+      { id: "rice-cooker", name: "电饭锅：别带也先别急着买", tag: "skip",
+        note: "国内电饭锅 220V 在美国用不了（这个不变）；但 3 个月短居也不值得买新的。",
+        tip: "按优先级：① 问房东/前租客——sublease 的厨房经常留有电饭锅锅具；② 学校中国学生群、Facebook Marketplace 收二手（$10–15），走时原价转手卖掉，等于免费用；③ 实在没有，一口普通汤锅也能煮饭（水开转小火 12 分钟），或者 Amazon 买 $20 的 AROMA 小电饭锅走时送同学。" },
+      { id: "cookware", name: "锅碗瓢盆", tag: "skip",
+        note: "不带、尽量不买新的。",
+        tip: "同上策略：sublease 厨房大多有现成的；缺什么去二手群收或 Daiso（日本百元店，圣地亚哥有几家）花小钱补齐。" },
+      { id: "clothes", name: "衣物：一个箱子装下", tag: "must",
+        note: "9–12 月圣地亚哥：短袖 5–6 件、长袖 2–3 件、卫衣 2 件、一件外套（防风夹克最实用）、裤子 3 条、一套 smart casual（presentation 用）。",
+        tip: "羽绒服不用带。海边晚上风大，防风外套比毛衣有用。拖鞋人字拖当地 $5 一双不用占行李。两件 23kg 托运额度：一箱衣物+洗漱，一箱床品压缩袋+药品+转换头+给导师的小礼物，绰绰有余。" },
       { id: "sun", name: "墨镜 + 防晒霜", tag: "sug",
-        note: "南加州阳光是物理攻击，全年紫外线强。",
-        tip: "防晒霜可以到美国买（选 broad spectrum SPF 50），墨镜建议国内配好（尤其需要近视墨镜的）。" },
-      { id: "umbrella", name: "雨具", tag: "opt-skip",
-        note: "12 月前几乎不下雨，一把折叠伞足够。",
-        tip: "随便塞一把即可，或到时 $10 在 Target 买。" }
-    ]
-  },
-  {
-    id: "kitchen", emoji: "🍚", title: "厨房与电器",
-    desc: "先看电压！美国 110V，国内大功率电器都白带",
-    items: [
-      { id: "rice-cooker", name: "电饭锅", tag: "skip",
-        note: "别从国内带！中国电饭锅是 220V，美国电压 110V，插上根本不工作（用变压器又重又危险）。",
-        tip: "美国亚马逊搜 rice cooker，AROMA $25–40、象印/虎牌 $100+，华人超市（大华 99 Ranch Market）也有卖，落地一周内就能安排上。" },
-      { id: "voltage", name: "插头转换 + 认清电压", tag: "must",
-        note: "美国 110V/60Hz，Type A/B 插头（两扁脚/两扁一圆）。中国两脚扁插头可以直接插美国插座；三脚（国标斜三脚）需要转换头。",
-        tip: "手机、电脑、相机充电器都是宽电压（100–240V）直接用；吹风机、卷发棒、烧水壶等 220V 专用大功率电器一律别带，美国 $15–30 买新的。带 2–3 个国标转三脚转换头即可。" },
-      { id: "power-strip", name: "国标插线板", tag: "sug",
-        note: "带 1 个国标插线板，配 1 个转换头就能同时给一堆国内插头的设备充电。",
-        tip: "注意选 250V 额定的普通插线板即可（只接充电器等小功率设备没问题）。" },
-      { id: "seasoning", name: "调料与干货", tag: "opt-skip",
-        note: "可以少量带密封包装的（火锅底料、干香菇等），但别多带。",
-        tip: "海关红线：肉类及含肉制品（含肉版老干妈、肉松、香肠）、新鲜水果蔬菜、蛋、种子一律禁止入境，被查到会罚款留记录。南加州华人超市极其发达（大华、HMart、Weee! 生鲜外送），国内调料基本都能买到。" },
-      { id: "cookware", name: "锅碗瓢盆菜刀", tag: "skip",
-        note: "都别带，重且占地。",
-        tip: "IKEA/Amazon/华人超市便宜大碗；真要带菜刀必须托运，不能手提。" }
+        note: "圣地亚哥阳光全年在线，海滩城市紫外线更强。",
+        tip: "墨镜国内配好（需要近视墨镜的尤其要提前），防晒霜带一支入门，用完在当地买（选 broad spectrum SPF 50）。" },
+      { id: "voltage", name: "插头转换头 ×2 + 国标插线板 ×1", tag: "must",
+        note: "美国 110V / Type A·B 插头。国内两脚扁插头直接能插，三脚（斜三孔）需要转换头。",
+        tip: "手机、电脑、iPad 充电器都是宽电压，带转换头直接用；吹风机、直板夹等 220V 大功率电器别带（当地 $15–20 买一个，走时送人）。一个国标插线板+一个转换头 = 床头充电站。" }
     ]
   },
   {
     id: "health", emoji: "💊", title: "药品与健康",
     items: [
-      { id: "meds", name: "常用药小药包", tag: "sug",
-        note: "美国看病贵、非处方药也不便宜，带一个小药包很值。",
-        tip: "建议：布洛芬/对乙酰氨基酚（退烧止痛）、感冒药、肠胃药（蒙脱石散、健胃消食）、抗过敏（氯雷他定）、创可贴、体温计。全部保留原包装，总量自用合理范围（每种 1–2 盒）。" },
-      { id: "banned-meds", name: "注意违禁药品", tag: "must",
-        note: "有些国内常见药美国海关禁止或管制。",
-        tip: "别带：复方甘草片（含阿片粉）、含可待因的止咳药、大量含麻黄碱的感冒药（如白加黑/新康泰克超量）。处方药带医生处方及英文说明，数量为个人用量。" },
-      { id: "glasses", name: "眼镜 / 隐形眼镜", tag: "sug",
-        note: "美国配镜又贵又慢（要先约验光，一副数百刀）。",
-        tip: "近视的多配一副备用框架眼镜，隐形眼镜带足一年用量，记下自己的度数/验光单。" },
-      { id: "vaccine", name: "疫苗与体检记录", tag: "must",
-        note: "学校注册通常要求 MMR（麻腮风）、Tdap、TB 检测等记录。",
-        tip: "出入境检验检疫中心体检后拿到「红本」（健康检查证明）和「黄本」（疫苗接种证明），查学校官网 immunization 要求，缺的疫苗国内补打便宜得多。" },
-      { id: "insurance-check", name: "确认 J-1 医疗保险", tag: "must",
-        note: "J-1 有强制保险标准（医疗、遣返、紧急撤离额度）。",
-        tip: "向学校国际学生办公室确认是否自动投保、费用多少；如需自购，选符合 J-1 要求（写明 meets J visa requirements）的留学生保险。" }
+      { id: "meds", name: "常用药小药包（3 个月量）", tag: "sug",
+        note: "美国看病贵，小病自备药最省心。",
+        tip: "布洛芬、感冒药、肠胃药（蒙脱石散）、抗过敏（氯雷他定）、创可贴，每种 1–2 盒原包装。处方药带足 3 个月量 + 医生处方英文说明。" },
+      { id: "banned-meds", name: "别带违禁药", tag: "must",
+        note: "有些国内常见药是美国海关违禁品。",
+        tip: "不能带：复方甘草片（含阿片粉）、含可待因止咳药、超量含麻黄碱感冒药。拿不准的药查一下再装箱。" },
+      { id: "glasses", name: "眼镜 / 隐形眼镜带足", tag: "sug",
+        note: "美国配镜贵且要预约验光，3 个月短居更没必要在美国配。",
+        tip: "备用框架眼镜一副 + 隐形眼镜带足 3 个月量 + 记下验光度数。" },
+      { id: "vaccine", name: "疫苗与体检记录（红本黄本）", tag: "must",
+        note: "学校注册可能要求 MMR、TB 检测等免疫记录。",
+        tip: "查学校 immunization 要求，缺的疫苗在国内补打便宜得多；红本黄本随身带（别托运）。" },
+      { id: "insurance-check", name: "确认 J-1 医疗保险覆盖这 3 个月", tag: "must",
+        note: "J-1 强制保险，哪怕只待 3 个月也必须符合要求。",
+        tip: "问学校国际学生办公室是否自动投保、保期是否覆盖你的起止日期；自购要选注明 meets J-1 visa requirements 的短期留学保险（3 个月约 $150–300）。" }
     ]
   },
   {
-    id: "arrival", emoji: "📋", title: "落地后两周要办的事",
-    desc: "提前知道流程，到了不慌",
+    id: "arrival", emoji: "📋", title: "落地后两周",
+    desc: "3 个月很快，前两周把这些办完就能安心过日子",
     items: [
-      { id: "checkin", name: "学校国际办公室报到（SEVIS 激活）", tag: "must",
-        note: "J-1 抵美后必须在规定时间内到国际学生办公室 check-in，激活 SEVIS 记录。",
-        tip: "带护照、DS-2019、I-94（入境后在 <a href='https://i94.cbp.dhs.gov' target='_blank'>i94.cbp.dhs.gov</a> 下载）。这是身份合法性的第一件大事，别拖。" },
-      { id: "ssn", name: "申请 SSN（如有工资）", tag: "sug",
-        note: "拿 RA/TA 工资或有雇佣关系的 J-1 需要申请社会安全号。",
-        tip: "先让学校出具证明信，再带护照、DS-2019、I-94 去 Social Security 办公室办理；没有工作的暂时用不上。" },
-      { id: "housing-setup", name: "住处安顿采购", tag: "sug",
-        note: "床品、厨具、日用品一天搞定。",
-        tip: "路线推荐：Target/Walmart（日用）→ IKEA（家具）→ Costco（囤货，可先蹭同学会员）→ 大华 99 Ranch（中餐食材）；Amazon Prime 学生半价，网购次日达。" },
-      { id: "transport", name: "交通方案（南加州没车寸步难行）", tag: "sug",
-        note: "南加州公共交通薄弱，大部分地方要开车。",
-        tip: "短期：Uber/Lyft + 学校 shuttle。长期：尽快考加州驾照（笔试有中文），买二手车或拼车。持中国驾照+英文翻译件在加州作为访客可短期开车，但长期居留建议尽快换加州驾照，租车、保险都方便。" },
-      { id: "emergency", name: "记下紧急联系方式", tag: "sug",
+      { id: "checkin", name: "国际学生办公室报到（激活 SEVIS）", tag: "must",
+        note: "J-1 抵美后必须按学校要求完成 check-in，这是身份合法的第一件大事。",
+        tip: "带护照、DS-2019、I-94（入境后去 <a href='https://i94.cbp.dhs.gov' target='_blank'>i94.cbp.dhs.gov</a> 下载打印）。一般要求抵达后尽快办，别拖。" },
+      { id: "ssn", name: "SSN（仅有工资才需要）", tag: "sug",
+        note: "3 个月访学如果没有美方发工资，用不上 SSN，跳过即可。",
+        tip: "有 RA/TA 工资才办：学校开证明信 → 带护照、DS-2019、I-94 去 Social Security 办公室。" },
+      { id: "transport-sd", name: "圣地亚哥出行方案", tag: "sug",
+        note: "3 个月不建议买车；圣地亚哥在加州城市里公交算能用的。",
+        tip: "组合：MTS 电车/公交（PRONTO App，蓝线直达 UCSD，学生可能免费）+ Uber/Lyft + 同学拼车。想周末自驾玩：持中国驾照+英文公证/翻译件可以短期租车（Hertz 等接受，21 岁以上，25 岁以下有 young driver 费），3 个月完全不用考加州驾照。" },
+      { id: "grocery-sd", name: "认识圣地亚哥的超市", tag: "sug",
+        note: "解决吃饭问题的地图。",
+        tip: "华人超市：Convoy St 一条街是圣地亚哥亚洲美食超市中心（99 Ranch 大华、Zion韩超、H Mart、中餐馆聚集）；日常：Trader Joe's（便宜好吃）、Target、Vons；囤货：Costco（蹭同学会员）；懒得跑：Weee! 外送。" },
+      { id: "emergency", name: "存好紧急联系方式", tag: "sug",
         note: "有备无患。",
-        tip: "911（报警/急救）、学校 campus police、中国驻洛杉矶总领馆 +1-213-807-8088、领保热线 +86-10-12308；把护照和 DS-2019 拍照存云端。" }
+        tip: "911（报警急救）、学校 campus police、中国驻洛杉矶总领馆（管辖圣地亚哥）+1-213-807-8088、外交部领保热线 +86-10-12308。护照、DS-2019、I-94 拍照存云端。" }
     ]
   }
 ];
 
-const TAG_LABEL = { must: "必带/必办", sug: "建议", skip: "别带（美国买）", "opt-skip": "看情况" };
-const TAG_CLASS = { must: "must", sug: "sug", skip: "skip", "opt-skip": "sug" };
-const STORE_KEY = "us-predep-socal-v1";
+const TAG_LABEL = { must: "必带/必办", sug: "建议", skip: "别带/别买" };
+const TAG_CLASS = { must: "must", sug: "sug", skip: "skip" };
+const STORE_KEY = "us-predep-sandiego-v2";
 let state = {};
 try { state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { state = {}; }
 let filter = "all";
