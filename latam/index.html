@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拉美旅行装备清单 · 墨西哥 / 巴塔哥尼亚 / 哥斯达黎加</title>
+<style>
+  :root {
+    --bg: #f3f7f4;
+    --card: #ffffff;
+    --ink: #1c2b24;
+    --ink-2: #5c6f64;
+    --line: #e2ece5;
+    --accent: #0e7a5f;
+    --accent-soft: #e6f4ee;
+    --green: #0fa968;
+    --green-soft: #e6f7ef;
+    --gray: #8a978e;
+    --gray-soft: #edf2ee;
+    --amber: #c77800;
+    --amber-soft: #fff4e0;
+    --cn: #c0392b;
+    --cn-soft: #ffecec;
+    --us: #1f5bd8;
+    --us-soft: #e9f0ff;
+    --local: #7048e8;
+    --local-soft: #f1ecfe;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(20, 50, 35, .05), 0 8px 24px rgba(20, 50, 35, .07);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.6;
+  }
+  .hero {
+    background: linear-gradient(140deg, #0b3d2e 0%, #0e7a5f 45%, #2ba84a 80%, #f7b32b 115%);
+    color: #fff; padding: 44px 20px 130px;
+  }
+  .hero-inner { max-width: 920px; margin: 0 auto; }
+  .hero .tag {
+    display: inline-block; font-size: 12.5px; letter-spacing: .06em;
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28);
+    border-radius: 999px; padding: 4px 12px; margin-bottom: 14px;
+  }
+  .hero h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; }
+  .hero p.sub { margin-top: 10px; color: rgba(255,255,255,.85); font-size: 15px; max-width: 680px; }
+  .wrap { max-width: 920px; margin: -92px auto 0; padding: 0 20px 80px; }
+
+  .panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
+  .panel h2 { font-size: 18px; margin-bottom: 4px; }
+  .panel .sub { font-size: 13.5px; color: var(--ink-2); margin-bottom: 16px; }
+  .dest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .dest {
+    border: 1px solid var(--line); border-radius: 12px; padding: 14px 15px;
+    background: linear-gradient(180deg, #fbfdfb, #f4faf6);
+  }
+  .dest .d-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .dest .d-emoji { font-size: 22px; }
+  .dest b { font-size: 14.5px; }
+  .dest .temp { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .dest .d-desc { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; }
+
+  .buy-strategy { margin-top: 18px; }
+  .buy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .buy-col { border: 1px solid var(--line); border-radius: 12px; padding: 14px 15px; }
+  .buy-col h3 { font-size: 14.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .buy-col.cn h3 { color: var(--cn); }
+  .buy-col.us h3 { color: var(--us); }
+  .buy-col.lc h3 { color: var(--local); }
+  .buy-col li { font-size: 12.8px; color: var(--ink-2); margin: 5px 0 5px 18px; }
+  .buy-col li b { color: var(--ink); }
+  .buy-note { margin-top: 12px; font-size: 13px; color: var(--ink-2); background: var(--amber-soft); border-radius: 9px; padding: 9px 13px; }
+  .buy-note b { color: var(--amber); }
+
+  .dashboard {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 18px 24px; display: flex; align-items: center; gap: 26px; flex-wrap: wrap; margin-top: 18px;
+  }
+  .ring-box { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .ring-box svg { transform: rotate(-90deg); }
+  .ring-bg { stroke: var(--gray-soft); }
+  .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .45s ease; }
+  .ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-label b { font-size: 17px; line-height: 1.1; }
+  .ring-label span { font-size: 10.5px; color: var(--ink-2); }
+  .stats { display: flex; gap: 26px; flex-wrap: wrap; flex: 1; }
+  .stat b { display: block; font-size: 22px; line-height: 1.2; }
+  .stat span { font-size: 12.5px; color: var(--ink-2); }
+  .stat.todo b { color: var(--amber); }
+  .stat.done b { color: var(--green); }
+  .stat.na b { color: var(--gray); }
+
+  .toolbar { display: flex; align-items: center; gap: 10px; margin: 20px 0 4px; flex-wrap: wrap; }
+  .toolbar .spacer { flex: 1; }
+  .btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    border-radius: 999px; padding: 7px 16px; font-size: 13.5px; cursor: pointer; transition: all .15s ease;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.danger:hover { border-color: #d64545; color: #d64545; }
+
+  .section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-top: 18px; overflow: hidden; }
+  .section-head { display: flex; align-items: center; gap: 12px; padding: 18px 22px 14px; border-bottom: 1px solid var(--line); }
+  .section-head .emoji {
+    width: 40px; height: 40px; border-radius: 11px; background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+  }
+  .section-head h2 { font-size: 17px; font-weight: 700; }
+  .section-head .desc { font-size: 12.5px; color: var(--ink-2); margin-top: 1px; }
+  .section-head .count {
+    margin-left: auto; font-size: 12.5px; color: var(--ink-2);
+    background: var(--gray-soft); border-radius: 999px; padding: 3px 11px; white-space: nowrap;
+  }
+  .section-head .count.ok { background: var(--green-soft); color: var(--green); }
+
+  .item { display: flex; gap: 14px; align-items: flex-start; padding: 15px 22px; border-bottom: 1px solid var(--line); }
+  .item:last-child { border-bottom: none; }
+  .item.state-done { background: #fbfefc; }
+  .item.state-done .item-name { color: var(--ink-2); text-decoration: line-through; text-decoration-color: rgba(15,169,104,.5); }
+  .item.state-na { opacity: .55; }
+  .item.state-na .item-name { text-decoration: line-through; }
+  .item-main { flex: 1; min-width: 0; }
+  .item-name { font-size: 15px; font-weight: 600; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 5px; padding: 1px 7px; margin-left: 7px; vertical-align: 2px; }
+  .badge.must { background: #ffe9e9; color: #c0392b; }
+  .badge.sug  { background: var(--amber-soft); color: var(--amber); }
+  .badge.opt  { background: var(--gray-soft); color: var(--gray); }
+  .badge.buy-cn { background: var(--cn-soft); color: var(--cn); }
+  .badge.buy-us { background: var(--us-soft); color: var(--us); }
+  .badge.buy-lc { background: var(--local-soft); color: var(--local); }
+  .badge.buy-any { background: var(--gray-soft); color: var(--gray); }
+  .item-note { font-size: 13px; color: var(--ink-2); margin-top: 3px; }
+  .item-meta {
+    display: flex; gap: 8px; font-size: 12.5px; color: var(--ink-2); margin-top: 7px;
+    background: #f7fbf8; border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; line-height: 1.55;
+  }
+  .item-meta .meta-icon { flex-shrink: 0; }
+  .item-meta b.meta-label { color: var(--ink); font-weight: 600; margin-right: 2px; }
+  .item-meta a { color: var(--accent); text-decoration: none; }
+  .item-meta a:hover { text-decoration: underline; }
+  .item.state-na .item-meta { display: none; }
+  .item-actions { display: flex; gap: 7px; flex-shrink: 0; padding-top: 2px; }
+  .chip {
+    border: 1px solid var(--line); background: #fff; border-radius: 999px;
+    font-size: 12.5px; padding: 5px 13px; cursor: pointer; color: var(--ink-2);
+    transition: all .13s ease; white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--green); color: var(--green); }
+  .chip.na-chip:hover { border-color: var(--gray); color: var(--ink); }
+  .chip.on-done { background: var(--green); border-color: var(--green); color: #fff; }
+  .chip.on-na { background: var(--gray); border-color: var(--gray); color: #fff; }
+  .item.hidden { display: none; }
+  .section.hidden { display: none; }
+
+  .disclaimer { margin-top: 22px; font-size: 12.5px; color: var(--gray); text-align: center; }
+
+  @media (max-width: 560px) {
+    .item { flex-direction: column; gap: 9px; }
+    .item-actions { padding-top: 0; }
+  }
+  @media print {
+    .hero { padding: 20px; }
+    .toolbar, .item-actions { display: none !important; }
+    .section, .dashboard, .panel { box-shadow: none; border: 1px solid var(--line); }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="tag">LATIN AMERICA · MEXICO × N + PATAGONIA & COSTA RICA (DEC)</span>
+    <h1>拉美旅行装备清单</h1>
+    <p class="sub">轻装酒店基地型玩法：墨西哥 9–12 月多次 2–4 天短途、12 月巴塔哥尼亚一日徒步 + 哥斯达黎加雨林海滩各一周。装备从零配，每件标注在中国买还是在美国买更划算。不含露营与冰雪装备。</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="panel">
+    <h2>🌎 目的地气候速览</h2>
+    <div class="sub">你的三条线温度跨度：湿热 32°C（海滩雨林）到 3°C + 狂风（巴塔哥尼亚清晨），核心是「叠穿 + 一件靠谱的防风防雨外套」。</div>
+    <div class="dest-grid">
+      <div class="dest">
+        <div class="d-head"><span class="d-emoji">🌮</span><b>墨西哥城 · 9–12月</b></div>
+        <div class="temp">白天 20–23°C · 夜 6–10°C</div>
+        <div class="d-desc">高原城市（2240m），昼夜温差大，9–10 月雨季尾巴午后有阵雨。轻外套刚需。</div>
+      </div>
+      <div class="dest">
+        <div class="d-head"><span class="d-emoji">🏖️</span><b>墨西哥海滩 · 9–12月</b></div>
+        <div class="temp">27–31°C 湿热</div>
+        <div class="d-desc">坎昆/图卢姆一带全年热，9–10 月是飓风季尾巴，出发前看天气。</div>
+      </div>
+      <div class="dest">
+        <div class="d-head"><span class="d-emoji">🏔️</span><b>巴塔哥尼亚 · 12月（夏）</b></div>
+        <div class="temp">白天 10–18°C · 夜 3–7°C</div>
+        <div class="d-desc">狂风是主角（阵风 80+km/h），一天经历四季，紫外线极强。防风防雨是装备核心。</div>
+      </div>
+      <div class="dest">
+        <div class="d-head"><span class="d-emoji">🌴</span><b>哥斯达黎加 · 12月（干季初）</b></div>
+        <div class="temp">27–32°C 湿热</div>
+        <div class="d-desc">太平洋侧晴热，雨林侧仍有阵雨；蚊虫多，驱蚊是刚需。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel buy-strategy">
+    <h2>🛒 采购策略：什么在哪买</h2>
+    <div class="sub">你 9–12 月人在圣地亚哥——感恩节黑五（2026-11-27）正好卡在巴塔哥尼亚行程之前，美国采购部分蹲黑五买，能省一半。</div>
+    <div class="buy-grid">
+      <div class="buy-col cn">
+        <h3>🇨🇳 中国买（出发前）</h3>
+        <ul>
+          <li><b>迪卡侬小件全家桶</b>：速干T、速干裤、魔术头巾、收纳袋、雨罩——价格是美国同级的一半</li>
+          <li><b>凯乐石/伯希和</b>：如想国内先配冲锋衣（¥500–900 能买到三层压胶）</li>
+          <li>泳衣、内衣袜子备用、驱蚊贴、常用药（美国药贵）</li>
+        </ul>
+      </div>
+      <div class="buy-col us">
+        <h3>🇺🇸 美国买（蹲黑五）</h3>
+        <ul>
+          <li><b>徒步鞋</b>：Merrell/Salomon/HOKA 比国内便宜 30–50%，黑五 Moab 3 约 $80</li>
+          <li><b>羊毛袜</b>：Darn Tough（终身保换）、Smartwool</li>
+          <li><b>大牌外套</b>：Patagonia/Columbia/北面，REI 或品牌 outlet + 黑五折上折</li>
+          <li><b>Costco</b>：Kirkland 轻羽绒 $20–40 神价；驱蚊液、防晒霜</li>
+          <li>建议花 $30 办 REI 终身会员：全年 10% 返还 + 二手区捡漏</li>
+        </ul>
+      </div>
+      <div class="buy-col lc">
+        <h3>🌎 当地解决（别背过去）</h3>
+        <ul>
+          <li><b>登山杖</b>：El Chaltén / 百内镇上可租可买（登机不能手提，托运才行，短途只带包的话当地解决最省心）</li>
+          <li>古柯茶/高反糖（安第斯当地）、雨披、瓶装水</li>
+          <li>哥斯达黎加浮潜装备跟团都含，不用自购</li>
+        </ul>
+      </div>
+    </div>
+    <div class="buy-note"><b>预算参考：</b>按下面清单从零配齐（中国 ¥1000–1500 + 美国黑五 $250–350），总共约 ¥3500–4000 就能配出一套覆盖全部行程的靠谱装备。</div>
+  </div>
+
+  <div class="dashboard">
+    <div class="ring-box">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle class="ring-bg" cx="40" cy="40" r="34" fill="none" stroke-width="8"/>
+        <circle class="ring-fg" id="ring" cx="40" cy="40" r="34" fill="none" stroke-width="8"
+                stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+      </svg>
+      <div class="ring-label"><b id="pct">0%</b><span>完成度</span></div>
+    </div>
+    <div class="stats">
+      <div class="stat todo"><b id="n-todo">0</b><span>还没配齐</span></div>
+      <div class="stat done"><b id="n-done">0</b><span>已搞定</span></div>
+      <div class="stat na"><b id="n-na">0</b><span>不适用</span></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn active" data-filter="all">全部</button>
+    <button class="btn" data-filter="todo">只看没配齐的</button>
+    <span class="spacer"></span>
+    <button class="btn" id="btn-print">打印清单</button>
+    <button class="btn danger" id="btn-reset">重置进度</button>
+  </div>
+
+  <div id="sections"></div>
+
+  <p class="disclaimer">价格为 2026 年参考价，签证与入境政策变化频繁，出发前务必以官方最新信息为准。</p>
+</main>
+
+<script>
+const DATA = [
+  {
+    id: "bags", emoji: "🎒", title: "背包与收纳",
+    desc: "你的玩法（酒店基地 + 只带包）：一个登机背包 + 一个徒步日用包就是全部",
+    items: [
+      { id: "main-pack", name: "35–40L 登机尺寸旅行背包", tag: "must", buy: "us",
+        note: "主行李。墨西哥 2–4 天短途单背它就够；巴塔哥尼亚/哥斯达黎加一周 = 它 + 日用包。选开口像行李箱一样全打开的旅行背包（不是登山包），整理效率完全不同。",
+        tip: "美国买：Osprey Farpoint 40（$185，黑五常 8 折，背包客公认标杆）或 REI Co-op Ruckpack 40（会员价更低）；预算款 Amazon Basics 40L 约 $60。国内平替：迪卡侬 Forclaz Travel 40L 约 ¥400。40L 内符合多数航司登机尺寸，全程不托运。" },
+      { id: "daypack", name: "20L 左右徒步日用包", tag: "must", buy: "cn",
+        note: "一日徒步 + 城市日常两用，要有胸扣腰扣（巴塔哥尼亚大风里没胸扣的包会飞）。",
+        tip: "迪卡侬 NH Arpenaz 20L（¥100 内）或 Quechua MH500（带雨罩）性价比无敌，国内买好带过去。能压缩折叠的更好，塞进大包不占地方。" },
+      { id: "rain-cover", name: "背包防雨罩", tag: "must", buy: "cn",
+        note: "哥斯达黎加雨林阵雨 + 巴塔哥尼亚横着下的雨，两个包都要有。",
+        tip: "迪卡侬 ¥30–50 一个，按包的容量选尺寸；部分包自带（买包时确认）。" },
+      { id: "packing-cubes", name: "打包收纳袋（packing cubes）", tag: "sug", buy: "cn",
+        note: "背包旅行的效率神器，衣物分类压缩，40L 能装出 60L 的效果。",
+        tip: "淘宝/迪卡侬一套 ¥50 内；带 1–2 个防水袋（或厚 ziplock）装电子产品，海滩雨林都用得上。" },
+      { id: "anti-theft", name: "贴身防盗袋 / 斜挎小包", tag: "must", buy: "cn",
+        note: "拉美防盗是纪律：护照现金贴身放，手机别揣裤兜。墨西哥城地铁、圣何塞车站是扒手高发区。",
+        tip: "贴身腰包（衣服里面那种）放护照+备用卡+大额现金；外面斜挎小包放当天用的手机零钱。淘宝 ¥50 搞定两个。" }
+    ]
+  },
+  {
+    id: "clothes", emoji: "👕", title: "衣物系统（三层法则）",
+    desc: "内层排汗 + 中层保暖 + 外层防风雨，覆盖 3°C 狂风到 32°C 湿热",
+    items: [
+      { id: "base-tee", name: "速干 T 恤 ×3 + 速干长袖 ×1", tag: "must", buy: "cn",
+        note: "内层。全程通用，湿热地区快干是命，纯棉 T 恤在雨林=灾难。",
+        tip: "迪卡侬速干T ¥40–80/件闭眼买；长袖那件选浅色，雨林里兼职防蚊防晒。" },
+      { id: "fleece", name: "抓绒衣（中层）", tag: "must", buy: "cn",
+        note: "巴塔哥尼亚和墨西哥城夜晚的主力保暖，飞机上也穿。",
+        tip: "迪卡侬 MH120/MH520（¥100–200）足够；美国买 Columbia 抓绒黑五约 $25 也很香，二选一。" },
+      { id: "puffy", name: "轻量羽绒/化纤棉服（可压缩）", tag: "must", buy: "us",
+        note: "巴塔哥尼亚清晨等日出、大巴上、高原夜晚的救命层。压缩后一个水杯大。",
+        tip: "Costco Kirkland 轻羽绒 $20–40 是著名神价；或 Uniqlo 轻羽绒 $70、REI 650 Down $100（黑五半价）。不用买很厚，套在抓绒外面就是冬装。" },
+      { id: "hardshell", name: "冲锋衣（硬壳，全清单最重要投资）", tag: "must", buy: "us",
+        note: "巴塔哥尼亚的风雨 + 哥斯达黎加的阵雨 + 墨西哥城雨季，一件搞定。要求：防水压胶（不是普通防泼水）+ 连帽。",
+        tip: "美国黑五方案：Columbia Watertight II 约 $60（入门够用）、Marmot PreCip $70、预算高上 Patagonia Torrentshell $130；REI outlet 常有惊喜。国内先买方案：凯乐石三层压胶 ¥600–900、迪卡侬 MH500 ¥400。二选一别重复买。" },
+      { id: "pants", name: "速干徒步裤 ×2", tag: "must", buy: "cn",
+        note: "一条常规 + 一条可拆卸变短裤（雨林湿热直接变短裤）。牛仔裤徒步=自虐。",
+        tip: "迪卡侬 ¥150–250/条。美国 REI 的 Sahara 系列也不错但没必要，国内买好。" },
+      { id: "shorts-swim", name: "短裤 + 泳衣", tag: "must", buy: "cn",
+        note: "坎昆、图卢姆天然井（cenote）、哥斯达黎加海滩都要下水。",
+        tip: "国内买好合身的；速干短裤可兼泳裤。" },
+      { id: "hats", name: "遮阳帽 + 薄毛线帽", tag: "must", buy: "cn",
+        note: "两顶都要：遮阳帽对付海滩和高原紫外线，毛线帽对付巴塔哥尼亚大风清晨（体感 0°C）。",
+        tip: "遮阳帽要有系绳（巴塔哥尼亚的风会把帽子吹到智利另一头）；迪卡侬各 ¥50 内。" },
+      { id: "buff", name: "魔术头巾（Buff）×2", tag: "sug", buy: "cn",
+        note: "拉美旅行万金油：防风、防晒、防尘、当围脖、大巴上当眼罩。",
+        tip: "迪卡侬 ¥30/条，买两条不心疼。" },
+      { id: "gloves", name: "薄手套", tag: "sug", buy: "cn",
+        note: "只为巴塔哥尼亚准备：清晨徒步手指会冻僵。",
+        tip: "迪卡侬薄抓绒手套 ¥50 内，能触屏的更好。" }
+    ]
+  },
+  {
+    id: "shoes", emoji: "👟", title: "鞋袜",
+    items: [
+      { id: "hiking-shoes", name: "徒步鞋（中帮防水）", tag: "must", buy: "us",
+        note: "第二重要投资。百内/菲茨罗伊一日徒步 20km+ 碎石路，普通运动鞋会毁脚。选 Gore-Tex 或同级防水（雨林也靠它）。",
+        tip: "美国买比国内便宜 30–50%：Merrell Moab 3 Mid WP（$110，黑五 $80，新手闭眼买）、Salomon X Ultra、HOKA Anacapa。重要：至少提前一个月买，穿着在圣地亚哥走磨合，千万别穿新鞋上巴塔哥尼亚。" },
+      { id: "wool-socks", name: "羊毛徒步袜 ×3", tag: "must", buy: "us",
+        note: "和好鞋同等重要，防磨防臭速干。棉袜徒步起水泡。",
+        tip: "Darn Tough（$22/双，终身免费换新）或 Smartwool，REI/Amazon 黑五打折囤三双。" },
+      { id: "sandals", name: "凉鞋/人字拖", tag: "must", buy: "any",
+        note: "海滩 + 旅馆 + 天然井，出场率极高。",
+        tip: "随便哪买都行；想要能涉水徒步的选 Teva（美国 $50，黑五更低）。" },
+      { id: "sneakers", name: "轻便运动鞋", tag: "sug", buy: "any",
+        note: "城市观光穿，徒步鞋进城太笨重。",
+        tip: "你现有的运动鞋就行，不用新买。" }
+    ]
+  },
+  {
+    id: "gear", emoji: "🧰", title: "户外小件",
+    items: [
+      { id: "headlamp", name: "头灯", tag: "must", buy: "cn",
+        note: "巴塔哥尼亚看日出摸黑出发、雨林夜观、停电应急。手机手电筒不解放双手。",
+        tip: "迪卡侬 ¥80 或 Amazon Energizer $15，USB 充电款优先。" },
+      { id: "water-bottle", name: "运动水瓶 1L + 电解质泡腾片", tag: "must", buy: "any",
+        note: "重要提醒：墨西哥自来水不能喝（当地人都喝瓶装水），哥斯达黎加城市可以喝。长徒步日 2L 起步。",
+        tip: "普通 Nalgene/迪卡侬水瓶即可；想省买水钱可上过滤瓶（Katadyn BeFree $45）。电解质片（迪卡侬/Nuun）徒步日和肠胃不适时都救命。" },
+      { id: "sunscreen", name: "防晒霜 SPF50 + 墨镜", tag: "must", buy: "us",
+        note: "巴塔哥尼亚上空臭氧层薄，紫外线是物理攻击级；海滩雨林同样躲不掉。",
+        tip: "防晒霜美国 Costco 大瓶装划算（选 broad spectrum，下水选 reef-safe）；墨镜要 UV400，国内配好（需近视墨镜更要提前）。" },
+      { id: "bug-spray", name: "驱蚊液（DEET 30%+ 或派卡瑞丁）", tag: "must", buy: "us",
+        note: "哥斯达黎加和墨西哥海滩刚需，也是登革热预防的核心。",
+        tip: "美国买：OFF! Deep Woods（$8）或 Sawyer Picaridin（$10，不腐蚀衣物更舒服）。国内的驱蚊花露水浓度普遍不够。" },
+      { id: "poncho", name: "轻量雨披（备用）", tag: "sug", buy: "cn",
+        note: "冲锋衣之外的暴雨兜底，雨林突降大雨时连人带包全罩住。",
+        tip: "迪卡侬 ¥40 或当地 $2 塑料雨披，一次性心态。" },
+      { id: "towel", name: "速干毛巾", tag: "sug", buy: "cn",
+        note: "青旅/民宿不一定给毛巾，海滩天然井随时要擦。",
+        tip: "迪卡侬 M 号 ¥40。" },
+      { id: "trekking-poles", name: "登山杖", tag: "opt", buy: "lc",
+        note: "百内/菲茨罗伊下坡护膝有用，但你只带登机包——登山杖不能手提登机。",
+        tip: "别从中国/美国背：El Chaltén 和 Puerto Natales 镇上租一天几美元，或当地买便宜的用完送人。膝盖好的一日徒步也可以不用。" },
+      { id: "powerbank", name: "充电宝 20000mAh + 转换头", tag: "must", buy: "cn",
+        note: "长途大巴 + 徒步全天在外，手机导航翻译全靠电。墨西哥/哥斯达黎加插头和美国一样（Type A/B），智利是两圆脚（Type C/L）、阿根廷 Type I。",
+        tip: "充电宝国内买（注意 ≤27000mAh 才能登机）；转换头买一个「全球通用」款覆盖智利阿根廷。" }
+    ]
+  },
+  {
+    id: "health", emoji: "💊", title: "药品与健康",
+    items: [
+      { id: "med-kit", name: "旅行药包", tag: "must", buy: "cn",
+        note: "拉美肠胃问题是第一大坑（墨西哥街头美食税），高原反应第二。",
+        tip: "国内配齐（美国药贵）：蒙脱石散+口服补液盐（腹泻两件套）、布洛芬、抗过敏药、晕车药（山路大巴多）、创可贴+水泡贴（徒步）、肠胃消炎药。墨西哥城 2240m 一般人没事，如后续上安第斯高原（3500m+）再考虑高反药（美国 Diamox 需处方，可国内买乙酰唑胺）。" },
+      { id: "vaccines-latam", name: "疫苗检查（出发前 1 个月）", tag: "sug", buy: "cn",
+        note: "常规建议：甲肝、伤寒（吃货尤其建议）；黄热病疫苗仅去亚马逊流域才要求，你目前的行程（墨西哥/巴塔哥尼亚/哥斯达黎加主流线路）不强制。",
+        tip: "在美国可去 CVS/校医院咨询 travel vaccine（部分保险覆盖）；或在国内国际旅行卫生保健中心提前打。" },
+      { id: "insurance-latam", name: "旅行保险（含户外活动）", tag: "must", buy: "any",
+        note: "J-1 的美国保险出了美国基本不覆盖！每次出境都要单独买旅行险。",
+        tip: "选覆盖拉美 + 徒步活动 + 医疗运送的：World Nomads、SafetyWing（按周买，适合你多次短途）或国内安联/美亚境外旅行险。一周约 $15–30。" }
+    ]
+  },
+  {
+    id: "docs", emoji: "📄", title: "证件、签证与安全（比装备更重要）",
+    desc: "中国护照 + 在美 J-1 身份出行，这几条务必逐一核实",
+    items: [
+      { id: "j1-reentry", name: "J-1 离美再入境：DS-2019 旅行签字", tag: "must", buy: "any",
+        note: "每次离开美国前，确认 DS-2019 上有国际学生办公室的 travel signature（有效期内），否则可能回不去美国——这比任何装备都重要。",
+        tip: "去墨西哥前找学校国际办公室签字（一次签字一般管一学年，但你项目短，出发前再确认一次）；随身带：护照+J-1签证、DS-2019 原件、I-94 打印件。另注意：项目结束后有 30 天 grace period，期间离境美国就不能再以 J-1 返回，12 月的巴塔哥尼亚行程如在项目结束后，回程别再经美国转机入境（或确认走国际转机不入境）。" },
+      { id: "visa-mexico", name: "墨西哥：持有效美签免签", tag: "must", buy: "any",
+        note: "中国护照持有效多次入境美国签证（含 J-1）可免签入境墨西哥（最长 180 天），你的情况最省心。",
+        tip: "陆路从圣地亚哥过 Tijuana 或飞墨西哥城都适用；入境时带好美签所在护照，可能需填 FMM 入境表（航司或口岸办）。" },
+      { id: "visa-costarica", name: "哥斯达黎加：持美签通常免签，务必核实细则", tag: "must", buy: "any",
+        note: "哥斯达黎加对持有效美国签证的中国公民有免签政策（一般要求美签剩余有效期覆盖停留期，免签停留最长 30 天），但细则多变。",
+        tip: "出发前 1 个月在哥斯达黎加驻美使馆官网核实 J-1 类签证是否适用；不适用就需在美国申请哥斯达黎加签证。" },
+      { id: "visa-patagonia", name: "智利 & 阿根廷：这两个要提前办，最麻烦", tag: "must", buy: "any",
+        note: "百内在智利、菲茨罗伊在阿根廷。智利对持美签中国公民的免签政策通常仅限 B 类旅游签，J-1 大概率不适用；阿根廷的 AVE 电子许可同样一般要求 B2 或申根签。",
+        tip: "这是全行程最大的手续风险，提前 2 个月行动：① 查智利驻洛杉矶领馆——J-1 持有者通常需正式申请智利旅游签；② 阿根廷同理查 AVE 资格，不符合就走领馆签证；③ 如手续太麻烦，可只走智利侧（百内 W 线一日徒步）或只走阿根廷侧，单国也完全值得。" },
+      { id: "cash-cards", name: "现金与卡（拉美版）", tag: "must", buy: "any",
+        note: "拉美刷卡普及度不如美国，阿根廷有非官方汇率现象，小城镇现金为王。",
+        tip: "带美元现金（$100 面额新钞在阿根廷换汇最划算）+ 双币 Visa/Mastercard；ATM 取现选银行网点内的机器。钱分三处放：贴身袋、日用包、酒店备份。" },
+      { id: "safety", name: "安全习惯清单", tag: "must", buy: "any",
+        note: "拉美旅行安全靠习惯，不靠装备。",
+        tip: "① 打车只用 Uber/DiDi（墨西哥）——别在街上拦出租；② 手机别在街边刷，抢手机是墨西哥城最常见案件；③ 护照复印件+电子版存云端，原件酒店保险箱；④ 天黑后不走小巷；⑤ 把行程共享给家人/同学；⑥ 存好领保电话：驻墨西哥使馆 +52-55-5616-0609、外交部领保 +86-10-12308。" },
+      { id: "offline-maps", name: "离线地图 + 西语翻译包", tag: "sug", buy: "any",
+        note: "拉美很多地方没信号，西语区英语普及率低。",
+        tip: "出发前：Google Maps 下载各城市离线地图、Google Translate 下载西班牙语离线包、Maps.me（徒步小径比谷歌全）。电话卡：Ultra Mobile 在墨西哥有免费漫游（确认套餐含 Mexico roaming）；智利/阿根廷/哥斯达黎加买当地预付卡（机场或 Claro/Movistar 门店，$10 内）——你的手机是双实体卡槽正好。" }
+    ]
+  }
+];
+
+const TAG_LABEL = { must: "必备", sug: "建议", opt: "可选" };
+const BUY_LABEL = { cn: "🇨🇳 中国买", us: "🇺🇸 美国买", lc: "🌎 当地解决", any: "都行/无需购买" };
+const STORE_KEY = "latam-gear-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { state = {}; }
+let filter = "all";
+
+const totalItems = DATA.reduce((s, g) => s + g.items.length, 0);
+const $sections = document.getElementById("sections");
+
+function render() {
+  $sections.innerHTML = DATA.map(group => {
+    const rows = group.items.map(it => {
+      const st = state[it.id] || "todo";
+      return `
+      <div class="item state-${st}" data-id="${it.id}" data-state="${st}">
+        <div class="item-main">
+          <div class="item-name">${it.name}<span class="badge ${it.tag}">${TAG_LABEL[it.tag]}</span><span class="badge buy-${it.buy}">${BUY_LABEL[it.buy]}</span></div>
+          <div class="item-note">${it.note}</div>
+          <div class="item-meta"><span class="meta-icon">💡</span><span><b class="meta-label">怎么选：</b>${it.tip}</span></div>
+        </div>
+        <div class="item-actions">
+          <button class="chip ${st === "done" ? "on-done" : ""}" data-act="done">${st === "done" ? "✓ 已搞定" : "已搞定"}</button>
+          <button class="chip na-chip ${st === "na" ? "on-na" : ""}" data-act="na">${st === "na" ? "— 不适用" : "不适用"}</button>
+        </div>
+      </div>`;
+    }).join("");
+    return `
+    <section class="section" data-group="${group.id}">
+      <div class="section-head">
+        <div class="emoji">${group.emoji}</div>
+        <div><h2>${group.title}</h2>${group.desc ? `<div class="desc">${group.desc}</div>` : ""}</div>
+        <span class="count" data-count="${group.id}"></span>
+      </div>
+      ${rows}
+    </section>`;
+  }).join("");
+  update();
+}
+
+function update() {
+  let done = 0, na = 0;
+  Object.values(state).forEach(v => { if (v === "done") done++; if (v === "na") na++; });
+  const todo = totalItems - done - na;
+  const effective = totalItems - na;
+  const pct = effective === 0 ? 100 : Math.round(done / effective * 100);
+
+  document.getElementById("n-todo").textContent = todo;
+  document.getElementById("n-done").textContent = done;
+  document.getElementById("n-na").textContent = na;
+  document.getElementById("pct").textContent = pct + "%";
+  const C = 213.6;
+  document.getElementById("ring").style.strokeDashoffset = C * (1 - pct / 100);
+
+  DATA.forEach(g => {
+    const gDone = g.items.filter(it => (state[it.id] || "todo") !== "todo").length;
+    const el = document.querySelector(`[data-count="${g.id}"]`);
+    el.textContent = `${gDone} / ${g.items.length}`;
+    el.classList.toggle("ok", gDone === g.items.length);
+  });
+
+  document.querySelectorAll(".item").forEach(el => {
+    el.classList.toggle("hidden", filter === "todo" && el.dataset.state !== "todo");
+  });
+  document.querySelectorAll(".section").forEach(sec => {
+    const visible = sec.querySelectorAll(".item:not(.hidden)").length;
+    sec.classList.toggle("hidden", filter === "todo" && visible === 0);
+  });
+}
+
+$sections.addEventListener("click", e => {
+  const btn = e.target.closest(".chip");
+  if (!btn) return;
+  const id = btn.closest(".item").dataset.id;
+  const act = btn.dataset.act;
+  state[id] = (state[id] === act) ? "todo" : act;
+  if (state[id] === "todo") delete state[id];
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  render();
+});
+
+document.querySelectorAll("[data-filter]").forEach(b => {
+  b.addEventListener("click", () => {
+    filter = b.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(x => x.classList.toggle("active", x === b));
+    update();
+  });
+});
+
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (confirm("确定要清空所有勾选进度吗？")) {
+    state = {};
+    localStorage.removeItem(STORE_KEY);
+    render();
+  }
+});
+document.getElementById("btn-print").addEventListener("click", () => window.print());
+
+render();
+</script>
+</body>
+</html>
