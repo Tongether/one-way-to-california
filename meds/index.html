@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>药品与健康总清单 · 美国 3 个月 + 拉美旅行</title>
+<style>
+  :root {
+    --bg: #f4f7fa;
+    --card: #ffffff;
+    --ink: #1d2733;
+    --ink-2: #5d6b7a;
+    --line: #e3eaf1;
+    --accent: #d6455b;
+    --accent-soft: #fdecef;
+    --green: #0fa968;
+    --green-soft: #e6f7ef;
+    --gray: #8b96a1;
+    --gray-soft: #eef1f4;
+    --amber: #c77800;
+    --amber-soft: #fff4e0;
+    --cn: #c0392b;
+    --cn-soft: #ffecec;
+    --us: #1f5bd8;
+    --us-soft: #e9f0ff;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(30, 40, 60, .05), 0 8px 24px rgba(30, 40, 60, .07);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.6;
+  }
+  .hero {
+    background: linear-gradient(140deg, #7a1f33 0%, #d6455b 55%, #f28c6b 100%);
+    color: #fff; padding: 44px 20px 130px;
+  }
+  .hero-inner { max-width: 920px; margin: 0 auto; }
+  .hero .tag {
+    display: inline-block; font-size: 12.5px; letter-spacing: .06em;
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28);
+    border-radius: 999px; padding: 4px 12px; margin-bottom: 14px;
+  }
+  .hero h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; }
+  .hero p.sub { margin-top: 10px; color: rgba(255,255,255,.85); font-size: 15px; max-width: 680px; }
+  .wrap { max-width: 920px; margin: -92px auto 0; padding: 0 20px 80px; }
+
+  .panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
+  .panel h2 { font-size: 18px; margin-bottom: 4px; }
+  .panel .sub { font-size: 13.5px; color: var(--ink-2); margin-bottom: 14px; }
+  .rule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .rule {
+    border: 1px solid var(--line); border-radius: 12px; padding: 13px 15px;
+    font-size: 13px; color: var(--ink-2);
+  }
+  .rule b { color: var(--ink); display: block; margin-bottom: 3px; font-size: 13.5px; }
+  .rule.danger { border-color: #f3c1c9; background: var(--accent-soft); }
+  .rule.danger b { color: var(--accent); }
+
+  .dashboard {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 18px 24px; display: flex; align-items: center; gap: 26px; flex-wrap: wrap; margin-top: 18px;
+  }
+  .ring-box { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .ring-box svg { transform: rotate(-90deg); }
+  .ring-bg { stroke: var(--gray-soft); }
+  .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .45s ease; }
+  .ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-label b { font-size: 17px; line-height: 1.1; }
+  .ring-label span { font-size: 10.5px; color: var(--ink-2); }
+  .stats { display: flex; gap: 26px; flex-wrap: wrap; flex: 1; }
+  .stat b { display: block; font-size: 22px; line-height: 1.2; }
+  .stat span { font-size: 12.5px; color: var(--ink-2); }
+  .stat.todo b { color: var(--amber); }
+  .stat.done b { color: var(--green); }
+  .stat.na b { color: var(--gray); }
+
+  .toolbar { display: flex; align-items: center; gap: 10px; margin: 20px 0 4px; flex-wrap: wrap; }
+  .toolbar .spacer { flex: 1; }
+  .btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    border-radius: 999px; padding: 7px 16px; font-size: 13.5px; cursor: pointer; transition: all .15s ease;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.danger:hover { border-color: #d64545; color: #d64545; }
+
+  .section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-top: 18px; overflow: hidden; }
+  .section-head { display: flex; align-items: center; gap: 12px; padding: 18px 22px 14px; border-bottom: 1px solid var(--line); }
+  .section-head .emoji {
+    width: 40px; height: 40px; border-radius: 11px; background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+  }
+  .section-head h2 { font-size: 17px; font-weight: 700; }
+  .section-head .desc { font-size: 12.5px; color: var(--ink-2); margin-top: 1px; }
+  .section-head .count {
+    margin-left: auto; font-size: 12.5px; color: var(--ink-2);
+    background: var(--gray-soft); border-radius: 999px; padding: 3px 11px; white-space: nowrap;
+  }
+  .section-head .count.ok { background: var(--green-soft); color: var(--green); }
+
+  .item { display: flex; gap: 14px; align-items: flex-start; padding: 15px 22px; border-bottom: 1px solid var(--line); }
+  .item:last-child { border-bottom: none; }
+  .item.state-done { background: #fefbfb; }
+  .item.state-done .item-name { color: var(--ink-2); text-decoration: line-through; text-decoration-color: rgba(15,169,104,.5); }
+  .item.state-na { opacity: .55; }
+  .item.state-na .item-name { text-decoration: line-through; }
+  .item-main { flex: 1; min-width: 0; }
+  .item-name { font-size: 15px; font-weight: 600; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 5px; padding: 1px 7px; margin-left: 7px; vertical-align: 2px; }
+  .badge.must { background: #ffe9e9; color: #c0392b; }
+  .badge.sug  { background: var(--amber-soft); color: var(--amber); }
+  .badge.cond { background: var(--gray-soft); color: var(--gray); }
+  .badge.buy-cn { background: var(--cn-soft); color: var(--cn); }
+  .badge.buy-us { background: var(--us-soft); color: var(--us); }
+  .badge.buy-any { background: var(--gray-soft); color: var(--gray); }
+  .item-note { font-size: 13px; color: var(--ink-2); margin-top: 3px; }
+  .item-meta {
+    display: flex; gap: 8px; font-size: 12.5px; color: var(--ink-2); margin-top: 7px;
+    background: #fbf8f8; border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; line-height: 1.55;
+  }
+  .item-meta .meta-icon { flex-shrink: 0; }
+  .item-meta b.meta-label { color: var(--ink); font-weight: 600; margin-right: 2px; }
+  .item-meta a { color: var(--accent); text-decoration: none; }
+  .item-meta a:hover { text-decoration: underline; }
+  .item.state-na .item-meta { display: none; }
+  .item-actions { display: flex; gap: 7px; flex-shrink: 0; padding-top: 2px; }
+  .chip {
+    border: 1px solid var(--line); background: #fff; border-radius: 999px;
+    font-size: 12.5px; padding: 5px 13px; cursor: pointer; color: var(--ink-2);
+    transition: all .13s ease; white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--green); color: var(--green); }
+  .chip.na-chip:hover { border-color: var(--gray); color: var(--ink); }
+  .chip.on-done { background: var(--green); border-color: var(--green); color: #fff; }
+  .chip.on-na { background: var(--gray); border-color: var(--gray); color: #fff; }
+  .item.hidden { display: none; }
+  .section.hidden { display: none; }
+
+  .disclaimer { margin-top: 22px; font-size: 12.5px; color: var(--gray); text-align: center; }
+
+  @media (max-width: 560px) {
+    .item { flex-direction: column; gap: 9px; }
+    .item-actions { padding-top: 0; }
+  }
+  @media print {
+    .hero { padding: 20px; }
+    .toolbar, .item-actions { display: none !important; }
+    .section, .dashboard, .panel { box-shadow: none; border: 1px solid var(--line); }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="tag">ONE MED KIT · 美国 3 个月 + 墨西哥 / 巴塔哥尼亚 / 哥斯达黎加</span>
+    <h1>药品与健康总清单</h1>
+    <p class="sub">把两个清单里的药品合并去重成一份总表：出发前在中国一次配齐，一个药包走完全程。数量按 3 个月 + 多次旅行计算。</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="panel">
+    <h2>📦 打包三原则 + 海关红线</h2>
+    <div class="rule-grid">
+      <div class="rule"><b>① 全部原包装</b>拆散装进小药盒容易被海关质疑，也看不到有效期。占地方就剪掉一半包装板，保留药名和说明书。</div>
+      <div class="rule"><b>② 随身 vs 托运</b>你只带登机包更简单：所有药随身；液体类（藿香正气液等）单瓶 ≤100ml 且装进 1L 透明袋，超了就别带。</div>
+      <div class="rule"><b>③ 处方药带处方</b>处方药带足全程量 + 医生处方（最好有英文对照），数量控制在个人自用合理范围。</div>
+      <div class="rule danger"><b>🚫 美国海关红线（这些别带）</b>复方甘草片（含阿片粉）／含可待因的止咳药水／大量含麻黄碱的感冒药（新康泰克等超量）／含动物成分的中药。拿不准的药：查一下再装箱，或直接不带。</div>
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <div class="ring-box">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle class="ring-bg" cx="40" cy="40" r="34" fill="none" stroke-width="8"/>
+        <circle class="ring-fg" id="ring" cx="40" cy="40" r="34" fill="none" stroke-width="8"
+                stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+      </svg>
+      <div class="ring-label"><b id="pct">0%</b><span>完成度</span></div>
+    </div>
+    <div class="stats">
+      <div class="stat todo"><b id="n-todo">0</b><span>还没配</span></div>
+      <div class="stat done"><b id="n-done">0</b><span>已配好</span></div>
+      <div class="stat na"><b id="n-na">0</b><span>不适用</span></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn active" data-filter="all">全部</button>
+    <button class="btn" data-filter="todo">只看没配的</button>
+    <span class="spacer"></span>
+    <button class="btn" id="btn-print">打印清单</button>
+    <button class="btn danger" id="btn-reset">重置进度</button>
+  </div>
+
+  <div id="sections"></div>
+
+  <p class="disclaimer">非医疗建议，用药遵医嘱；慢性病、孕期等特殊情况请出发前咨询医生。</p>
+</main>
+
+<script>
+const DATA = [
+  {
+    id: "stomach", emoji: "🤢", title: "肠胃类（拉美之行的重点）",
+    desc: "墨西哥街头美食 + 换水土，腹泻是拉美旅行第一大概率事件",
+    items: [
+      { id: "montmorillonite", name: "蒙脱石散 ×3 袋装", tag: "must", buy: "cn",
+        note: "止泻首选，安全无吸收。",
+        tip: "3 盒（每盒 10 袋左右），美国没有同款。急性腹泻：蒙脱石散 + 补液盐组合拳。" },
+      { id: "ors", name: "口服补液盐 III ×2 盒", tag: "must", buy: "cn",
+        note: "腹泻/中暑/徒步大量出汗后防脱水，比运动饮料专业。",
+        tip: "药店几块钱一盒，兑水喝。美国平替是 Pedialyte（贵好几倍）。" },
+      { id: "probiotics", name: "益生菌 / 健胃消食片", tag: "sug", buy: "cn",
+        note: "换水土肠胃紊乱时调理用。",
+        tip: "常温保存型益生菌（如妈咪爱成人款/合生元），健胃消食片一板即可。" },
+      { id: "ppi", name: "奥美拉唑（抑酸）", tag: "sug", buy: "cn",
+        note: "墨西哥菜辣+油，胃不舒服时用。",
+        tip: "一盒即可；美国 OTC 版 Prilosec 也不贵，可到了再买。" }
+    ]
+  },
+  {
+    id: "cold", emoji: "🤒", title: "感冒发烧止痛",
+    items: [
+      { id: "ibuprofen", name: "布洛芬 或 对乙酰氨基酚", tag: "must", buy: "any",
+        note: "退烧、止痛、痛经、高原头痛全能选手，整个清单使用率最高的药。",
+        tip: "国内带一盒上路；在美国 Costco/CVS 买大瓶装 Advil（布洛芬）/Tylenol（对乙酰氨基酚）非常便宜，长期留一瓶在住处。" },
+      { id: "cold-med", name: "复方感冒药 ×2 盒", tag: "must", buy: "cn",
+        note: "选成分干净的，避开海关红线。",
+        tip: "选泰诺感冒（酚麻美敏）或白加黑各 1 盒——自用量没问题，别带一堆；含可待因止咳水、复方甘草片坚决不带。美国平替 DayQuil/NyQuil 到处有。" },
+      { id: "throat", name: "润喉糖 / 维 C 泡腾片", tag: "sug", buy: "cn",
+        note: "长途飞行 + 干燥气候嗓子干痛。",
+        tip: "西瓜霜含片或慢严舒柠一两板，泡腾片一管。" },
+      { id: "thermometer", name: "体温计", tag: "sug", buy: "cn",
+        note: "判断要不要就医的依据（美国 urgent care 一次几百刀，先量个体温再决定）。",
+        tip: "电子体温计一支，轻。" }
+    ]
+  },
+  {
+    id: "allergy", emoji: "🤧", title: "过敏与皮肤",
+    items: [
+      { id: "antihistamine", name: "氯雷他定 / 西替利嗪 ×2 盒", tag: "must", buy: "cn",
+        note: "过敏性鼻炎、食物轻度过敏、蚊虫叮咬过敏都靠它；新环境花粉不一样，过敏概率比想象高。",
+        tip: "每天最多一片，两盒够全程。美国 Costco 的 Claritin/Zyrtec 大瓶装也白菜价。" },
+      { id: "itch-relief", name: "无比滴 / 炉甘石洗剂（止痒）", tag: "must", buy: "cn",
+        note: "哥斯达黎加雨林和海滩的蚊子非常认真，被咬后止痒靠它。",
+        tip: "无比滴便携装一支随身；配合拉美清单里的 DEET 驱蚊液（美国买），一攻一守。" },
+      { id: "hydrocortisone", name: "氢化可的松软膏（皮疹湿疹）", tag: "sug", buy: "us",
+        note: "皮肤发炎、严重叮咬红肿时用。",
+        tip: "美国 OTC 随便买（Cortizone-10，$6），不用从国内带。" }
+    ]
+  },
+  {
+    id: "outdoor", emoji: "🩹", title: "外伤与徒步",
+    items: [
+      { id: "bandaid", name: "创可贴 + 水泡贴", tag: "must", buy: "cn",
+        note: "水泡贴（水胶体敷料）是徒步神器，新鞋磨脚、长徒步必备。",
+        tip: "普通创可贴一盒 + 水泡贴 2 包（国产便宜；美国叫 Compeed/Band-Aid Hydro Seal）。巴塔哥尼亚徒步前脚跟先贴一层预防。" },
+      { id: "iodine", name: "碘伏棉签 + 纱布胶带", tag: "sug", buy: "cn",
+        note: "擦伤消毒，比酒精温和。",
+        tip: "独立包装碘伏棉签一盒，小卷纱布+胶带，一个 ziplock 装下。" },
+      { id: "elastic-bandage", name: "弹性绷带（脚踝）", tag: "sug", buy: "any",
+        note: "崴脚应急加压固定，百内碎石路的真实风险。",
+        tip: "一卷即可，或美国买 ACE bandage $5。" }
+    ]
+  },
+  {
+    id: "motion", emoji: "🚌", title: "晕车与时差",
+    items: [
+      { id: "motion-sickness", name: "晕车药（茶苯海明）/ 晕车贴", tag: "sug", buy: "cn",
+        note: "拉美山路大巴多（墨西哥城周边、哥斯达黎加盘山路），晕车体质必备。",
+        tip: "乘晕宁一板 + 晕车贴几片；提前 30 分钟吃。美国叫 Dramamine。" },
+      { id: "melatonin", name: "褪黑素（倒时差）", tag: "sug", buy: "us",
+        note: "中美 15 小时时差，头几天靠它调。",
+        tip: "美国买：Costco/CVS 褪黑素软糖大瓶 $10，比国内便宜且剂量选择多；落地美国就买。" }
+    ]
+  },
+  {
+    id: "altitude", emoji: "⛰️", title: "高原反应（视行程）",
+    items: [
+      { id: "diamox", name: "乙酰唑胺（Diamox）", tag: "cond", buy: "cn",
+        note: "只有上 3500m+ 才需要（你目前行程：墨西哥城 2240m 一般没事，巴塔哥尼亚徒步区海拔其实很低；将来去秘鲁/玻利维亚再启用）。",
+        tip: "国内药店/医院可开（美国需处方，麻烦得多），一盒备着。用法：上高原前 1 天开始半片早晚各一次；磺胺过敏者禁用。轻度高反头痛用布洛芬即可。" }
+    ]
+  },
+  {
+    id: "personal", emoji: "👓", title: "处方药与个人项",
+    items: [
+      { id: "rx", name: "个人处方药：带足 3 个月 + 旅行量", tag: "must", buy: "cn",
+        note: "美国配处方药要先看医生，又贵又慢，务必从国内带够。",
+        tip: "原包装 + 处方单（英文对照最好）。数量 = 3 个月 + 2 周余量。" },
+      { id: "glasses-total", name: "眼镜 ×2 + 隐形眼镜全程量", tag: "must", buy: "cn",
+        note: "美国配镜贵且慢；徒步/下水建议戴框架或日抛。",
+        tip: "备用框架一副、隐形按 4 个月备、护理液到美国买大瓶（登机限液体）。记下验光单。" }
+    ]
+  },
+  {
+    id: "docs-health", emoji: "📋", title: "疫苗与保险（文件类）",
+    items: [
+      { id: "vaccine-all", name: "疫苗一站式：入学要求 + 拉美建议", tag: "must", buy: "cn",
+        note: "合并处理最省事：美国入学常要求 MMR、TB 检测；拉美建议甲肝、伤寒（黄热病仅亚马逊流域要求，你目前行程不涉及）。",
+        tip: "出发前去国际旅行卫生保健中心一次搞定，拿好红本（体检）黄本（疫苗）随身带。学校具体要求查官网 immunization 页面。" },
+      { id: "insurance-all", name: "保险两张网", tag: "must", buy: "any",
+        note: "① 在美期间：J-1 强制保险（确认学校是否代买、覆盖起止日期）；② 每次出美国玩：单独买旅行险（J-1 保险出境不管用）。",
+        tip: "拉美行程选覆盖徒步活动 + 医疗运送的：SafetyWing 按周订阅（适合多次短途）或 World Nomads；一周 $15–30。保单电子版存手机。" }
+    ]
+  }
+];
+
+const TAG_LABEL = { must: "必备", sug: "建议", cond: "视行程" };
+const BUY_LABEL = { cn: "🇨🇳 中国配", us: "🇺🇸 美国买", any: "都行" };
+const STORE_KEY = "meds-total-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { state = {}; }
+let filter = "all";
+
+const totalItems = DATA.reduce((s, g) => s + g.items.length, 0);
+const $sections = document.getElementById("sections");
+
+function render() {
+  $sections.innerHTML = DATA.map(group => {
+    const rows = group.items.map(it => {
+      const st = state[it.id] || "todo";
+      return `
+      <div class="item state-${st}" data-id="${it.id}" data-state="${st}">
+        <div class="item-main">
+          <div class="item-name">${it.name}<span class="badge ${it.tag}">${TAG_LABEL[it.tag]}</span><span class="badge buy-${it.buy}">${BUY_LABEL[it.buy]}</span></div>
+          <div class="item-note">${it.note}</div>
+          <div class="item-meta"><span class="meta-icon">💡</span><span><b class="meta-label">怎么配：</b>${it.tip}</span></div>
+        </div>
+        <div class="item-actions">
+          <button class="chip ${st === "done" ? "on-done" : ""}" data-act="done">${st === "done" ? "✓ 已配好" : "已配好"}</button>
+          <button class="chip na-chip ${st === "na" ? "on-na" : ""}" data-act="na">${st === "na" ? "— 不适用" : "不适用"}</button>
+        </div>
+      </div>`;
+    }).join("");
+    return `
+    <section class="section" data-group="${group.id}">
+      <div class="section-head">
+        <div class="emoji">${group.emoji}</div>
+        <div><h2>${group.title}</h2>${group.desc ? `<div class="desc">${group.desc}</div>` : ""}</div>
+        <span class="count" data-count="${group.id}"></span>
+      </div>
+      ${rows}
+    </section>`;
+  }).join("");
+  update();
+}
+
+function update() {
+  let done = 0, na = 0;
+  Object.values(state).forEach(v => { if (v === "done") done++; if (v === "na") na++; });
+  const todo = totalItems - done - na;
+  const effective = totalItems - na;
+  const pct = effective === 0 ? 100 : Math.round(done / effective * 100);
+
+  document.getElementById("n-todo").textContent = todo;
+  document.getElementById("n-done").textContent = done;
+  document.getElementById("n-na").textContent = na;
+  document.getElementById("pct").textContent = pct + "%";
+  const C = 213.6;
+  document.getElementById("ring").style.strokeDashoffset = C * (1 - pct / 100);
+
+  DATA.forEach(g => {
+    const gDone = g.items.filter(it => (state[it.id] || "todo") !== "todo").length;
+    const el = document.querySelector(`[data-count="${g.id}"]`);
+    el.textContent = `${gDone} / ${g.items.length}`;
+    el.classList.toggle("ok", gDone === g.items.length);
+  });
+
+  document.querySelectorAll(".item").forEach(el => {
+    el.classList.toggle("hidden", filter === "todo" && el.dataset.state !== "todo");
+  });
+  document.querySelectorAll(".section").forEach(sec => {
+    const visible = sec.querySelectorAll(".item:not(.hidden)").length;
+    sec.classList.toggle("hidden", filter === "todo" && visible === 0);
+  });
+}
+
+$sections.addEventListener("click", e => {
+  const btn = e.target.closest(".chip");
+  if (!btn) return;
+  const id = btn.closest(".item").dataset.id;
+  const act = btn.dataset.act;
+  state[id] = (state[id] === act) ? "todo" : act;
+  if (state[id] === "todo") delete state[id];
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  render();
+});
+
+document.querySelectorAll("[data-filter]").forEach(b => {
+  b.addEventListener("click", () => {
+    filter = b.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(x => x.classList.toggle("active", x === b));
+    update();
+  });
+});
+
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (confirm("确定要清空所有勾选进度吗？")) {
+    state = {};
+    localStorage.removeItem(STORE_KEY);
+    render();
+  }
+});
+document.getElementById("btn-print").addEventListener("click", () => window.print());
+
+render();
+</script>
+</body>
+</html>
