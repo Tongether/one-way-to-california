@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCSD 秋季选课与开课准备 · Fall 2026 · 5 门课 21 单位</title>
+<style>
+  :root {
+    --bg: #f2f6fa;
+    --card: #ffffff;
+    --ink: #16283b;
+    --ink-2: #5b6b7d;
+    --line: #e1e9f1;
+    --accent: #00629b;
+    --accent-soft: #e4f0f7;
+    --green: #0fa968;
+    --green-soft: #e6f7ef;
+    --gray: #8b96a3;
+    --gray-soft: #edf1f5;
+    --amber: #c77800;
+    --amber-soft: #fff4e0;
+    --red: #c0392b;
+    --red-soft: #ffecec;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(15, 40, 70, .05), 0 8px 24px rgba(15, 40, 70, .07);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.6;
+  }
+  .hero {
+    background: linear-gradient(140deg, #182b49 0%, #00629b 48%, #00a5b5 82%, #ffcd00 118%);
+    color: #fff; padding: 44px 20px 130px;
+  }
+  .hero-inner { max-width: 920px; margin: 0 auto; }
+  .hero .tag {
+    display: inline-block; font-size: 12.5px; letter-spacing: .06em;
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28);
+    border-radius: 999px; padding: 4px 12px; margin-bottom: 14px;
+  }
+  .hero h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; }
+  .hero p.sub { margin-top: 10px; color: rgba(255,255,255,.88); font-size: 15px; max-width: 700px; }
+  .wrap { max-width: 920px; margin: -92px auto 0; padding: 0 20px 80px; }
+
+  .panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
+  .panel + .panel { margin-top: 18px; }
+  .panel h2 { font-size: 18px; margin-bottom: 4px; }
+  .panel .sub { font-size: 13.5px; color: var(--ink-2); margin-bottom: 16px; }
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+  .cell {
+    border: 1px solid var(--line); border-radius: 12px; padding: 14px 15px;
+    background: linear-gradient(180deg, #fbfdff, #f4f9fc);
+  }
+  .cell .c-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .cell .c-emoji { font-size: 22px; }
+  .cell b { font-size: 14.5px; }
+  .cell .temp { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .cell .c-desc { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; }
+  .rule-note { margin-top: 14px; font-size: 13px; color: var(--ink-2); background: var(--amber-soft); border-radius: 9px; padding: 9px 13px; }
+  .rule-note b { color: var(--amber); }
+
+  .dashboard {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 18px 24px; display: flex; align-items: center; gap: 26px; flex-wrap: wrap; margin-top: 18px;
+  }
+  .ring-box { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .ring-box svg { transform: rotate(-90deg); }
+  .ring-bg { stroke: var(--gray-soft); }
+  .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .45s ease; }
+  .ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-label b { font-size: 17px; line-height: 1.1; }
+  .ring-label span { font-size: 10.5px; color: var(--ink-2); }
+  .stats { display: flex; gap: 26px; flex-wrap: wrap; flex: 1; }
+  .stat b { display: block; font-size: 22px; line-height: 1.2; }
+  .stat span { font-size: 12.5px; color: var(--ink-2); }
+  .stat.todo b { color: var(--amber); }
+  .stat.done b { color: var(--green); }
+  .stat.na b { color: var(--gray); }
+
+  .toolbar { display: flex; align-items: center; gap: 10px; margin: 20px 0 4px; flex-wrap: wrap; }
+  .toolbar .spacer { flex: 1; }
+  .btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    border-radius: 999px; padding: 7px 16px; font-size: 13.5px; cursor: pointer; transition: all .15s ease;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.danger:hover { border-color: #d64545; color: #d64545; }
+
+  .jump { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 2px; align-items: center; }
+  .jump span { font-size: 12.5px; color: var(--gray); }
+  .jump a {
+    text-decoration: none; font-size: 13px; background: #fff; border: 1px solid var(--line);
+    border-radius: 999px; padding: 5px 13px; color: var(--ink);
+  }
+
+  .section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-top: 18px; overflow: hidden; }
+  .section-head { display: flex; align-items: center; gap: 12px; padding: 18px 22px 14px; border-bottom: 1px solid var(--line); }
+  .section-head .emoji {
+    width: 40px; height: 40px; border-radius: 11px; background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+  }
+  .section-head h2 { font-size: 17px; font-weight: 700; }
+  .section-head .desc { font-size: 12.5px; color: var(--ink-2); margin-top: 1px; }
+  .section-head .count {
+    margin-left: auto; font-size: 12.5px; color: var(--ink-2);
+    background: var(--gray-soft); border-radius: 999px; padding: 3px 11px; white-space: nowrap;
+  }
+  .section-head .count.ok { background: var(--green-soft); color: var(--green); }
+
+  .item { display: flex; gap: 14px; align-items: flex-start; padding: 15px 22px; border-bottom: 1px solid var(--line); }
+  .item:last-child { border-bottom: none; }
+  .item.state-done { background: #fbfefc; }
+  .item.state-done .item-name { color: var(--ink-2); text-decoration: line-through; text-decoration-color: rgba(15,169,104,.5); }
+  .item.state-na { opacity: .55; }
+  .item.state-na .item-name { text-decoration: line-through; }
+  .item-main { flex: 1; min-width: 0; }
+  .item-name { font-size: 15px; font-weight: 600; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 5px; padding: 1px 7px; margin-left: 7px; vertical-align: 2px; }
+  .badge.must { background: var(--red-soft); color: var(--red); }
+  .badge.sug  { background: var(--amber-soft); color: var(--amber); }
+  .badge.opt  { background: var(--gray-soft); color: var(--gray); }
+  .badge.skip { background: #edeafd; color: #6a51d8; }
+  .item-note { font-size: 13px; color: var(--ink-2); margin-top: 3px; }
+  .item-meta {
+    display: flex; gap: 8px; font-size: 12.5px; color: var(--ink-2); margin-top: 7px;
+    background: #f6fafd; border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; line-height: 1.55;
+  }
+  .item-meta .meta-icon { flex-shrink: 0; }
+  .item-meta b.meta-label { color: var(--ink); font-weight: 600; margin-right: 2px; }
+  .item-meta a { color: var(--accent); text-decoration: none; }
+  .item-meta a:hover { text-decoration: underline; }
+  .item.state-na .item-meta { display: none; }
+  .item-actions { display: flex; gap: 7px; flex-shrink: 0; padding-top: 2px; }
+  .chip {
+    border: 1px solid var(--line); background: #fff; border-radius: 999px;
+    font-size: 12.5px; padding: 5px 13px; cursor: pointer; color: var(--ink-2);
+    transition: all .13s ease; white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--green); color: var(--green); }
+  .chip.na-chip:hover { border-color: var(--gray); color: var(--ink); }
+  .chip.on-done { background: var(--green); border-color: var(--green); color: #fff; }
+  .chip.on-na { background: var(--gray); border-color: var(--gray); color: #fff; }
+  .item.hidden { display: none; }
+  .section.hidden { display: none; }
+
+  .disclaimer { margin-top: 22px; font-size: 12.5px; color: var(--gray); text-align: center; }
+  .disclaimer a { color: var(--accent); }
+
+  @media (max-width: 560px) {
+    .item { flex-direction: column; gap: 9px; }
+    .item-actions { padding-top: 0; }
+  }
+  @media print {
+    .hero { padding: 20px; }
+    .toolbar, .item-actions { display: none !important; }
+    .section, .dashboard, .panel { box-shadow: none; border: 1px solid var(--line); }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="tag">UC SAN DIEGO · FALL 2026 · 5 门课 · 21 单位</span>
+    <h1>UCSD 秋季选课与开课准备</h1>
+    <p class="sub">CSE 151A 机器学习 · CSE 152A 计算机视觉 · ECON 181 经济学专题 · LIGN 17 编码与解码 · LTSP 2C 中级西班牙语 III。<b>两个最紧急的事</b>：两门 CSE 是限专业课，非 CSE 专业要走 EASy 申请（5 个工作日）；21 单位超过 second pass 的 19.5 上限，必须等开学第一天才装得下。</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="panel">
+    <h2>📅 Fall 2026 关键日期（UCSD 官方学术日历）</h2>
+    <div class="sub">整个季度只有 10 周，从落地到期末结束一共 12 周——时间比国内一个学期紧得多。</div>
+    <div class="grid4">
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🛫</span><b>9/21 周一</b></div>
+        <div class="temp">秋季学期开始</div>
+        <div class="c-desc">注册、报到、找 ISEO 激活 SEVIS。最好 9/18 前落地。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">📖</span><b>9/24 周四</b></div>
+        <div class="temp">正式开课</div>
+        <div class="c-desc">同一天单位上限放宽到 22 —— 你的 21 单位这天才装得下。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">⚠️</span><b>10/14 周三</b></div>
+        <div class="temp">第 15 天（加退课节点）</div>
+        <div class="c-desc">改课表的最后窗口，之后退课会留记录。第 3 周就得定下来。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🦃</span><b>11/11 · 11/26–27</b></div>
+        <div class="temp">退伍军人节 · 感恩节</div>
+        <div class="c-desc">两个假期。感恩节长周末正好可以去墨西哥。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">✏️</span><b>12/4 周五</b></div>
+        <div class="temp">停课</div>
+        <div class="c-desc">最后一天上课，之后是 dead week 到期末。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🎯</span><b>12/5–12/12</b></div>
+        <div class="temp">期末考试周</div>
+        <div class="c-desc">跨两个周末，每门考试时间各不相同，最晚可能排到 12/12。</div>
+      </div>
+    </div>
+    <div class="rule-note"><b>和拉美行程直接冲突：</b>你原计划 12 月去巴塔哥尼亚 + 哥斯达黎加各一周。期末最晚考到 <b>12/12（周六）</b>，所以出发日只能定在 <b>12/13 之后</b>；等 10 月 Schedule of Classes 公布每门 final 的具体时间后，再确认能不能提前——五门课里只要有一门排在 12/11–12，整个行程就得往后推。<b>机票别在 10 月前出。</b></div>
+  </div>
+  <div class="panel">
+    <h2>⚖️ 21 单位是什么概念</h2>
+    <div class="sub">4+4+4+4+5 = 21 单位。UCSD 的正常量是 12–16 单位，21 属于顶格。这不是劝你减，是让你知道钱花在哪。</div>
+    <div class="grid4">
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🔴</span><b>重量级 ×2</b></div>
+        <div class="c-desc">CSE 151A + 152A，每周都有 Python 编程作业，数学也要跟上。本季度的主要工作量在这两门。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🟡</span><b>时间骨架 ×1</b></div>
+        <div class="c-desc">LTSP 2C 是 5 单位语言课，通常一周上 4–5 次，先按它排课表，其他课再往缝里塞。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🟢</span><b>轻量级 ×2</b></div>
+        <div class="c-desc">LIGN 17 无前置、内容对你偏简单；ECON 181 往年是一周一次的晚课。两门都靠自律而不是靠时间。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🛡</span><b>J-1 的底线</b></div>
+        <div class="c-desc">J-1 学生必须保持 full-time（本科通常 12 单位）。想 drop 课先问 ISEO，掉到 12 以下会影响身份。</div>
+      </div>
+    </div>
+    <div class="rule-note"><b>建议的决策点：</b>第一周把五门课都上一遍（shopping week 的用法），10/14 之前决定要不要砍掉一门。如果一定要砍，从 <b>ECON 181</b> 或 <b>LIGN 17</b> 里选——两门 CSE 是你专业主线，LTSP 2C 是拉美行程的实战准备，都不该动。前提：drop 后仍 ≥12 单位，且事先和 ISEO 确认。</div>
+  </div>
+  <div class="dashboard">
+    <div class="ring-box">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle class="ring-bg" cx="40" cy="40" r="34" fill="none" stroke-width="8"/>
+        <circle class="ring-fg" id="ring" cx="40" cy="40" r="34" fill="none" stroke-width="8"
+                stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+      </svg>
+      <div class="ring-label"><b id="pct">0%</b><span>完成度</span></div>
+    </div>
+    <div class="stats">
+      <div class="stat todo"><b id="n-todo">0</b><span>还没做</span></div>
+      <div class="stat done"><b id="n-done">0</b><span>已搞定</span></div>
+      <div class="stat na"><b id="n-na">0</b><span>不适用</span></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn active" data-filter="all">全部</button>
+    <button class="btn" data-filter="todo">只看没做的</button>
+    <span class="spacer"></span>
+    <button class="btn" id="btn-print">打印清单</button>
+    <button class="btn danger" id="btn-reset">重置进度</button>
+  </div>
+
+  <div class="jump">
+    <span>快速跳转：</span>
+    <a href="#enroll">📝 选课注册</a>
+    <a href="#cse151a">🤖 CSE 151A</a>
+    <a href="#cse152a">📷 CSE 152A</a>
+    <a href="#econ181">📈 ECON 181</a>
+    <a href="#lign17">🔐 LIGN 17</a>
+    <a href="#ltsp2c">🇪🇸 LTSP 2C</a>
+    <a href="#tools">🧰 工具环境</a>
+    <a href="#rhythm">📆 学期节奏</a>
+  </div>
+  <div id="sections"></div>
+
+  <p class="disclaimer">配套清单：<a href="../luggage/">行李打包</a> · <a href="../packing/">行前准备</a> · <a href="../meds/">药品清单</a> · <a href="../latam/">拉美装备</a> · <a href="../visa/">签证材料</a><br>课程信息来自 UCSD General Catalog 与历年公开课程页，<b>每季的老师、教材、作业形式都会变</b>，开学后一切以本季 syllabus 为准。</p>
+</main>
+
+<script>
+const DATA = [
+  {
+    id: "enroll", emoji: "📝", title: "选课与注册（最紧急，落地前就要动手）",
+    desc: "五门课里有两门可能根本抢不到，一门可能不让你选——这一节比后面所有预习都重要",
+    items: [
+      { id: "easy-cse", name: "给 CSE 151A + 152A 提交 EASy 申请", tag: "must",
+        note: "两门课在 catalog 里都写着 restricted to CS25/CS26/CS27/CS29/EC26/DS25 majors，其他学生 as space permits。作为交换/访问学生你不在这些专业代码里，WebReg 会直接拒绝你——必须通过 EASy（Enrollment Authorization System）提交 clearance 申请。",
+        tip: "CSE 官方写明审核要 <b>5 个工作日</b>，而且非本专业的申请要等 CSE 本专业学生选完才处理，可能拖到第 1–2 周。所以：<b>选课窗口一开就提交，别等</b>。两门分别提交。" },
+      { id: "unit-cap", name: "搞清楚 21 单位什么时候才装得下", tag: "must",
+        note: "UCSD 的单位上限是分阶段放开的：first pass 11.5 单位、second pass 19.5 单位（候补也算在内）、<b>开学第一天（9/24）起才放宽到 22 单位</b>。你的 21 单位在 second pass 是装不进去的。",
+        tip: "策略：second pass 先锁住最难抢的（两门 CSE + LTSP 2C = 13 单位），把 LIGN 17 和 ECON 181 留到 9/24 当天补选；这两门抢手程度低，风险可控。" },
+      { id: "ltsp-place", name: "确认 LTSP 2C 的入学资格", tag: "must",
+        note: "官方前置是 <b>LTSP 2B</b>，或 AP Spanish Language 考 5 分 / AP Spanish Literature 考 4 分，或 consent of instructor。你在国内没修过 LTSP 2B，所以要走 placement exam 或直接联系授课老师。",
+        tip: "两条路同时走：① 报名 UCSD Language Placement Exam—Spanish（线上，Literature 系管）；② 给 LTSP 2C 的授课老师发邮件说明你的西语水平和学习经历，请求 consent。开学前一个月就发。" },
+      { id: "ltsp-not-f", name: "别选错西语的那条线", tag: "must",
+        note: "LTSP 2A/2B/2C 是给<b>在课堂里学西语</b>的学生；家里说西语、社区里长大的 heritage learner 走的是 LTSP 1F/2F/3F。你属于前者，2C 是对的那条线。",
+        tip: "如果 placement 结果把你放到 2A 或 2B，别硬上 2C——语言课跳级会让你整个季度都在追赶，而这门课占 5 单位。" },
+      { id: "econ-topic", name: "查 ECON 181 这一季到底教什么", tag: "must",
+        note: "ECON 181 的正式名字是 <b>Topics in Economics</b>——内容每季由老师定，可以重复修三次。catalog 里没有固定大纲，所以「这门课难不难」完全取决于 Fall 2026 的 topic 和老师。",
+        tip: "Schedule of Classes（约 5 月和 8 月各更新一轮）会显示本季 section 的老师；再去 CAPEs 查这位老师的评分和工作量评价。查到 topic 后如果和你已有的经济学基础差太远，趁早换。" },
+      { id: "econ-prereq", name: "确认 ECON 1 + ECON 3 前置已满足", tag: "must",
+        note: "ECON 181 的前置是 ECON 1（微观原理）和 ECON 3（宏观原理）。你如果在国内修过对应课程，需要提交材料请求前置豁免。",
+        tip: "同样走 EASy 提交 prerequisite clearance，附上国内课程的英文成绩单和课程大纲。这个也要 5 个工作日，和 CSE 那两个一起提交。" },
+      { id: "backup", name: "准备 2 门备选课（这一步别省）", tag: "must",
+        note: "现实情况：两门限专业 CSE 课 + 一门需要 consent 的语言课，三个都可能落空。手上没有 plan B，第一周会非常慌。",
+        tip: "备选思路：CSE 进不去 → 看 COGS 118 系列 / DSC 系列 / ECE 相关课；西语进不去 → LTSP 2B 或 LIGN 系列其他课。开学前就把备选课的 section ID 记好。" },
+      { id: "waitlist", name: "弄懂候补（waitlist）规则", tag: "sug",
+        note: "second pass 起可以上候补，系统自动按顺序补录，<b>最后一次自动加课在第 2 周周四晚 10 点</b>。过了这个点还在候补上就等于没选上。",
+        tip: "别只挂候补不上课——候补期间照常去上课、做作业，一旦补进来就不会落下进度。候补的单位不算进 full-time 的 12 单位。" },
+      { id: "final-times", name: "查五门课各自的期末考试时间", tag: "must",
+        note: "UCSD 期末不是集中一天，而是按课分散在 12/5–12/12。你的拉美机票取决于最晚那门。",
+        tip: "Schedule of Classes 每个 section 都列 FI（final）的日期时间，选完课立刻把五个时间抄下来，取最晚的那个 + 1 天作为最早出发日。" }
+    ]
+  },
+  {
+    id: "cse151a", emoji: "🤖", title: "CSE 151A · Machine Learning: Learning Algorithms（4 单位）",
+    desc: "机器学习入门。经典监督学习 + 无监督学习 + 神经网络基础，重点在算法背后的原理而不是调库",
+    items: [
+      { id: "151-content", name: "先看清教什么", tag: "sug",
+        note: "历年大纲的主干：k 近邻分类、最小二乘/逻辑回归/感知机、过拟合与正则化、SVM（含对偶与核）、K-means 与高斯混合、PCA、朴素贝叶斯与决策树、集成学习（bagging/boosting）、前馈网络与 CNN、偏差-方差，最后一两周会碰半监督学习和大语言模型。",
+        tip: "特点是<b>手推公式 + 从零实现</b>，不是 sklearn 调参课。作业往年是 5 次 HW，期中有一年是 24 小时 take-home。" },
+      { id: "151-linalg", name: "补线性代数（Math 18 水平）", tag: "must",
+        note: "官方前置写的是 MATH 18 或 MATH 31AH。真正会用到的：向量内积与投影、矩阵乘法的几何意义、特征值与特征向量（PCA 全靠这个）、正交与基变换。课上第二讲就是「A Geometric View of Linear Algebra」。",
+        tip: "8 月剩下的时间用 3Blue1Brown 的《线性代数的本质》过一遍几何直觉（约 4 小时），比刷题有效得多。PCA 那块提前看，是后面最容易卡的地方。" },
+      { id: "151-prob", name: "补概率统计（CSE 103 / ECON 120A 水平）", tag: "must",
+        note: "前置里列了 CSE 103、ECE 109、ECON 120A、MATH 180A/183 等任一。用到的是：条件概率与贝叶斯公式、期望方差、常见分布、最大似然估计（逻辑回归和朴素贝叶斯都建在上面）、高斯分布（GMM 用）。",
+        tip: "重点复习<b>贝叶斯公式和最大似然</b>这两块，其他的到时候现补也来得及。" },
+      { id: "151-python", name: "把 Python 数据栈装好并练手", tag: "must",
+        note: "官方要求「能用 Python 写函数、控制结构、字符串处理、数组和字典」。实际作业环境是 Jupyter Notebook + numpy + matplotlib，部分作业用 sklearn 对照。",
+        tip: "装 miniconda，建一个专门的环境：<code>conda create -n ml python=3.11 numpy scipy matplotlib scikit-learn pandas jupyter</code>。开学前用 numpy 手写一遍 k-NN 和线性回归（各 30 行），这就是 HW1 的难度。" },
+      { id: "151-preview", name: "预习资源（免费且对口）", tag: "sug",
+        note: "这门课<b>不指定教材</b>。最对口的免费材料是 UCSD 自己的课程页：Sanjoy Dasgupta 的 CSE 151 讲义（cseweb.ucsd.edu/~dasgupta/151/）和 Jingbo Shang 的 2025 winter CSE 151A 课程页（含每周 slides）。",
+        tip: "别买中文机器学习教材。把往年 slides 的前 4 周过一遍，开学后前三周会非常轻松，正好用来对付选课的混乱期。" },
+      { id: "151-credit", name: "注意学分互斥规则", tag: "sug",
+        note: "CSE 151A 和 COGS 188 不能同时算学分，和旧的 CSE 151 也不能；这门课与研究生课 CSE 251A 是 coscheduled（同教室不同要求）。",
+        tip: "对交换生一般不成问题，但如果你的成绩要带回国内学校转换学分，提前和国内教务确认这门 4 单位课怎么折算。" }
+    ]
+  },
+  {
+    id: "cse152a", emoji: "📷", title: "CSE 152A · Introduction to Computer Vision I（4 单位）",
+    desc: "计算机视觉入门。从成像模型到深度学习，解决三维重建和物体识别问题。和 151A 数学基础共用，一起上其实划算",
+    items: [
+      { id: "152-content", name: "先看清教什么", tag: "sug",
+        note: "catalog 列的主干：图像形成模型、滤波、特征检测、立体视觉（stereo）、运动估计、structure from motion、物体识别，以及深度学习方法的入门。作业全部用 Python。",
+        tip: "这门课的核心其实是<b>几何</b>：相机矩阵、对极几何、三角化。比 151A 更「硬」的地方在这里，比 151A 简单的地方是不用推那么多统计。" },
+      { id: "152-math", name: "线性代数要比 151A 更实操一点", tag: "must",
+        note: "前置是 MATH 18 或 31AH。真正吃紧的是：齐次坐标与射影变换、矩阵分解特别是 <b>SVD</b>（求基础矩阵、最小二乘解都用它）、伪逆、旋转矩阵。历年 syllabus 也都提到需要微积分和概率背景。",
+        tip: "好消息：这些和 151A 的线代复习是同一批肌肉，一起补一次两门都受益。重点额外补 <b>SVD 的几何意义</b>——151A 那边不太用，152A 到处都用。" },
+      { id: "152-python", name: "环境：numpy + OpenCV + Pillow", tag: "must",
+        note: "作业在 Jupyter 里用 Python 完成，图像读写和基本操作用 OpenCV 或 Pillow，矩阵运算用 numpy。",
+        tip: "在 151A 那个 conda 环境里加一句：<code>pip install opencv-python pillow</code>。开学前练一个小任务：读一张图 → 转灰度 → 手写 3×3 卷积做边缘检测（不许调 cv2.filter2D）。这就是第 1 次作业的形状。" },
+      { id: "152-instructor", name: "查清这季是谁教（差别很大）", tag: "must",
+        note: "历年授课老师风格差异明显：Ben Ochoa 偏几何与推导、Manmohan Chandraker 偏经典与前沿结合、Hao Su 偏深度学习。同一门课号，作业量和考试形式能差出一截。",
+        tip: "选课前去 CAPEs 查本季老师的往期评价（尤其看「平均每周投入小时数」这一栏），再决定要不要和 151A 同季一起上。" },
+      { id: "152-pair", name: "确认能不能两人一组做作业", tag: "sug",
+        note: "有些年份的 syllabus 明确鼓励两人组队完成 homework，有些年份不允许。这条直接影响你的工作量。",
+        tip: "第一节课的 syllabus 里会写清楚，别照往年的规矩办事——学术诚信问题在美国是重罚，不确定就问 TA。" },
+      { id: "152-overlap", name: "算一下和 151A 的真实叠加成本", tag: "sug",
+        note: "两门课都是每周编程作业 + 数学推导，工作量不会因为共享数学基础而对半砍——预算上按<b>每门每周 10–12 小时</b>算，两门就是 20–24 小时。加上 LTSP 2C 的日常作业，这是你这个季度的主战场。",
+        tip: "开学第一周就查两门课的作业截止日是不是撞在同一天。如果撞了，向 TA 确认能否错开提交（通常有 late day 额度），或者把每周固定两个晚上分别包给两门课。" }
+    ]
+  },
+  {
+    id: "econ181", emoji: "📈", title: "ECON 181 · Topics in Economics（4 单位）",
+    desc: "变量课：内容每季不同，可重复修三次。前置 ECON 1 + ECON 3。这门课的所有准备工作都是「先查清楚它是什么」",
+    items: [
+      { id: "181-topic", name: "拿到本季的 topic 和 syllabus", tag: "must",
+        note: "catalog 的全部描述只有一句「Selected topics in economics」。往年出现过的方向包括行为经济学、发展经济学、经济史、应用微观等，完全取决于开课老师。",
+        tip: "查到老师后直接发一封邮件：说明你是本季注册的交换生，想提前了解 syllabus 和教材以便预习。美国老师对这类邮件回复率很高，而且会给你留下好印象。" },
+      { id: "181-format", name: "注意可能是一周一次的晚课", tag: "must",
+        note: "往年记录里 ECON 181 有过 <b>周四 17:00–19:50 一次上完</b>的排法（期末也在同一时段的晚上）。一周一次意味着：缺一次课 = 缺一整周的内容，而且没有第二次机会补进度。",
+        tip: "如果本季还是这个排法，先确认这个时段不和两门 CSE 的 discussion / lab 撞。另外三小时的晚课很耗人，那天别再安排别的重活。" },
+      { id: "181-book", name: "查教材（Book List 在选课系统里）", tag: "sug",
+        note: "courses.ucsd.edu 上每个 section 都有 <b>Book List</b> 链接，列出本季指定教材和是否 required。经济学课经常只用讲义 + 论文，不一定要买书。",
+        tip: "别在国内提前买英文原版教材（贵且重）。到了以后先看图书馆的 course reserves（短期借阅）、学生二手群、或电子版；确认要买再买。" },
+      { id: "181-math", name: "确认数学门槛", tag: "sug",
+        note: "ECON 181 只要求 ECON 1 + 3（原理课），不像 ECON 182/183 要 100 系列，所以数学门槛通常不高。但如果本季 topic 偏计量或机器学习方向，可能会用到回归。",
+        tip: "你同季在上 CSE 151A，回归和正则化那块正好覆盖，反而是优势——如果 topic 偏数据分析，这门课会比看起来轻松。" },
+      { id: "181-writing", name: "预期是论文而不是考试", tag: "sug",
+        note: "美国的 topics 类课程常以 term paper、presentation、response papers 为主要评分项，而不是期末大考。这对英语写作是真实挑战。",
+        tip: "提前熟悉 UCSD 的写作支持：Writing Hub 提供免费一对一 writing consultation（对国际学生尤其有用），开学第一周就去预约一次，别等到交论文前一晚。" }
+    ]
+  },
+  {
+    id: "lign17", emoji: "🔐", title: "LIGN 17 · Making and Breaking Codes（4 单位）",
+    desc: "语言学系开的编码与密码课，无任何前置。对你这个背景来说是本季最轻的一门，但轻不等于随便过",
+    items: [
+      { id: "17-content", name: "内容比名字有意思", tag: "sug",
+        note: "catalog 原话是「对符号系统及其解释的严格分析」，实际历年大纲走的是这条线：什么是编码 → 文字系统（韩文谚文、楔形文字、象形文字）→ 类型与个例、字母 vs 音节 → <b>Huffman 压缩编码</b> → 信息与随机性 → <b>Diffie-Hellman 密钥交换</b> → <b>RSA</b> → 检错与纠错码 → 编译与翻译 → 意义的本质。",
+        tip: "简单说：一门从语言学角度切进去的信息论 + 密码学入门课。历年多由 Andrew Kehler 教。" },
+      { id: "17-easy", name: "对你偏简单，但考试是手算", tag: "sug",
+        note: "Huffman、RSA、纠错码这些内容你在 CS 背景下很可能已经见过，概念上不吃力。风险在于<b>期中期末是闭卷手算</b>——模运算、扩展欧几里得、编码树都要在纸上算对，光懂原理不够。",
+        tip: "临考前把作业题重做一遍手算过程（不用电脑）。这门课的失分几乎全来自计算错误而不是理解错误。" },
+      { id: "17-value", name: "把它当成本季的呼吸口", tag: "opt",
+        note: "五门课里唯一不需要写代码、不需要说外语、不需要读厚教材的一门。安排上让它承担「缓冲」角色，是这个 21 单位方案能跑起来的关键。",
+        tip: "但别彻底放养——它也是 4 单位，和 CSE 151A 一样重。每周花 3–4 小时就足够拿到好成绩，这个投入产出比是全季度最高的。" },
+      { id: "17-ge", name: "确认它对你有没有学分用途", tag: "sug",
+        note: "这门课历史上被多个 college 认作 formal skills / 定量要求，但你是交换生，GE 要求大概不适用于你。真正要确认的是国内学校认不认这门课的学分。",
+        tip: "把 catalog 描述和 syllabus 存下来发给国内教务，问清能不能折算成通识或选修学分。出国前问，回国后再问就晚了。" }
+    ]
+  },
+  {
+    id: "ltsp2c", emoji: "🇪🇸", title: "LTSP 2C · Intermediate Spanish III（5 单位）",
+    desc: "中级西语第三段，2B 的延续，重点在说和写。这是五门课里唯一能直接改变你 12 月拉美之行体验的一门",
+    items: [
+      { id: "2c-content", name: "教什么：说 + 写 + 文化", tag: "sug",
+        note: "catalog 描述：延续 LTSP 2B，<b>特别强调口语和写作</b>，包含文化话题讨论、语法总复习、作文和课堂 presentation，目标是能读较长的虚构与非虚构文本。",
+        tip: "评分大头通常是口语参与 + 作文 + presentation，不是选择题考试。也就是说：这门课你没法靠考前突击。" },
+      { id: "2c-frequency", name: "先用它搭课表骨架", tag: "must",
+        note: "5 单位的语言课在 UCSD 通常一周上 4–5 次（每天一小时的节奏），是五门课里出现频率最高的。其他四门都要绕着它排。",
+        tip: "选时段的建议：别选早上 8 点的 section。你会经历时差 + 每周两门 CSE 的编程作业熬夜，早八的语言课出勤率一旦崩了，这门课就崩了。" },
+      { id: "2c-review", name: "开学前复习 2B 的语法（最实际的一件事）", tag: "must",
+        note: "直接跳进 2C 而没修过 2B，最容易断裂的是三块：<b>虚拟式（subjuntivo）</b>现在时与过去时、<b>pretérito 与 imperfecto 的区别</b>、以及各类<b>代词（le/lo/se）的位置</b>。这三块是 2C 作文的扣分重灾区。",
+        tip: "用免费资源就够：SpanishDict 的语法条目 + Conjuguemos 做动词变位练习，每天 30 分钟练一个月。到开学时你能写出正确的虚拟式句子，这门课就稳了。" },
+      { id: "2c-speak", name: "口语要提前开口练", tag: "must",
+        note: "课上是讨论 + presentation，第一周就要开口。中国学生在这门课上的普遍困难不是词汇量而是<b>开口的延迟</b>。",
+        tip: "开学前找语伴：Tandem/HelloTalk 上找母语者每周聊两次，每次 20 分钟就有效。落地后 UCSD 有西语 conversation table 和 Spanish Club，免费且低压力。" },
+      { id: "2c-latam", name: "把这门课直接对准你的拉美行程", tag: "sug",
+        note: "你 9–12 月会去几次墨西哥，12 月去哥斯达黎加（两地都是西语国家，巴塔哥尼亚的阿根廷/智利也是）。这门课的每一次作业都可以选和你行程相关的题目。",
+        tip: "作文题目允许自选时，就写墨西哥/哥斯达黎加的旅行与文化——老师喜欢有真实动机的学生，你也顺便把订房、问路、点菜的实用词汇练了。这是全季度最省力的双赢。" },
+      { id: "2c-material", name: "教材通常要买（语言课的例外）", tag: "sug",
+        note: "和 ECON 181 不同，语言课经常绑定教材 + 在线练习平台（access code），而 access code 一般<b>不能买二手</b>。",
+        tip: "先在 courses.ucsd.edu 的 Book List 查本季指定版本，别提前从国内买——版本或 access code 不对就白花钱。预算按 $80–150 准备。" }
+    ]
+  },
+  {
+    id: "tools", emoji: "🧰", title: "开学前把工具和账号弄好",
+    desc: "这些都是落地后第一周会同时砸过来的东西，提前熟悉能省下整整一周的手忙脚乱",
+    items: [
+      { id: "sys-three", name: "三个必须会用的系统", tag: "must",
+        note: "<b>TritonLink</b>（总入口：学费、成绩、个人信息）、<b>WebReg</b>（选课退课、看候补顺位）、<b>EASy</b>（申请限专业课和前置豁免）。三个都在 act.ucsd.edu 单点登录下。",
+        tip: "拿到 UCSD 邮箱和 Active Directory 账号后第一件事就是登录这三个 + 开双因素认证（Duo）。Duo 要绑定手机，<b>国内号码可能收不到验证</b>，优先用 Duo Mobile App 的推送方式。" },
+      { id: "sys-class", name: "四个课程平台", tag: "must",
+        note: "<b>Canvas</b>（作业、资料、成绩，UCSD 主用）、<b>Gradescope</b>（编程和数学作业提交与批改，两门 CSE 一定用）、<b>Piazza / Ed Discussion</b>（问答区，CSE 课的答疑主战场）、<b>podcast.ucsd.edu</b>（很多大课有录播）。",
+        tip: "Piazza 上多看少问也很有用——90% 的作业疑问别人已经问过。CSE 课的 TA 通常在 Piazza 上响应最快，比邮件快得多。" },
+      { id: "env-python", name: "把 Python 环境一次装好", tag: "must",
+        note: "两门 CSE 共用一套环境就够：miniconda + numpy + scipy + matplotlib + scikit-learn + pandas + jupyter + opencv-python + pillow。",
+        tip: "再准备一个备份方案：<b>Google Colab</b>（免费 GPU，CNN 那几周本地跑不动时救命）。国内网络下先把 Colab 能不能用测试一下，落地后就没这个问题了。" },
+      { id: "capes", name: "用 CAPEs 挑老师", tag: "must",
+        note: "cape.ucsd.edu 是 UCSD 官方的学生评教数据库，能查到每位老师每季的：推荐率、平均每周学习小时数、平均给分。<b>「平均每周投入小时数」这一栏对你排 21 单位最有价值。</b>",
+        tip: "把五门课本季老师的这一栏加起来，如果总和超过 40 小时/周，就该考虑砍一门了。这是比直觉靠谱得多的判断方法。" },
+      { id: "books", name: "教材：别在国内买", tag: "sug",
+        note: "查 Book List → 图书馆 course reserves（短期免费借）→ 学生二手群 / Facebook Marketplace → 电子版 → 最后才是新书。只有语言课的 access code 必须买新的。",
+        tip: "UCSD Geisel 图书馆的 course reserves 覆盖大部分指定教材，2 小时馆内借阅制，考前抢手但平时够用。" },
+      { id: "office-hours", name: "第一周就去一次 office hours", tag: "sug",
+        note: "美国课程的 office hours 是免费的一对一辅导，但绝大多数学生不去。对国际学生来说这是提高成绩最直接的杠杆，尤其两门 CSE 的 TA office hours 基本就是在帮你 debug。",
+        tip: "第一周去的目的不是问问题，是<b>让老师和 TA 认识你</b>。自我介绍一句「我是本季的交换生，从中国来」就够了。后面申请延期、要推荐信、争取宽容都靠这个。" },
+      { id: "isso", name: "落地第一周找 ISEO 报到", tag: "must",
+        note: "J-1 学生必须在到校后规定时间内到 International Students & Programs Office（ISPO / ISEO）完成 check-in 并激活 SEVIS，否则身份会出问题。这件事优先级高于选课。",
+        tip: "同时问清两件事：① full-time 最低单位数是多少（本科通常 12）；② 12 月去拉美需要的 <b>travel signature</b> 怎么办、要多久。第二件事和你的行李寄存方案直接相关。" }
+    ]
+  },
+  {
+    id: "rhythm", emoji: "📆", title: "学期节奏：12 周怎么过",
+    desc: "把上面所有事按时间排好。UCSD 的 quarter 只有 10 周教学，每一周的分量都是国内学期的两倍",
+    items: [
+      { id: "w-before", name: "现在起到 9 月中：三件事", tag: "must",
+        note: "① 提交 EASy（两门 CSE + ECON 前置豁免）；② 西语 placement / 联系老师拿 consent；③ 补线代 + 概率 + 每天 30 分钟西语语法。",
+        tip: "这三件里只有第三件是学习，前两件是<b>行政流程</b>，而行政流程有排队时间，拖不得。今天能做的就是发邮件。" },
+      { id: "w1", name: "第 1 周（9/24–9/27）：全上一遍 + 补选", tag: "must",
+        note: "9/24 单位上限放到 22，当天补选 LIGN 17 和 ECON 181。五门课第一节全都去，拿到全部 syllabus，抄下所有作业截止日和期末考试时间。",
+        tip: "这一周不要请假、不要旅行。第一节课通常会讲清整个季度的评分规则和 late policy，错过要付一整季的代价。" },
+      { id: "w2-3", name: "第 2–3 周：定案（10/14 是死线）", tag: "must",
+        note: "第 2 周周四晚 10 点是候补自动加课的最后一次运行；10/14（第 15 天）是改课表的关键节点。到这时你已经交过一轮 CSE 作业，对工作量有真实感受。",
+        tip: "在 10/14 前诚实回答自己：两门 CSE 的作业我一周能不能都做完？如果连续两周都在赶 deadline，就砍掉 ECON 181 或 LIGN 17（前提：仍 ≥12 单位 + 问过 ISEO）。" },
+      { id: "w4-8", name: "第 4–8 周：稳定期 + 期中 + 墨西哥", tag: "sug",
+        note: "两门 CSE 的期中大约落在第 5–6 周。11/11 退伍军人节（周三）和 11/26–27 感恩节是两个假口。",
+        tip: "<b>感恩节长周末（11/26–29）是去墨西哥最合适的窗口</b>——那时期中已过、期末还没到。11/11 单独一天不够跑远，适合圣地亚哥本地或蒂华纳一日。" },
+      { id: "w9-10", name: "第 9–10 周 + 期末（11/30–12/12）", tag: "must",
+        note: "12/4 停课，12/5–12/12 期末。两门 CSE 可能有 final project 或 take-home，LTSP 2C 有 final presentation + 作文，LIGN 17 是闭卷手算。",
+        tip: "12 月第一周开始就别接新计划了。同时这两周要并行处理：卖掉二手电器家具、打包寄存、确认 travel signature——这些都写在<a href='../luggage/'>行李清单</a>的「12 月离美」那一节。" },
+      { id: "w-latam", name: "12/13 之后：拉美", tag: "must",
+        note: "期末最晚 12/12（周六）。所以拉美行程最早 12/13 出发，且要留出 J-1 项目结束后的 30 天 grace period 边界——巴塔哥尼亚一周 + 哥斯达黎加一周的安排在时间上是紧的。",
+        tip: "先拿到五门课的 final 时间表再订机票。如果最晚的 final 在 12/8 之前，你就多出 4 天，行程会舒服很多；反过来如果排到 12/11–12，考虑把两地压缩成一地。" }
+    ]
+  }
+];
+
+
+
+
+
+
+
+
+
+const TAG_LABEL = { must: "必做", sug: "建议", opt: "可选", skip: "查一下" };
+const STORE_KEY = "ucsd-courses-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { state = {}; }
+let filter = "all";
+
+const totalItems = DATA.reduce((s, g) => s + g.items.length, 0);
+const $sections = document.getElementById("sections");
+
+function render() {
+  $sections.innerHTML = DATA.map(group => {
+    const rows = group.items.map(it => {
+      const st = state[it.id] || "todo";
+      return `
+      <div class="item state-${st}" data-id="${it.id}" data-state="${st}">
+        <div class="item-main">
+          <div class="item-name">${it.name}<span class="badge ${it.tag}">${TAG_LABEL[it.tag]}</span></div>
+          <div class="item-note">${it.note}</div>
+          <div class="item-meta"><span class="meta-icon">💡</span><span><b class="meta-label">怎么做：</b>${it.tip}</span></div>
+        </div>
+        <div class="item-actions">
+          <button class="chip ${st === "done" ? "on-done" : ""}" data-act="done">${st === "done" ? "✓ 已搞定" : "已搞定"}</button>
+          <button class="chip na-chip ${st === "na" ? "on-na" : ""}" data-act="na">${st === "na" ? "— 不适用" : "不适用"}</button>
+        </div>
+      </div>`;
+    }).join("");
+    return `
+    <section class="section" id="${group.id}" data-group="${group.id}">
+      <div class="section-head">
+        <div class="emoji">${group.emoji}</div>
+        <div><h2>${group.title}</h2>${group.desc ? `<div class="desc">${group.desc}</div>` : ""}</div>
+        <span class="count" data-count="${group.id}"></span>
+      </div>
+      ${rows}
+    </section>`;
+  }).join("");
+  update();
+}
+
+function update() {
+  let done = 0, na = 0;
+  Object.values(state).forEach(v => { if (v === "done") done++; if (v === "na") na++; });
+  const todo = totalItems - done - na;
+  const effective = totalItems - na;
+  const pct = effective === 0 ? 100 : Math.round(done / effective * 100);
+
+  document.getElementById("n-todo").textContent = todo;
+  document.getElementById("n-done").textContent = done;
+  document.getElementById("n-na").textContent = na;
+  document.getElementById("pct").textContent = pct + "%";
+  const C = 213.6;
+  document.getElementById("ring").style.strokeDashoffset = C * (1 - pct / 100);
+
+  DATA.forEach(g => {
+    const gDone = g.items.filter(it => (state[it.id] || "todo") !== "todo").length;
+    const el = document.querySelector(`[data-count="${g.id}"]`);
+    el.textContent = `${gDone} / ${g.items.length}`;
+    el.classList.toggle("ok", gDone === g.items.length);
+  });
+
+  document.querySelectorAll(".item").forEach(el => {
+    el.classList.toggle("hidden", filter === "todo" && el.dataset.state !== "todo");
+  });
+  document.querySelectorAll(".section").forEach(sec => {
+    const visible = sec.querySelectorAll(".item:not(.hidden)").length;
+    sec.classList.toggle("hidden", filter === "todo" && visible === 0);
+  });
+}
+
+$sections.addEventListener("click", e => {
+  const btn = e.target.closest(".chip");
+  if (!btn) return;
+  const id = btn.closest(".item").dataset.id;
+  const act = btn.dataset.act;
+  state[id] = (state[id] === act) ? "todo" : act;
+  if (state[id] === "todo") delete state[id];
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  render();
+});
+
+document.querySelectorAll("[data-filter]").forEach(b => {
+  b.addEventListener("click", () => {
+    filter = b.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(x => x.classList.toggle("active", x === b));
+    update();
+  });
+});
+
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (confirm("确定要清空所有勾选进度吗？")) {
+    state = {};
+    localStorage.removeItem(STORE_KEY);
+    render();
+  }
+});
+document.getElementById("btn-print").addEventListener("click", () => window.print());
+
+render();
+</script>
+</body>
+</html>
