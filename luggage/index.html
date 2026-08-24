@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCSD 行李打包清单 · 9–12月 · 四件行李装箱分配</title>
+<style>
+  :root {
+    --bg: #f2f6fa;
+    --card: #ffffff;
+    --ink: #16283b;
+    --ink-2: #5b6b7d;
+    --line: #e1e9f1;
+    --accent: #1467a8;
+    --accent-soft: #e7f1f9;
+    --green: #0fa968;
+    --green-soft: #e6f7ef;
+    --gray: #8b96a3;
+    --gray-soft: #edf1f5;
+    --amber: #c77800;
+    --amber-soft: #fff4e0;
+    --red: #c0392b;
+    --red-soft: #ffecec;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(15, 40, 70, .05), 0 8px 24px rgba(15, 40, 70, .07);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.6;
+  }
+  .hero {
+    background: linear-gradient(140deg, #0b2a5e 0%, #1467a8 45%, #35b0c9 80%, #f2c14e 115%);
+    color: #fff; padding: 44px 20px 130px;
+  }
+  .hero-inner { max-width: 920px; margin: 0 auto; }
+  .hero .tag {
+    display: inline-block; font-size: 12.5px; letter-spacing: .06em;
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28);
+    border-radius: 999px; padding: 4px 12px; margin-bottom: 14px;
+  }
+  .hero h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; }
+  .hero p.sub { margin-top: 10px; color: rgba(255,255,255,.88); font-size: 15px; max-width: 700px; }
+  .wrap { max-width: 920px; margin: -92px auto 0; padding: 0 20px 80px; }
+
+  .panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
+  .panel + .panel { margin-top: 18px; }
+  .panel h2 { font-size: 18px; margin-bottom: 4px; }
+  .panel .sub { font-size: 13.5px; color: var(--ink-2); margin-bottom: 16px; }
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+  .cell {
+    border: 1px solid var(--line); border-radius: 12px; padding: 14px 15px;
+    background: linear-gradient(180deg, #fbfdff, #f4f9fc);
+  }
+  .cell .c-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .cell .c-emoji { font-size: 22px; }
+  .cell b { font-size: 14.5px; }
+  .cell .temp { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .cell .c-desc { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; }
+  .rule-note { margin-top: 14px; font-size: 13px; color: var(--ink-2); background: var(--amber-soft); border-radius: 9px; padding: 9px 13px; }
+  .rule-note b { color: var(--amber); }
+
+  .dashboard {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 18px 24px; display: flex; align-items: center; gap: 26px; flex-wrap: wrap; margin-top: 18px;
+  }
+  .ring-box { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .ring-box svg { transform: rotate(-90deg); }
+  .ring-bg { stroke: var(--gray-soft); }
+  .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .45s ease; }
+  .ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-label b { font-size: 17px; line-height: 1.1; }
+  .ring-label span { font-size: 10.5px; color: var(--ink-2); }
+  .stats { display: flex; gap: 26px; flex-wrap: wrap; flex: 1; }
+  .stat b { display: block; font-size: 22px; line-height: 1.2; }
+  .stat span { font-size: 12.5px; color: var(--ink-2); }
+  .stat.todo b { color: var(--amber); }
+  .stat.done b { color: var(--green); }
+  .stat.na b { color: var(--gray); }
+
+  .toolbar { display: flex; align-items: center; gap: 10px; margin: 20px 0 4px; flex-wrap: wrap; }
+  .toolbar .spacer { flex: 1; }
+  .btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    border-radius: 999px; padding: 7px 16px; font-size: 13.5px; cursor: pointer; transition: all .15s ease;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.danger:hover { border-color: #d64545; color: #d64545; }
+
+  .jump { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 2px; align-items: center; }
+  .jump span { font-size: 12.5px; color: var(--gray); }
+  .jump a {
+    text-decoration: none; font-size: 13px; background: #fff; border: 1px solid var(--line);
+    border-radius: 999px; padding: 5px 13px; color: var(--ink);
+  }
+
+  .section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-top: 18px; overflow: hidden; }
+  .section-head { display: flex; align-items: center; gap: 12px; padding: 18px 22px 14px; border-bottom: 1px solid var(--line); }
+  .section-head .emoji {
+    width: 40px; height: 40px; border-radius: 11px; background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+  }
+  .section-head h2 { font-size: 17px; font-weight: 700; }
+  .section-head .desc { font-size: 12.5px; color: var(--ink-2); margin-top: 1px; }
+  .section-head .count {
+    margin-left: auto; font-size: 12.5px; color: var(--ink-2);
+    background: var(--gray-soft); border-radius: 999px; padding: 3px 11px; white-space: nowrap;
+  }
+  .section-head .count.ok { background: var(--green-soft); color: var(--green); }
+
+  .item { display: flex; gap: 14px; align-items: flex-start; padding: 15px 22px; border-bottom: 1px solid var(--line); }
+  .item:last-child { border-bottom: none; }
+  .item.state-done { background: #fbfefc; }
+  .item.state-done .item-name { color: var(--ink-2); text-decoration: line-through; text-decoration-color: rgba(15,169,104,.5); }
+  .item.state-na { opacity: .55; }
+  .item.state-na .item-name { text-decoration: line-through; }
+  .item-main { flex: 1; min-width: 0; }
+  .item-name { font-size: 15px; font-weight: 600; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 5px; padding: 1px 7px; margin-left: 7px; vertical-align: 2px; }
+  .badge.must { background: var(--red-soft); color: var(--red); }
+  .badge.sug  { background: var(--amber-soft); color: var(--amber); }
+  .badge.opt  { background: var(--gray-soft); color: var(--gray); }
+  .badge.skip { background: #edeafd; color: #6a51d8; }
+  .item-note { font-size: 13px; color: var(--ink-2); margin-top: 3px; }
+  .item-meta {
+    display: flex; gap: 8px; font-size: 12.5px; color: var(--ink-2); margin-top: 7px;
+    background: #f6fafd; border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; line-height: 1.55;
+  }
+  .item-meta .meta-icon { flex-shrink: 0; }
+  .item-meta b.meta-label { color: var(--ink); font-weight: 600; margin-right: 2px; }
+  .item-meta a { color: var(--accent); text-decoration: none; }
+  .item-meta a:hover { text-decoration: underline; }
+  .item.state-na .item-meta { display: none; }
+  .item-actions { display: flex; gap: 7px; flex-shrink: 0; padding-top: 2px; }
+  .chip {
+    border: 1px solid var(--line); background: #fff; border-radius: 999px;
+    font-size: 12.5px; padding: 5px 13px; cursor: pointer; color: var(--ink-2);
+    transition: all .13s ease; white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--green); color: var(--green); }
+  .chip.na-chip:hover { border-color: var(--gray); color: var(--ink); }
+  .chip.on-done { background: var(--green); border-color: var(--green); color: #fff; }
+  .chip.on-na { background: var(--gray); border-color: var(--gray); color: #fff; }
+  .item.hidden { display: none; }
+  .section.hidden { display: none; }
+
+  .disclaimer { margin-top: 22px; font-size: 12.5px; color: var(--gray); text-align: center; }
+  .disclaimer a { color: var(--accent); }
+
+  @media (max-width: 560px) {
+    .item { flex-direction: column; gap: 9px; }
+    .item-actions { padding-top: 0; }
+  }
+  @media print {
+    .hero { padding: 20px; }
+    .toolbar, .item-actions { display: none !important; }
+    .section, .dashboard, .panel { box-shadow: none; border: 1px solid var(--line); }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="tag">UC SAN DIEGO · LA JOLLA · SEP–DEC · J-1</span>
+    <h1>UCSD 行李打包清单</h1>
+    <p class="sub">四件行李装箱分配：<b>24 寸 + 20 寸托运</b>（各 ≤23kg）、<b>大手提包 + 骇客 22 随身</b>。三条铁律：证件电子随身走、床品厨具到了买、<b>24 寸只装七成——留三成给购物</b>（UTC 商场就在学校旁边，黑五 11/27 还在等你）。</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="panel">
+    <h2>🌤 La Jolla 9–12 月穿什么</h2>
+    <div class="sub">典型南加海岸气候：几乎不下雨，但早晚海雾凉 + 昼夜温差大 + 室内空调冷——「短袖 + 随手一件外套」是每天的常态，厚衣服完全不需要。</div>
+    <div class="grid4">
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">☀️</span><b>9 月</b></div>
+        <div class="temp">白天 22–26°C · 夜 17°C</div>
+        <div class="c-desc">全年最暖，海滩季尾巴。短袖 + 薄外套。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🌤</span><b>10 月</b></div>
+        <div class="temp">白天 20–24°C · 夜 15°C</div>
+        <div class="c-desc">最舒服的一个月。早晚加针织衫。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🌥</span><b>11 月</b></div>
+        <div class="temp">白天 18–21°C · 夜 12°C</div>
+        <div class="c-desc">早晚明显凉了，长裤 + 卫衣登场。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🌙</span><b>12 月</b></div>
+        <div class="temp">白天 16–18°C · 夜 8–10°C</div>
+        <div class="c-desc">夜里冷，轻羽绒用得上（正好是拉美装备）。</div>
+      </div>
+    </div>
+    <div class="rule-note"><b>UCSD 特情：</b>校园建在海边坡地上，教学楼之间上上下下走得多——舒适的运动鞋比好看的鞋重要；教室和图书馆空调偏冷，包里常备薄开衫。</div>
+  </div>
+
+  <div class="panel">
+    <h2>✈️ 装箱四原则</h2>
+    <div class="sub">照这四条分配，托运丢了也不慌、超重也不会发生。</div>
+    <div class="grid4">
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🎒</span><b>随身 = 命根子</b></div>
+        <div class="c-desc">证件、全部电子设备、充电宝（锂电池<b>禁止托运</b>）、现金卡片，全在骇客 22 和手提包里。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🧳</span><b>24 寸 = 衣物舱</b></div>
+        <div class="c-desc">全部衣物 + 收纳袋，<b>只装 70%</b>。衣物很轻，这箱大概 12–15kg，远不会超。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🧳</span><b>20 寸 = 装备杂物舱</b></div>
+        <div class="c-desc">拉美户外装备、药包、插线板、洗护，重物集中在这箱，称一下 ≤23kg。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">💧</span><b>液体规则</b></div>
+        <div class="c-desc">随身液体每瓶 ≤100ml 且总共一个透明袋；大瓶护肤/洗护全进托运或到美国买。</div>
+      </div>
+    </div>
+    <div class="rule-note"><b>随身件数提醒：</b>登机限额 = 1 件登机行李 + 1 件个人物品。你的组合正好合规：手提包算登机件（放座位上方行李架），骇客 22 算个人物品（塞前排座位下）。值机时别主动把手提包放上秤。</div>
+  </div>
+
+  <div class="dashboard">
+    <div class="ring-box">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle class="ring-bg" cx="40" cy="40" r="34" fill="none" stroke-width="8"/>
+        <circle class="ring-fg" id="ring" cx="40" cy="40" r="34" fill="none" stroke-width="8"
+                stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+      </svg>
+      <div class="ring-label"><b id="pct">0%</b><span>完成度</span></div>
+    </div>
+    <div class="stats">
+      <div class="stat todo"><b id="n-todo">0</b><span>还没装</span></div>
+      <div class="stat done"><b id="n-done">0</b><span>已搞定</span></div>
+      <div class="stat na"><b id="n-na">0</b><span>不适用</span></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn active" data-filter="all">全部</button>
+    <button class="btn" data-filter="todo">只看没装的</button>
+    <span class="spacer"></span>
+    <button class="btn" id="btn-print">打印清单</button>
+    <button class="btn danger" id="btn-reset">重置进度</button>
+  </div>
+
+  <div class="jump">
+    <span>快速跳转：</span>
+    <a href="#backpack">🎒 骇客 22</a>
+    <a href="#handbag">👜 手提包</a>
+    <a href="#case24">🧳 24 寸</a>
+    <a href="#case20">🧳 20 寸</a>
+    <a href="#buy-there">🛒 到了买</a>
+    <a href="#ucsd">🎓 UCSD</a>
+    <a href="#storage">📦 12月离美</a>
+  </div>
+  <div id="sections"></div>
+
+  <p class="disclaimer">配套清单：<a href="../packing/">行前准备（电话卡/App/银行）</a> · <a href="../meds/">药品总清单</a> · <a href="../latam/">拉美装备</a> · 航司行李政策以购票航司官网为准。</p>
+</main>
+
+<script>
+const DATA = [
+  {
+    id: "backpack", emoji: "🎒", title: "骇客 22 背包（随身 · 贵重物品舱）",
+    desc: "算「个人物品」，塞前排座位下。原则：丢了会哭的东西全在这里，全程不离身",
+    items: [
+      { id: "doc-folder", name: "证件文件袋", tag: "must",
+        note: "护照（含 J-1 签证页）、DS-2019 原件（本人已签字）、offer/邀请函打印件、SEVIS 缴费收据、保险凭证、疫苗记录。入境 CBP 可能要看 DS-2019。",
+        tip: "用一个拉链文件袋集中放，过海关时 30 秒能全掏出来；每样再拍照存手机 + 云端各一份。" },
+      { id: "cash-cards", name: "现金与银行卡", tag: "must",
+        note: "美元现金 $500–1000（落地头两周 + 应急）+ 双币 Visa/Mastercard。",
+        tip: "现金分两处放（背包贴身袋 + 手提包），别全在一起；到了以后再办美国银行卡（见行前清单）。" },
+      { id: "laptop", name: "笔记本电脑 + 充电器", tag: "must",
+        note: "过安检要单独拿出来，放背包最外层的电脑仓。",
+        tip: "出发前把重要资料备份到云端；充电器是宽电压（100–240V），美国直接用，只需转换头。" },
+      { id: "tablet", name: "平板 + 手写笔", tag: "must",
+        note: "和笔记本一起放电脑仓，安检一次掏出。",
+        tip: "机上 12 小时的娱乐主力，提前下好剧和电子书。" },
+      { id: "switch", name: "Switch + 卡带", tag: "must",
+        note: "锂电池设备，必须随身。卡带小而贵，收在一个小硬壳盒里。",
+        tip: "底座（dock）不用随身，放 20 寸托运箱；只带主机 + Joy-Con 上飞机。" },
+      { id: "phone-watch", name: "iPhone + Apple Watch + 充电线包", tag: "must",
+        note: "所有线材（手机线、手表充电器、笔记本线之外的）集中一个收纳包。",
+        tip: "推荐一个多口氮化镓充电头（65W 以上），一个头喂饱笔记本+手机+手表，少带 N 个充电器。" },
+      { id: "powerbank", name: "充电宝（≤27,000mAh）", tag: "must",
+        note: "民航规定：充电宝和备用锂电池严禁托运，只能随身。",
+        tip: "标注清晰容量（Wh 或 mAh）的才让上飞机；模糊不清的机场会没收。" },
+      { id: "earphones", name: "降噪耳机", tag: "sug",
+        note: "12 小时越洋航班的生活质量担当。",
+        tip: "AirPods 或头戴降噪都行；头戴的挂脖子上不占包。" },
+      { id: "essentials-pouch", name: "随身小物包", tag: "sug",
+        note: "润唇膏、护手霜（机舱极干）、隐形眼镜当天用品、少量纸巾、笔（填表用）。",
+        tip: "液体都 ≤100ml，和手提包的洗漱袋合并算一个透明袋。" }
+    ]
+  },
+  {
+    id: "handbag", emoji: "👜", title: "大手提包（随身 · 飞行舒适舱）",
+    desc: "算「登机行李」，放行李架。实测能装超过一个 20 寸箱的量——但别装满，落地后它还要当日常通勤包",
+    items: [
+      { id: "jacket-onboard", name: "薄外套 / 大披肩", tag: "must",
+        note: "机舱冷 + 落地圣地亚哥晚上凉，下飞机直接穿。",
+        tip: "选针织开衫或卫衣，机上还能当毯子/枕头。" },
+      { id: "neck-pillow", name: "颈枕 + 眼罩 + 耳塞", tag: "sug",
+        note: "12 小时航班的睡眠三件套。",
+        tip: "充气颈枕不占地方；记忆棉的舒服但占空间，用行李挂扣挂在包外。" },
+      { id: "water-bottle", name: "空水瓶 / 保温杯", tag: "sug",
+        note: "过安检后接水，机上主动要水不如自己有。",
+        tip: "美国机场直饮水机很多；保温杯以后日常也用。" },
+      { id: "toiletry-mini", name: "洗漱小样透明袋", tag: "must",
+        note: "牙刷牙膏小样、洗面奶小样、护肤小样——全部 ≤100ml，装进 1L 透明密封袋。",
+        tip: "只带 2–3 天的量应付飞行和落地头两晚，大瓶的在托运箱或到了买。" },
+      { id: "spare-clothes", name: "一套换洗内衣 + T 恤", tag: "must",
+        note: "防托运延误：万一箱子晚到 1–2 天，随身有换洗不狼狈。",
+        tip: "用一个小收纳袋压缩，占地极小，安心感极大。" },
+      { id: "makeup-pouch", name: "化妆包（精简版）", tag: "sug",
+        note: "常用的那几件就好，液体类遵守 100ml 规则（粉类不限）。",
+        tip: "美国化妆品不贵（Sephora/Ulta 遍地），只带离不开的。" },
+      { id: "snacks", name: "小零食", tag: "opt",
+        note: "机上加餐 + 倒时差深夜救命。",
+        tip: "注意：肉类（含肉松、火腿肠、泡面里的肉包）不能入境美国，选饼干、糖、坚果类。" },
+      { id: "docs-copy", name: "证件复印件备份", tag: "sug",
+        note: "护照、签证、DS-2019 各复印一份，和原件分开放。",
+        tip: "原件在背包，复印件在手提包——两个包不会同时丢。" }
+    ]
+  },
+  {
+    id: "case24", emoji: "🧳", title: "24 寸托运箱（衣物舱 · 只装 70%！）",
+    desc: "全部衣物 + 收纳袋。爱购物的小女孩听好：这箱去程留 30% 空位，是给 UTC、Fashion Valley 和黑五的战利品预留的法定空间",
+    items: [
+      { id: "underwear", name: "内衣裤 + 袜子（7 天量）", tag: "must",
+        note: "一周洗一次衣服的节奏，7 套够用。",
+        tip: "美国公寓/宿舍都有投币或免费洗烘机；袜子里混 2 双厚一点的（12 月晚上 + 拉美徒步用羊毛袜另算）。" },
+      { id: "tees", name: "T 恤 / 短袖上衣 ×4", tag: "must",
+        note: "9–10 月的日常主力，其中 2–3 件用速干的（拉美清单里的那几件，直接两用）。",
+        tip: "基础款少带——你肯定会买新的，旧的留着当睡衣和徒步穿。" },
+      { id: "longsleeve", name: "长袖上衣 ×2", tag: "must",
+        note: "10 月以后早晚穿，也是防晒层。",
+        tip: "一件白/浅色（拉美防蚊防晒两用），一件日常好看的。" },
+      { id: "knit-hoodie", name: "针织开衫 / 卫衣 ×2", tag: "must",
+        note: "全程最高频单品：早晚凉、教室空调冷、海边看日落，全靠它。",
+        tip: "一件百搭开衫 + 一件带帽卫衣；UCSD 卫衣到了可以买校名款，所以别多带。" },
+      { id: "pants", name: "长裤 ×2 + legging ×1", tag: "must",
+        note: "牛仔裤/休闲裤各一，legging 运动和居家两用。",
+        tip: "速干徒步裤（拉美装备）另外算，也放这箱。" },
+      { id: "dress", name: "无袖连衣裙 ×1", tag: "must",
+        note: "你点名要带的这条：9–10 月白天穿正好，配开衫能穿到 11 月；聚餐、presentation 场合也压得住。",
+        tip: "选不易皱的面料，卷起来塞收纳袋。" },
+      { id: "pajamas", name: "睡衣家居服 1 套", tag: "must",
+        note: "一套就够，旧 T 恤可以补位。",
+        tip: "薄款即可，室内不冷。" },
+      { id: "swimsuit", name: "泳衣", tag: "must",
+        note: "La Jolla Cove、黑沙滩就在学校边上，9–10 月还能下水；12 月拉美也用。",
+        tip: "国内买好合身的，美国码数不好挑。" },
+      { id: "puffy-shell", name: "轻羽绒 + 冲锋衣（拉美装备借调）", tag: "must",
+        note: "12 月圣地亚哥夜里 8–10°C 用轻羽绒正好；冲锋衣当防风外套。买都买了，别闲置。",
+        tip: "压缩收纳后各一个水杯大，放箱子角落。" },
+      { id: "sun-hat", name: "遮阳帽 + 墨镜", tag: "sug",
+        note: "南加太阳是物理攻击，帽子墨镜是日常配置不是装饰。",
+        tip: "遮阳帽就是拉美清单那顶带系绳的；墨镜国内配好（尤其需要近视墨镜的话）。" },
+      { id: "shoes", name: "运动鞋（穿脚上）+ 凉拖 ×1", tag: "must",
+        note: "校园坡地全靠运动鞋；凉拖管海滩和宿舍。徒步鞋不带——美国黑五买（拉美清单已列）。",
+        tip: "最重的鞋穿脚上飞，箱子里只放轻的；鞋里塞袜子省空间。" },
+      { id: "packing-cubes24", name: "打包收纳袋一套", tag: "sug",
+        note: "衣物分类压缩，回程装战利品时更是救命。",
+        tip: "和拉美清单的那套是同一套，不用重复买。" },
+      { id: "empty-space", name: "✨ 空出 30% 箱位（这是一个正式条目）", tag: "must",
+        note: "UTC Westfield 步行可达 UCSD、Fashion Valley 一趟电车直达、Las Americas 奥莱在边境边上，外加 11/27 黑五——你懂的。",
+        tip: "打包完盖上箱盖：如果不用压就能合上，说明合格；要坐上去才能拉上拉链 = 重新精简。" }
+    ]
+  },
+  {
+    id: "case20", emoji: "🧳", title: "20 寸托运箱（装备杂物舱）",
+    desc: "重物和硬物集中营：拉美装备、药包、电器配件。装完拿行李秤称一下，≤23kg",
+    items: [
+      { id: "latam-kit", name: "拉美装备集中袋", tag: "must",
+        note: "已购的户外小件打包成一袋：防雨罩、头灯、魔术头巾、薄手套、贴身防盗袋、速干毛巾、电解质片……（对照拉美清单）。",
+        tip: "用一个大收纳袋整袋放进箱子，12 月出发拉美时整袋拎出来直接转移，不用翻找。" },
+      { id: "med-kit", name: "药品包（3 个月量）", tag: "must",
+        note: "按药品总清单配好：肠胃药、感冒药、布洛芬、抗过敏、创可贴等。处方药带医生处方 + 英文说明。",
+        tip: "全部保留原包装（海关要求），别用小药盒分装过关；含麻黄碱、吗啡类成分的药不能带（见药品清单）。" },
+      { id: "adapters", name: "转换头 ×2 + 国标插线板 ×1", tag: "must",
+        note: "神操作：一个转换头接国标插线板，床头所有中国插头设备一次全解决。",
+        tip: "美国电压 110V，手机/电脑充电器都兼容，只需物理转换头；吹风机卷发棒这类大功率的别带（会烧），到了买。" },
+      { id: "skincare-big", name: "护肤品大瓶装（可选带）", tag: "sug",
+        note: "离不开的固定护肤流程就带 3 个月量；不挑的到了买。",
+        tip: "每瓶用保鲜膜封口再拧盖（气压差会漏）；美国 Sephora/Ulta/Costco 大部分牌子都有，价格未必贵。" },
+      { id: "glasses", name: "备用眼镜 + 隐形眼镜 3 个月量", tag: "must",
+        note: "美国配镜要验光处方，又贵又慢——国内备份是刚需。",
+        tip: "日抛按 9–12 月 + 拉美行程算总量；框架眼镜带一副备用。" },
+      { id: "hygiene", name: "个人卫生用品（首月量）", tag: "sug",
+        note: "习惯的牌子带一个月量过渡，之后 Target/Amazon 补。",
+        tip: "美国卫生棉条选择比国内多，卫生巾款式偏厚，介意的可以多带点习惯款。" },
+      { id: "chopsticks", name: "筷子 ×2 + 折叠餐具 + 速食调味", tag: "sug",
+        note: "你只用电饭锅 + 煎锅的节奏：带几包拌饭酱/汤料包/火锅底料就够，锅到了买。",
+        tip: "所有含肉的调料包（肉酱、肉粉）不能入境，选素的；华人超市（99 Ranch 就在 UCSD 附近）啥都有，真别多带。" },
+      { id: "switch-dock", name: "Switch 底座 + HDMI 线", tag: "opt",
+        note: "主机随身、底座托运，公寓电视直接变游戏厅。",
+        tip: "用衣物包住防摔。" },
+      { id: "luggage-scale", name: "行李秤 + 密码锁（TSA 锁）", tag: "sug",
+        note: "回程装满战利品时，行李秤决定你在机场的尊严。",
+        tip: "托运箱要用 TSA 海关锁（红菱形标志），普通锁美国海关有权撬开。" },
+      { id: "small-gifts", name: "小空隙填充：袜子/收纳内胆", tag: "opt",
+        note: "箱子缝隙用软物填满，托运摔打时保护硬物。",
+        tip: "顺手塞两双新袜子，永远不亏。" }
+    ]
+  },
+  {
+    id: "buy-there", emoji: "🛒", title: "别带！到了圣地亚哥买",
+    desc: "这些东西装箱 = 浪费 23kg 额度。落地第一周一次 Target + 一次 Amazon 全解决",
+    items: [
+      { id: "bedding-us", name: "床品全套（Twin XL 或按租的床来）", tag: "skip",
+        note: "你无家具无床品：先定家具租赁，确认床的尺寸（美国学生床多为 Twin XL，203cm 长），再买对应床品——国内床单尺寸对不上，带了也白带。",
+        tip: "Amazon「bed in a bag」$40–60 一套全含（被子床单枕头套）；Target 更便宜。下单当天到 / 次日到。" },
+      { id: "furniture-rent", name: "家具租赁（落地前就下单）", tag: "skip",
+        note: "3 个月短租家具：CORT Furniture Rental 是标配（床+桌椅套餐月租 $100–150，送货上门+期末回收）；预算紧就 Facebook Marketplace 收二手，走时再卖掉。",
+        tip: "UCSD Off-Campus Housing 官网有合作租赁商折扣；9 月开学季二手市场最活跃，床架 $50 遍地都是。" },
+      { id: "rice-cooker-us", name: "电饭锅 + 平底煎锅", tag: "skip",
+        note: "你的两件套厨房：Amazon 小电饭锅 $25–40、不粘煎锅 $20，华人超市也有国产品牌电饭锅。",
+        tip: "12 月离开时电饭锅卖二手/送学弟妹，别背回来。基础碗盘餐具去 Daiso（$2 店，UTC 附近有）配齐。" },
+      { id: "household", name: "衣架/洗衣液/纸巾/收纳箱", tag: "skip",
+        note: "生活杂货全部落地买，Target 一车搞定 $50 以内。",
+        tip: "落地第一周的「Target run」是美国留学的成人礼，享受它。" },
+      { id: "big-toiletries", name: "大瓶洗护 + 防晒霜", tag: "skip",
+        note: "洗发水沐浴露防晒霜又重又是液体，占托运额度最亏。",
+        tip: "Costco 大瓶防晒（broad spectrum SPF50）是拉美清单指定采购项，一次买齐两个行程的量。" },
+      { id: "hairdryer", name: "吹风机 / 卷发棒 / 直板夹", tag: "skip",
+        note: "大功率电器在 110V 下要么带不动要么烧掉，国内的一律别带。",
+        tip: "Amazon $15–30 一个，Conair 基础款够用；对头发讲究就 $60 上 Shark 平替款。" },
+      { id: "clothes-us", name: "更多衣服（这是购物许可）", tag: "skip",
+        note: "缺的衣服都是「到了买」：UCSD 卫衣、加州风格的裙子、黑五的大牌——这就是 24 寸留 30% 的原因。",
+        tip: "UTC Westfield（含 Zara/Sephora/Nordstrom）步行/一站电车到 UCSD；Fashion Valley 电车直达；黑五 11/27 提前列好愿望清单。" }
+    ]
+  },
+  {
+    id: "ucsd", emoji: "🎓", title: "UCSD / J-1 特别事项",
+    desc: "行李之外，这几件事和装箱直接相关",
+    items: [
+      { id: "j1-docs-carry", name: "入境文件必须随身（不能托运）", tag: "must",
+        note: "DS-2019 原件 + 护照 + offer：入境海关（多半在洛杉矶/旧金山转机口岸过 CBP）可能查验，在托运箱里就完了。",
+        tip: "已列入骇客 22 的证件文件袋——这里再强调一次是因为真的有人把 DS-2019 托运了。" },
+      { id: "sd-arrival", name: "落地报到材料对照行前清单", tag: "must",
+        note: "抵达后 30 天内到 UCSD 国际学生办公室（ISEO）报到激活 SEVIS，需要护照、DS-2019、本地住址。",
+        tip: "报到流程细节见「圣地亚哥行前准备清单」的落地篇，这里只管把材料装对包。" },
+      { id: "campus-shoes", name: "校园通勤装备：舒适鞋 + 背包", tag: "sug",
+        note: "UCSD 校园巨大且全是坡（Geisel 图书馆到海边落差 100 多米），骇客 22 落地后就是你的日常书包。",
+        tip: "自行车/滑板车到了再说：坡太陡，先观察同学怎么通勤，别提前买。" },
+      { id: "transit-card", name: "查询学生公交权益", tag: "sug",
+        note: "UCSD 学生通常可通过学费杂费享受 MTS 公交/电车权益（蓝线电车直通校园），具体以当学期政策为准。",
+        tip: "开学周在 Transportation Services 官网激活；蓝线电车 UCSD 站 → 市中心/边境都能直达，去墨西哥短途就靠它。" },
+      { id: "aircon-layer", name: "包里常备薄开衫（空调防御）", tag: "sug",
+        note: "教室、图书馆、超市冷气统一 20°C 以下，外面 25°C 里面 18°C 是日常。",
+        tip: "养成习惯：出门看天气 +1 件，进楼靠这件。" }
+    ]
+  },
+  {
+    id: "storage", emoji: "📦", title: "12 月离美前：寄存与收尾",
+    desc: "你的方案 B：拉美只背骇客 22 轻装走，大件寄存圣地亚哥。提前两周安排这些",
+    items: [
+      { id: "storage-plan", name: "确定寄存点", tag: "must",
+        note: "优先级：信得过的同学/朋友家（免费）→ 学校附近自助仓储（Public Storage 小格 $30–60/月）→ 寄存平台。两个箱子 + 手提包体积不大。",
+        tip: "找同学寄存的话，用垃圾袋+密码锁封好箱子，约好取件时间；仓储的话选带室内温控的最小单元。" },
+      { id: "sell-stuff", name: "卖掉/送掉美国购入的大件", tag: "must",
+        note: "电饭锅、煎锅、床品、租的家具——离开前一周挂 Facebook Marketplace / 学校华人群。",
+        tip: "定价 = 原价 5 折走量；卖不掉的送楼里同学，别为 $10 耽误行程。" },
+      { id: "repack", name: "行李重新分配：拉美模式", tag: "must",
+        note: "骇客 22 装拉美清单的核心装备；寄存箱里放所有「拉美用不到、回国要带」的东西（战利品们）。",
+        tip: "对照拉美清单的「背包与收纳」节打包；充电宝记得从寄存箱里拿出来随身。" },
+      { id: "travel-sig", name: "确认 DS-2019 旅行签字 + 行程边界", tag: "must",
+        note: "离美前确认 travel signature 有效；如果拉美行程在项目结束的 30 天 grace period 之后，回程不能再以 J-1 入境美国取行李——寄存计划要和取件方式对齐。",
+        tip: "细则见拉美清单「证件签证」节的第一条，这是全计划最重要的一个时间点，报到时就找 ISEO 问清楚。" }
+    ]
+  }
+];
+
+const TAG_LABEL = { must: "必备", sug: "建议", opt: "可选", skip: "到了买" };
+const STORE_KEY = "ucsd-luggage-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { state = {}; }
+let filter = "all";
+
+const totalItems = DATA.reduce((s, g) => s + g.items.length, 0);
+const $sections = document.getElementById("sections");
+
+function render() {
+  $sections.innerHTML = DATA.map(group => {
+    const rows = group.items.map(it => {
+      const st = state[it.id] || "todo";
+      return `
+      <div class="item state-${st}" data-id="${it.id}" data-state="${st}">
+        <div class="item-main">
+          <div class="item-name">${it.name}<span class="badge ${it.tag}">${TAG_LABEL[it.tag]}</span></div>
+          <div class="item-note">${it.note}</div>
+          <div class="item-meta"><span class="meta-icon">💡</span><span><b class="meta-label">怎么做：</b>${it.tip}</span></div>
+        </div>
+        <div class="item-actions">
+          <button class="chip ${st === "done" ? "on-done" : ""}" data-act="done">${st === "done" ? "✓ 已搞定" : "已搞定"}</button>
+          <button class="chip na-chip ${st === "na" ? "on-na" : ""}" data-act="na">${st === "na" ? "— 不适用" : "不适用"}</button>
+        </div>
+      </div>`;
+    }).join("");
+    return `
+    <section class="section" id="${group.id}" data-group="${group.id}">
+      <div class="section-head">
+        <div class="emoji">${group.emoji}</div>
+        <div><h2>${group.title}</h2>${group.desc ? `<div class="desc">${group.desc}</div>` : ""}</div>
+        <span class="count" data-count="${group.id}"></span>
+      </div>
+      ${rows}
+    </section>`;
+  }).join("");
+  update();
+}
+
+function update() {
+  let done = 0, na = 0;
+  Object.values(state).forEach(v => { if (v === "done") done++; if (v === "na") na++; });
+  const todo = totalItems - done - na;
+  const effective = totalItems - na;
+  const pct = effective === 0 ? 100 : Math.round(done / effective * 100);
+
+  document.getElementById("n-todo").textContent = todo;
+  document.getElementById("n-done").textContent = done;
+  document.getElementById("n-na").textContent = na;
+  document.getElementById("pct").textContent = pct + "%";
+  const C = 213.6;
+  document.getElementById("ring").style.strokeDashoffset = C * (1 - pct / 100);
+
+  DATA.forEach(g => {
+    const gDone = g.items.filter(it => (state[it.id] || "todo") !== "todo").length;
+    const el = document.querySelector(`[data-count="${g.id}"]`);
+    el.textContent = `${gDone} / ${g.items.length}`;
+    el.classList.toggle("ok", gDone === g.items.length);
+  });
+
+  document.querySelectorAll(".item").forEach(el => {
+    el.classList.toggle("hidden", filter === "todo" && el.dataset.state !== "todo");
+  });
+  document.querySelectorAll(".section").forEach(sec => {
+    const visible = sec.querySelectorAll(".item:not(.hidden)").length;
+    sec.classList.toggle("hidden", filter === "todo" && visible === 0);
+  });
+}
+
+$sections.addEventListener("click", e => {
+  const btn = e.target.closest(".chip");
+  if (!btn) return;
+  const id = btn.closest(".item").dataset.id;
+  const act = btn.dataset.act;
+  state[id] = (state[id] === act) ? "todo" : act;
+  if (state[id] === "todo") delete state[id];
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  render();
+});
+
+document.querySelectorAll("[data-filter]").forEach(b => {
+  b.addEventListener("click", () => {
+    filter = b.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(x => x.classList.toggle("active", x === b));
+    update();
+  });
+});
+
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (confirm("确定要清空所有勾选进度吗？")) {
+    state = {};
+    localStorage.removeItem(STORE_KEY);
+    render();
+  }
+});
+document.getElementById("btn-print").addEventListener("click", () => window.print());
+
+render();
+</script>
+</body>
+</html>
