@@ -337,6 +337,7 @@
     <a href="#econ181">📈 ECON 181</a>
     <a href="#lign17">🔐 LIGN 17</a>
     <a href="#ltsp2c">🇪🇸 LTSP 2C</a>
+    <a href="#preview">📚 现在看什么</a>
     <a href="#tools">🧰 工具环境</a>
     <a href="#rhythm">📆 学期节奏</a>
   </div>
@@ -378,9 +379,12 @@ const DATA = [
     id: "cse151a", emoji: "🤖", title: "CSE 151A · Machine Learning: Learning Algorithms（4 单位）",
     desc: "机器学习入门。经典监督学习 + 无监督学习 + 神经网络基础，重点在算法背后的原理而不是调库",
     items: [
-      { id: "151-content", name: "先看清教什么", tag: "sug",
-        note: "历年大纲的主干：k 近邻分类、最小二乘/逻辑回归/感知机、过拟合与正则化、SVM（含对偶与核）、K-means 与高斯混合、PCA、朴素贝叶斯与决策树、集成学习（bagging/boosting）、前馈网络与 CNN、偏差-方差，最后一两周会碰半监督学习和大语言模型。",
-        tip: "特点是<b>手推公式 + 从零实现</b>，不是 sklearn 调参课。作业往年是 5 次 HW，期中有一年是 24 小时 take-home。" },
+      { id: "151-content", name: "🎁 结构上最好的消息：这门课没有期末考试", tag: "must",
+        note: "Shang 往年的评分是 <b>HW 60% + 24 小时 take-home 期中 40%</b>，<b>没有 final exam</b>。五次 HW 各 15%，<b>最低一次自动作废（等于可以整整跳过一次作业）</b>。期中是开卷带回家做，24 小时窗口、预计实际 2 小时。缺点：<b>迟交一律不收</b>。",
+        tip: "两个直接用途：① <b>12 月它不占你任何时间</b>——最后一次 HW 在停课那周截止，之后就自由了，你的拉美出发日不受这门课约束；② 那次「可跳过的作业」是你的应急额度，留给最忙的那一周（比如撞上 ECON 期中或 LTSP 作文的那周），但别提前浪费掉。" },
+      { id: "151-topics", name: "教什么（往年五次作业的主题就是大纲）", tag: "sug",
+        note: "HW1 概念与评估 → HW2 KNN 与线性模型（最小二乘、逻辑回归、正则化）→ HW3 SVM 与聚类（k-means、高斯混合、PCA）→ HW4 集成学习（决策树、随机森林、AdaBoost）→ HW5 神经网络实现。课上还会讲半监督/弱监督学习和大语言模型。",
+        tip: "特点是<b>手推公式 + 用 numpy 从零实现</b>，不是 sklearn 调参课。第二讲就是「线性代数的几何视角」——线代不熟的话从第二周就开始吃力。" },
       { id: "151-linalg", name: "补线性代数（Math 18 水平）", tag: "must",
         note: "官方前置写的是 MATH 18 或 MATH 31AH。真正会用到的：向量内积与投影、矩阵乘法的几何意义、特征值与特征向量（PCA 全靠这个）、正交与基变换。课上第二讲就是「A Geometric View of Linear Algebra」。",
         tip: "8 月剩下的时间用 3Blue1Brown 的《线性代数的本质》过一遍几何直觉（约 4 小时），比刷题有效得多。PCA 那块提前看，是后面最容易卡的地方。" },
@@ -402,9 +406,12 @@ const DATA = [
     id: "cse152a", emoji: "📷", title: "CSE 152A · Introduction to Computer Vision I（4 单位）",
     desc: "计算机视觉入门。从成像模型到深度学习，解决三维重建和物体识别问题。和 151A 数学基础共用，一起上其实划算",
     items: [
-      { id: "152-content", name: "先看清教什么", tag: "sug",
-        note: "catalog 列的主干：图像形成模型、滤波、特征检测、立体视觉（stereo）、运动估计、structure from motion、物体识别，以及深度学习方法的入门。作业全部用 Python。",
-        tip: "这门课的核心其实是<b>几何</b>：相机矩阵、对极几何、三角化。比 151A 更「硬」的地方在这里，比 151A 简单的地方是不用推那么多统计。" },
+      { id: "152-content", name: "⚠️ 和 151A 相反：这门课有期末考试，而且可能排在最后一天", tag: "must",
+        note: "Ochoa 往年的结构是 <b>没有期中</b>，Assignment 0（一周）+ Assignment 1–4（<b>每两周一次</b>）+ <b>期末考试</b>。FA24 的期末就排在 <b>12 月 12 日——期末周的最后一天</b>。",
+        tip: "这意味着：<b>你 12 月拉美行程的约束大概率来自这门课</b>（151A 没有 final、ECON 的 final 可选）。第一节课拿到 syllabus 后第一件事就是查这门课的 final 日期，它基本就等于你的最早出发日。" },
+      { id: "152-cadence", name: "作业是两周一次，比想象的轻", tag: "sug",
+        note: "五次作业每两周一次（FA24 的节奏：10/2、10/9、10/23、11/6、11/20 依次发布），用 Jupyter Notebook 写，Markdown 单元写公式推导 + Code 单元写 Python。课上讲的是：几何/光度成像模型、photometric stereo、滤波、边缘与角点检测、标定与非标定立体视觉、特征匹配与提取、structure from motion、鲁棒模型拟合、光流与运动、识别检测分类、神经网络与 CNN、颜色、人类视觉系统。",
+        tip: "两周一次意味着你可以把每次作业拆成「第一周读+推导、第二周写代码」，别堆到截止前那个周末——那个周末大概率同时压着 151A 的 HW。" },
       { id: "152-math", name: "线性代数要比 151A 更实操一点", tag: "must",
         note: "前置是 MATH 18 或 31AH。真正吃紧的是：齐次坐标与射影变换、矩阵分解特别是 <b>SVD</b>（求基础矩阵、最小二乘解都用它）、伪逆、旋转矩阵。历年 syllabus 也都提到需要微积分和概率背景。",
         tip: "好消息：这些和 151A 的线代复习是同一批肌肉，一起补一次两门都受益。重点额外补 <b>SVD 的几何意义</b>——151A 那边不太用，152A 到处都用。" },
@@ -495,6 +502,39 @@ const DATA = [
       { id: "2c-material", name: "教材通常要买（语言课的例外）", tag: "sug",
         note: "和 ECON 181 不同，语言课经常绑定教材 + 在线练习平台（access code），而 access code 一般<b>不能买二手</b>。",
         tip: "先在 courses.ucsd.edu 的 Book List 查本季指定版本，别提前从国内买——版本或 access code 不对就白花钱。预算按 $80–150 准备。" }
+    ]
+  },
+  {
+    id: "preview", emoji: "📚", title: "现在（8/24–9/23）就能看的东西：全部免费且对口",
+    desc: "关键发现：你这两门 CSE 的老师，往年的完整课程页都公开在网上——slides、作业题、数据文件、往年期中卷都能下载。等于你可以先预演一遍这学期",
+    items: [
+      { id: "res-152-fa24", name: "🥇 第一优先：Ochoa 的 CSE 152A Fall 2024 课程页", tag: "must",
+        note: "cseweb.ucsd.edu/classes/fa24/cse152A-a/ ——<b>同一个老师</b>，16 讲 slides 全部可下载，Assignment 0–4 的题目和数据文件也全部挂在页面上，连每讲的日期节奏都和你这学期几乎一致。",
+        tip: "现在就做 <b>Assignment 0</b>（FA24 给了一周，是入门难度）。做完你就知道这门课的作业长什么样、自己缺哪块数学。这比读任何教材都直接。做完再看 Lecture 1–4 的 slides（成像几何 + 光度成像）。" },
+      { id: "res-151-w25", name: "🥈 第二优先：Shang 的 CSE 151A Winter 2025 课程页", tag: "must",
+        note: "shangjingbo1226.github.io/teaching/2025-winter-CSE151A-ML ——<b>同一个老师</b>，每周 slides + 五次 HW 的主题说明 + <b>往年那份 24 小时 take-home 期中的 PDF</b> 都公开。",
+        tip: "先过前四讲的 slides：概念与评估 → 线性代数的几何视角 → 最近邻分类 → 梯度与优化。然后看一眼那份往年期中卷——不用做，只是感受一下「开卷但开放式」的题目长什么样，你会立刻明白为什么这门课不能靠背。" },
+      { id: "res-linalg", name: "🥉 第三优先：线性代数的几何直觉（两门课共用）", tag: "must",
+        note: "两门 CSE 真正的门槛都是线代，而且需要的是<b>几何直觉</b>而不是计算技巧：151A 要特征值/特征向量（PCA），152A 要 <b>SVD</b>、齐次坐标、伪逆。",
+        tip: "3blue1brown.com/topics/linear-algebra 的《线性代数的本质》系列，约 4 小时看完（B 站也有官方中文字幕版）。重点看：线性变换、行列式、特征值特征向量、以及抽象向量空间那几集。补完这个再看 SVD 的专门讲解。" },
+      { id: "res-python", name: "把环境装好并手写两个小程序", tag: "must",
+        note: "一套 conda 环境就够两门课用：<code>conda create -n cv python=3.11 numpy scipy matplotlib scikit-learn pandas jupyter</code>，再 <code>pip install opencv-python pillow</code>。",
+        tip: "装完做两个 30 行的小练习：① 用 numpy 从零写 k-NN 分类（151A HW1/HW2 的形状）；② 读一张图 → 转灰度 → 手写 3×3 卷积做边缘检测，<b>不许调 cv2.filter2D</b>（152A Assignment 1 的形状）。这两个写出来，开学前三周你都是轻松的。" },
+      { id: "res-books", name: "免费电子书（都不用买）", tag: "sug",
+        note: "两门课都<b>不指定必买教材</b>。Ochoa 列为 optional 的是 Szeliski《Computer Vision: Algorithms and Applications》2nd ed（作者官网 szeliski.org/Book 长期提供免费 PDF）；Shang 推荐的是 ESL（<b>hastie.su.domains/ElemStatLearn/</b> 官网免费 PDF）、Bishop PRML、以及《Dive into Deep Learning》（<b>d2l.ai</b>，<b>中文版 zh.d2l.ai 免费在线</b>）。",
+        tip: "别在国内买纸质英文教材，又贵又占你那 23kg。真要读，Szeliski 前三章（成像与图像处理）对 152A 帮助最大；D2L 中文版可以在通勤时当科普读，帮你把 151A 后半段的神经网络提前垫底。" },
+      { id: "res-econ", name: "ECON 181：读两篇科普就够了", tag: "sug",
+        note: "这门课无教材、靠课堂笔记。真正值得提前垫的是 <b>Claudia Goldin</b>（2023 诺贝尔经济学奖，课上有专门一讲讲她的家庭经济学视角）——中文科普文章很多，半小时能读明白她的核心论点。",
+        tip: "再顺手想一个 essay 方向：第 2 周就要交的 Gender Bias Research Essay（10%）。你有 CS 背景，「AI 与家务劳动分工」正好是课上的一讲，也是你最容易写出新意的角度。现在心里有个方向，开学就不慌。" },
+      { id: "res-spanish", name: "LTSP 2C：每天 30 分钟，是回报最确定的一项", tag: "must",
+        note: "这门课评分靠口语参与 + 作文 + presentation，没法突击。到开学还有一个月，每天 30 分钟能实打实拉开差距。三块重点：虚拟式（subjuntivo）、pretérito vs imperfecto、代词位置（le/lo/se）。",
+        tip: "spanishdict.com 查语法条目（讲解清楚且免费），conjuguemos.com 练动词变位（做题式，最适合每天 15 分钟）。再在 Tandem/HelloTalk 上找一个母语者每周聊两次，每次 20 分钟——开口的延迟才是这门课真正的难点。" },
+      { id: "res-capes", name: "现在就去 CAPEs 查这两位老师的工作量数据", tag: "must",
+        note: "cape.ucsd.edu 能查到 Ochoa 的 CSE 152A 和 Shang 的 CSE 151A 往期评价，其中<b>「平均每周投入小时数」</b>这一栏是你判断要不要留 LIGN 17 最硬的依据。",
+        tip: "把两门 CSE 的这个数字加起来，再加 LTSP 2C（语言课通常 5–7 小时）、ECON 181（3–4 小时）、LIGN 17（3–4 小时）。总和超过 40 小时/周就要认真考虑只上四门。这件事现在就能做，不用等开学。" },
+      { id: "res-misc", name: "几个之后会天天用的官方站点", tag: "sug",
+        note: "<b>act.ucsd.edu</b> Schedule of Classes（查 final 时间和 Book List）· <b>cape.ucsd.edu</b> 评教 · <b>podcast.ucsd.edu</b> 大课录播 · <b>catalog.ucsd.edu</b> 课程目录 · <b>ispo.ucsd.edu</b> 国际学生办公室（J-1 报到、travel signature）· <b>writinghub.ucsd.edu</b> 免费写作辅导 · <b>library.ucsd.edu</b> 教材 course reserves。",
+        tip: "现在只需要做一件事：把这几个网址存成浏览器书签栏的一个文件夹。落地后第一周你会一天点开三四次。" }
     ]
   },
   {
