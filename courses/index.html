@@ -338,6 +338,7 @@
     <a href="#lign17">🔐 LIGN 17</a>
     <a href="#ltsp2c">🇪🇸 LTSP 2C</a>
     <a href="#preview">📚 现在看什么</a>
+    <a href="#selfstudy">🧑‍💻 自学两门</a>
     <a href="#tools">🧰 工具环境</a>
     <a href="#rhythm">📆 学期节奏</a>
   </div>
@@ -535,6 +536,36 @@ const DATA = [
       { id: "res-misc", name: "几个之后会天天用的官方站点", tag: "sug",
         note: "<b>act.ucsd.edu</b> Schedule of Classes（查 final 时间和 Book List）· <b>cape.ucsd.edu</b> 评教 · <b>podcast.ucsd.edu</b> 大课录播 · <b>catalog.ucsd.edu</b> 课程目录 · <b>ispo.ucsd.edu</b> 国际学生办公室（J-1 报到、travel signature）· <b>writinghub.ucsd.edu</b> 免费写作辅导 · <b>library.ucsd.edu</b> 教材 course reserves。",
         tip: "现在只需要做一件事：把这几个网址存成浏览器书签栏的一个文件夹。落地后第一周你会一天点开三四次。" }
+    ]
+  },
+  {
+    id: "selfstudy", emoji: "🧑‍💻", title: "自学：MATH 189 + COGS 108",
+    desc: "两门的公开程度差别极大——COGS 108 整门课在 GitHub 上全公开，是自学的理想对象；MATH 189 没有统一公开课程页，得靠公开教材还原",
+    items: [
+      { id: "ss-cogs108-repo", name: "🥇 COGS 108 全部材料都在 GitHub 上（github.com/COGS108）", tag: "must",
+        note: "这是 UCSD 认知科学系的 <b>Data Science in Practice</b>，由 Bradley Voytek、Shannon Ellis、Jason Fleischer 三位教授开设，整个组织有 250 多个 repo，材料按 CC BY 4.0 开放。几个关键 repo：<br>· <b>Overview</b> — 课程地图 + 完整 syllabus（COGS108-Syllabus.md）<br>· <b>Tutorials</b> — 入门 notebook 系列，<b>这是你自学的主线</b>，本地 Jupyter 直接能跑<br>· <b>Lectures-Sp26 / Lectures-Wi26 / Lectures-Fa25</b> — 各季完整 slides 与 notebook（挑最新的那季）<br>· <b>Projects</b> — 期末项目要求与范例<br>· <b>Readings</b> — 推荐阅读清单 · <b>Resources</b> — 学生资源 · <b>MyFirstPullRequest</b> — 练 git/PR 的入门 repo",
+        tip: "从 <b>Overview</b> 读 syllabus 建立地图，然后直接开 <b>Tutorials</b> 按顺序做。<b>唯一的限制</b>：正式作业跑在 datahub.ucsd.edu（要 UCSD 账号），但 Tutorials 覆盖同样内容，本地跑完全够。" },
+      { id: "ss-cogs108-syllabus", name: "COGS 108 的讲课顺序（照这个顺序自学就行）", tag: "sug",
+        note: "从 Lectures 仓库的文件名就能看出主线：Welcome → 版本控制 → 数据与直觉 → <b>pandas 数据清洗</b> → 数据伦理 → 怎么提一个数据科学问题 → 数据可视化 → 分析导论与描述性分析 → <b>EDA</b> → 地理空间数据 → <b>统计推断 I/II</b> → 非参数推断 → 推断与模型 → <b>降维</b> → <b>机器学习</b> → 文本分析与 NLP → 「How to be wrong」→ 数据科学的未来与就业。",
+        tip: "这门课的定位是<b>「做」而不是「学理论」</b>——作业密集 + 一个小组期末项目。自学时把期末项目换成你自己感兴趣的一个数据集（比如你查到的墨西哥/圣地亚哥公开数据），从提问到清洗到出结论走一遍完整流程，这个产出比刷完所有 notebook 更值钱。" },
+      { id: "ss-math189-what", name: "MATH 189 是什么：R 语言的探索性数据分析与统计推断", tag: "must",
+        note: "catalog 原文（4 单位）：介绍分析数据尤其是大数据的各种定量方法与统计技术；快速复习概率，然后讲如何用<b>统计语言 R</b> 处理、分析、可视化数据；进一步内容包括基本推断、抽样、<b>假设检验、bootstrap 方法、回归与诊断</b>；强调在真实和模拟数据上动手实践。",
+        tip: "关键点：<b>这门课用 R，不是 Python</b>。这恰好和你其他课全是 Python 形成互补——R 在统计推断和可视化（ggplot2）上仍是学术界主流。学它的真正收益是「统计思维」，而不是又一门语言。" },
+      { id: "ss-math189-prereq", name: "MATH 189 的前置：你缺的是那门概率统计", tag: "sug",
+        note: "官方前置是 <b>（MATH 18 或 20F 或 31AH 线性代数）+ MATH 20C（多变量微积分）+ 一门概率统计</b>（BENG 134 / CSE 103 / ECE 109 / ECON 120A / MAE 108 / MATH 180A / 183 / 186 / SE 125 任一）。",
+        tip: "好消息：这门课要的概率统计基础和 <b>CSE 151A 的前置完全重叠</b>——你为 151A 补的贝叶斯公式、最大似然、常见分布，直接就是 MATH 189 的入场券。所以先补概率这一块，一次投入服务两门课。" },
+      { id: "ss-math189-books", name: "MATH 189 没有公开课程页 → 用三本免费书还原", tag: "must",
+        note: "和 CSE 152A / COGS 108 不同，MATH 189 每季由不同老师在 Canvas 上开课，<b>没有稳定的公开课程页</b>（能搜到的多是几年前的旧版，页面还常是 Word 导出的乱码）。但它的内容和三本公开教材几乎一一对应：<br>· <b>R for Data Science</b>（r4ds.hadley.nz，免费在线）→ 对应「用 R 处理、分析、可视化数据」<br>· <b>OpenIntro Statistics</b>（openintro.org/book/os，免费 PDF）→ 对应「推断、抽样、假设检验、bootstrap」<br>· <b>An Introduction to Statistical Learning</b>（statlearning.com，免费 PDF，<b>自带 R labs</b>）→ 对应「回归与诊断」",
+        tip: "推荐顺序：先用 R4DS 的前 10 章把 R 和 tidyverse/ggplot2 跑起来（约两周，每天一小时），再进 OpenIntro 的推断章节，最后用 ISLR 的 R lab 做回归。三本都免费，都不用买。" },
+      { id: "ss-math189-place", name: "顺便知道 MATH 189 在 UCSD 体系里的位置", tag: "opt",
+        note: "MATH 189 可以满足 <b>MATH 181D（统计学习）、MATH 181F（抽样调查与实验设计）</b>的概率统计前置，也是 <b>DSC 180A（数据科学毕设）</b>前置里可替代 DSC 152 的那一项。也就是说它在数据科学方向是一个「枢纽课」。",
+        tip: "对你的实际意义：如果你以后想在国内或申研时说明自己的数据科学训练，MATH 189 + COGS 108 + CSE 151A 这个组合（统计推断 + 工程实践 + 算法原理）是一条讲得通的线，比零散刷网课有说服力。" },
+      { id: "ss-order", name: "两门一起自学的顺序：COGS 108 先，MATH 189 后", tag: "must",
+        note: "理由：① COGS 108 是 Python + pandas，和你已有的栈一致，装好环境当天就能动手；MATH 189 要另装 R + RStudio，还需要概率基础打底。② 两门有明显重叠（EDA、可视化、统计推断、降维、ML 入门），<b>平行推进会大量重复</b>。",
+        tip: "路线：现在到 9 月中先推 COGS 108 的 Tutorials（顺带把 pandas 练熟，这对 CSE 151A 直接有用）→ 概率那块跟着 151A 的预习一起补 → MATH 189 的 R 部分留到 12 月或回国后再动。" },
+      { id: "ss-reality", name: "⚠️ 诚实的时间账：开学后你基本没有自学时间", tag: "must",
+        note: "你这学期 17–21 单位，两门 CSE 每周 20–24 小时课外投入，加上 5 单位语言课的日常作业。<b>再塞两门完整的自学课是不现实的</b>——不是能力问题，是小时数不够。",
+        tip: "现实的做法：<b>① 8/24–9/23 这一个月是你唯一完整的自学窗口</b>，优先把 COGS 108 的 Tutorials 走一遍（pandas 和 EDA 会直接帮到 151A）；② 开学后不要把它们当「课」来上，而是当 <b>CSE 151A 的补充参考</b>——遇到不懂的地方回去翻对应的 notebook；③ MATH 189 整体推到 12 月期末后或回国之后。别用「自学两门课」的计划给自己制造第三个 deadline。" }
     ]
   },
   {
