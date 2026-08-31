@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCSD 交费 · 银行卡 · 电话卡 · Fall 2026 落地钱事清单</title>
+<style>
+  :root {
+    --bg: #f2f6fa;
+    --card: #ffffff;
+    --ink: #16283b;
+    --ink-2: #5b6b7d;
+    --line: #e1e9f1;
+    --accent: #00629b;
+    --accent-soft: #e4f0f7;
+    --green: #0fa968;
+    --green-soft: #e6f7ef;
+    --gray: #8b96a3;
+    --gray-soft: #edf1f5;
+    --amber: #c77800;
+    --amber-soft: #fff4e0;
+    --red: #c0392b;
+    --red-soft: #ffecec;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(15, 40, 70, .05), 0 8px 24px rgba(15, 40, 70, .07);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.6;
+  }
+  .hero {
+    background: linear-gradient(140deg, #182b49 0%, #00629b 48%, #00a5b5 82%, #ffcd00 118%);
+    color: #fff; padding: 44px 20px 130px;
+  }
+  .hero-inner { max-width: 920px; margin: 0 auto; }
+  .hero .tag {
+    display: inline-block; font-size: 12.5px; letter-spacing: .06em;
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28);
+    border-radius: 999px; padding: 4px 12px; margin-bottom: 14px;
+  }
+  .hero h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; }
+  .hero p.sub { margin-top: 10px; color: rgba(255,255,255,.88); font-size: 15px; max-width: 700px; }
+  .wrap { max-width: 920px; margin: -92px auto 0; padding: 0 20px 80px; }
+
+  .panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
+  .panel + .panel { margin-top: 18px; }
+  .panel h2 { font-size: 18px; margin-bottom: 4px; }
+  .panel .sub { font-size: 13.5px; color: var(--ink-2); margin-bottom: 16px; }
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+  .cell {
+    border: 1px solid var(--line); border-radius: 12px; padding: 14px 15px;
+    background: linear-gradient(180deg, #fbfdff, #f4f9fc);
+  }
+  .cell .c-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .cell .c-emoji { font-size: 22px; }
+  .cell b { font-size: 14.5px; }
+  .cell .temp { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .cell .c-desc { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; }
+  .rule-note { margin-top: 14px; font-size: 13px; color: var(--ink-2); background: var(--amber-soft); border-radius: 9px; padding: 9px 13px; }
+  .rule-note b { color: var(--amber); }
+
+  .dashboard {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 18px 24px; display: flex; align-items: center; gap: 26px; flex-wrap: wrap; margin-top: 18px;
+  }
+  .ring-box { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .ring-box svg { transform: rotate(-90deg); }
+  .ring-bg { stroke: var(--gray-soft); }
+  .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .45s ease; }
+  .ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-label b { font-size: 17px; line-height: 1.1; }
+  .ring-label span { font-size: 10.5px; color: var(--ink-2); }
+  .stats { display: flex; gap: 26px; flex-wrap: wrap; flex: 1; }
+  .stat b { display: block; font-size: 22px; line-height: 1.2; }
+  .stat span { font-size: 12.5px; color: var(--ink-2); }
+  .stat.todo b { color: var(--amber); }
+  .stat.done b { color: var(--green); }
+  .stat.na b { color: var(--gray); }
+
+  .toolbar { display: flex; align-items: center; gap: 10px; margin: 20px 0 4px; flex-wrap: wrap; }
+  .toolbar .spacer { flex: 1; }
+  .btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    border-radius: 999px; padding: 7px 16px; font-size: 13.5px; cursor: pointer; transition: all .15s ease;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.danger:hover { border-color: #d64545; color: #d64545; }
+
+  .jump { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 2px; align-items: center; }
+  .jump span { font-size: 12.5px; color: var(--gray); }
+  .jump a {
+    text-decoration: none; font-size: 13px; background: #fff; border: 1px solid var(--line);
+    border-radius: 999px; padding: 5px 13px; color: var(--ink);
+  }
+
+  .section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-top: 18px; overflow: hidden; }
+  .section-head { display: flex; align-items: center; gap: 12px; padding: 18px 22px 14px; border-bottom: 1px solid var(--line); }
+  .section-head .emoji {
+    width: 40px; height: 40px; border-radius: 11px; background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+  }
+  .section-head h2 { font-size: 17px; font-weight: 700; }
+  .section-head .desc { font-size: 12.5px; color: var(--ink-2); margin-top: 1px; }
+  .section-head .count {
+    margin-left: auto; font-size: 12.5px; color: var(--ink-2);
+    background: var(--gray-soft); border-radius: 999px; padding: 3px 11px; white-space: nowrap;
+  }
+  .section-head .count.ok { background: var(--green-soft); color: var(--green); }
+
+  .item { display: flex; gap: 14px; align-items: flex-start; padding: 15px 22px; border-bottom: 1px solid var(--line); }
+  .item:last-child { border-bottom: none; }
+  .item.state-done { background: #fbfefc; }
+  .item.state-done .item-name { color: var(--ink-2); text-decoration: line-through; text-decoration-color: rgba(15,169,104,.5); }
+  .item.state-na { opacity: .55; }
+  .item.state-na .item-name { text-decoration: line-through; }
+  .item-main { flex: 1; min-width: 0; }
+  .item-name { font-size: 15px; font-weight: 600; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 5px; padding: 1px 7px; margin-left: 7px; vertical-align: 2px; }
+  .badge.must { background: var(--red-soft); color: var(--red); }
+  .badge.sug  { background: var(--amber-soft); color: var(--amber); }
+  .badge.opt  { background: var(--gray-soft); color: var(--gray); }
+  .badge.skip { background: #edeafd; color: #6a51d8; }
+  .item-note { font-size: 13px; color: var(--ink-2); margin-top: 3px; }
+  .item-meta {
+    display: flex; gap: 8px; font-size: 12.5px; color: var(--ink-2); margin-top: 7px;
+    background: #f6fafd; border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; line-height: 1.55;
+  }
+  .item-meta .meta-icon { flex-shrink: 0; }
+  .item-meta b.meta-label { color: var(--ink); font-weight: 600; margin-right: 2px; }
+  .item-meta a { color: var(--accent); text-decoration: none; }
+  .item-meta a:hover { text-decoration: underline; }
+  .item.state-na .item-meta { display: none; }
+  .item-actions { display: flex; gap: 7px; flex-shrink: 0; padding-top: 2px; }
+  .chip {
+    border: 1px solid var(--line); background: #fff; border-radius: 999px;
+    font-size: 12.5px; padding: 5px 13px; cursor: pointer; color: var(--ink-2);
+    transition: all .13s ease; white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--green); color: var(--green); }
+  .chip.na-chip:hover { border-color: var(--gray); color: var(--ink); }
+  .chip.on-done { background: var(--green); border-color: var(--green); color: #fff; }
+  .chip.on-na { background: var(--gray); border-color: var(--gray); color: #fff; }
+  .item.hidden { display: none; }
+  .section.hidden { display: none; }
+
+  .disclaimer { margin-top: 22px; font-size: 12.5px; color: var(--gray); text-align: center; }
+  .disclaimer a { color: var(--accent); }
+
+  @media (max-width: 560px) {
+    .item { flex-direction: column; gap: 9px; }
+    .item-actions { padding-top: 0; }
+  }
+  @media print {
+    .hero { padding: 20px; }
+    .toolbar, .item-actions { display: none !important; }
+    .section, .dashboard, .panel { box-shadow: none; border: 1px solid var(--line); }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="tag">UC SAN DIEGO · FALL 2026 · 杂费 + 住宿 + 保险</span>
+    <h1>交费 · 银行卡 · 电话卡</h1>
+    <p class="sub">学费交国内学校，<b>UCSD 只收杂费 + 校内住宿 + 保险</b>，一个季度大约 <b>$7,300–9,200</b>。三件事有固定顺序，不能颠倒：<b>9/11</b> 前决定保险 → <b>9 月中</b>发起 Flywire 付款（<b>9/23</b> 是硬截止）→ 落地买实体电话卡 → 有了住址和美国号码才能开银行账户。<b>交学费杂费不需要美国银行账户</b>，银行账户是为了 Venmo 收钱和收退款。</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="panel">
+    <h2>📅 六个卡死的日期</h2>
+    <div class="sub">这一页所有内容都挂在这六个日期上。只有前两个是出发前要动手的。</div>
+    <div class="grid4">
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🏥</span><b>9/11 周五</b></div>
+        <div class="temp">UC SHIP 放弃截止</div>
+        <div class="c-desc"><b>什么都不做 = 自动投保 $1,065</b>，这正是我推荐的结果。只有想省这笔钱才需要在这天前动手（补交窗口 9/12–9/15，无滞纳金）。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">📄</span><b>9/2 周三</b></div>
+        <div class="temp">Fall 账单出账</div>
+        <div class="c-desc">TritonPay 里能看到金额并下载 Billing Statement——Flywire 付款要上传这份 PDF。学校只发邮件通知，不寄纸质单。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🇨🇳</span><b>9/15 前</b></div>
+        <div class="temp">发起 Flywire 付款</div>
+        <div class="c-desc">人民币汇到账要 <b>5–7 个工作日</b>，加上上传材料审核。别等到 9/20 才开始，钱到不了。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">⚠️</span><b>9/23 周三</b></div>
+        <div class="temp">注册费到账硬截止</div>
+        <div class="c-desc"><b>最危险的一天。</b>注册费未付清可能被取消选课和候补——两门 CSE 是限专业课，被 drop 了抢不回来。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🏠</span><b>每月 15 日</b></div>
+        <div class="temp">非学费账单截止</div>
+        <div class="c-desc">住宿、餐费、停车、书店都走这条线：月初出账、15 日截止。9/15、10/15、11/15、12/15 各一次，逾期 $20–25 滞纳金。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">✈️</span><b>12 月离美前</b></div>
+        <div class="temp">销户 + 停卡 + 收尾</div>
+        <div class="c-desc">当面关掉银行账户、把二手东西卖完收钱、预付电话卡停止充值即自动失效。留到走后再处理会非常麻烦。</div>
+      </div>
+    </div>
+    <div class="rule-note"><b>依赖关系（这是这一页最重要的一句）：</b>开银行账户要<b>美国住址 + 美国手机号</b>，办手机卡要<b>落地本人到店</b>——所以银行账户不可能在出国前搞定，也不可能落地第一天搞定。而 9 月的两笔付费<b>都不需要银行账户</b>。把这两条分开想，整件事就不乱了。</div>
+  </div>
+
+  <div class="panel">
+    <h2>💰 这个季度到底要付多少（量级，以你的实际账单为准）</h2>
+    <div class="sub">因为学费交国内学校，你的 UCSD 账单只剩下面三块。数字来自 UCSD 官方 2026–27 费用表，但<b>你是单季度交换生，住宿合同和杂费减免都可能和标准表不同</b>。</div>
+    <div class="grid4">
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🧾</span><b>杂费（注册费的非学费部分）</b></div>
+        <div class="temp">约 $600–700 / 季度</div>
+        <div class="c-desc">Student Services Fee $448 + 校园设施费若干（University Center、RIMAC、CAPS 心理、交通费等）。<b>这一项要向你的项目确认哪些能免。</b></div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🏥</span><b>UC SHIP 医疗保险</b></div>
+        <div class="temp">$1,065 / 季度</div>
+        <div class="c-desc">本科生官方价，覆盖 9/21/2026–1/3/2027。不申请放弃就自动投保并计入账单。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🛏️</span><b>校内住宿（双人间）</b></div>
+        <div class="temp">约 $4,557 / 秋季</div>
+        <div class="c-desc">2026–27 Residence Hall 双人间秋季一期。单人间约 $5,229。另有一次性 $20 活动费、分期另收 $30 手续费。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🍜</span><b>Dining Plan 餐饮</b></div>
+        <div class="temp">约 $1,050–2,920 / 秋季</div>
+        <div class="c-desc"><b>大部分书院宿舍强制绑定餐饮计划</b>，最便宜的 Sun God Blue 秋季约 $1,050，最贵的 Triton Gold 约 $2,919。只有 Pepper Canyon East / Matthews / Rita Atkinson / Pepper Canyon West 可以不选。</div>
+      </div>
+    </div>
+    <div class="rule-note"><b>合计约 $7,300–9,200。</b>为什么这个数字重要：如果刷你父母的 Visa 副卡付，<b>境外卡手续费 3.25%</b>，等于白扔 <b>$237–299</b>；走 Flywire 人民币付款一笔约 <b>$20</b>。这两个数的差额就是这一页帮你省下的钱。</div>
+  </div>
+
+  <div class="dashboard">
+    <div class="ring-box">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle class="ring-bg" cx="40" cy="40" r="34" fill="none" stroke-width="8"/>
+        <circle class="ring-fg" id="ring" cx="40" cy="40" r="34" fill="none" stroke-width="8"
+                stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+      </svg>
+      <div class="ring-label"><b id="pct">0%</b><span>完成度</span></div>
+    </div>
+    <div class="stats">
+      <div class="stat todo"><b id="n-todo">0</b><span>还没做</span></div>
+      <div class="stat done"><b id="n-done">0</b><span>已搞定</span></div>
+      <div class="stat na"><b id="n-na">0</b><span>不适用</span></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn active" data-filter="all">全部</button>
+    <button class="btn" data-filter="todo">只看没做的</button>
+    <span class="spacer"></span>
+    <button class="btn" id="btn-print">打印清单</button>
+    <button class="btn danger" id="btn-reset">重置进度</button>
+  </div>
+
+  <div class="jump">
+    <span>快速跳转：</span>
+    <a href="#pay">💳 TritonPay 交费</a>
+    <a href="#insurance">🏥 保险决定</a>
+    <a href="#housing">🏠 住宿费</a>
+    <a href="#bank">🏦 银行账户</a>
+    <a href="#phone">📱 电话卡</a>
+    <a href="#order">📆 落地两周</a>
+  </div>
+  <div id="sections"></div>
+
+  <p class="disclaimer">配套清单：<a href="../courses/">选课准备</a> · <a href="../luggage/">行李打包</a> · <a href="../packing/">行前准备</a> · <a href="../meds/">药品清单</a> · <a href="../latam/">拉美装备</a> · <a href="../visa/">签证材料</a><br>金额与日期来自 UCSD 官方页面（sfs.ucsd.edu、shwadmin.ucsd.edu、hdhughousing.ucsd.edu）2026–27 版本，<b>费率和截止日期学校可随时调整</b>，付款前以 TritonPay 上你自己的账单为准。</p>
+</main>
+
+<script>
+const DATA = [
+  {
+    id: "pay", emoji: "💳", title: "TritonPay：账单在哪、钱怎么付最省",
+    desc: "TritonPay 不是卡也不是 App，就是 UCSD 的网上账单页面（从 TritonLink 登录）。你要做的决定只有一个：用哪种方式把钱付进去",
+    items: [
+      { id: "pay-concept", name: "先搞清 TritonPay 是什么：它只是一个账单页面", tag: "sug",
+        note: "从 TritonLink 登录 → View &amp; Pay Bill，能看到欠款明细、下载账单 PDF、选付款方式。<b>UCSD 完全不寄纸质账单</b>，出账时只往你的 UCSD 邮箱发一封 E-Bill 通知。",
+        tip: "拿到 UCSD 邮箱后第一件事：把它配到手机自带邮件 App 并开推送。<b>漏看 E-Bill 是最常见的滞纳金来源</b>，学校不会打电话提醒你。" },
+      { id: "pay-twolines", name: "你的账单有两条独立的线，截止日不一样", tag: "must",
+        note: "① <b>注册费 + 保险</b>：9/2 出账，账单上写 9/30，但<b>注册费必须在 9/23 前付清</b>否则可能被取消选课——按 9/23 准备。② <b>非学费（住宿、餐费、停车、书店）</b>：每月月初出账、<b>每月 15 日</b>截止。",
+        tip: "两条线不会合并成一张单，也不能一次付完。日历里设两组提醒：9/15（发起 Flywire）+ 每月 12 日（查非学费账单）。" },
+      { id: "pay-flywire", name: "🥇 大额就走 Flywire，用人民币付，约 $20 一笔", tag: "must",
+        note: "TritonPay 里选 <b>International Payments – Flywire</b>（或直接开 ucsd.flywire.com）→ 选 CHINA → 用人民币付款，支持国内银行转账等多种方式。UCSD 官方合作渠道，不是第三方代付。",
+        tip: "有个必做步骤别漏：<b>要上传你的 UCSD Billing Statement</b>（外管局 SAFE 的合规要求，不是学校要的）。在 TritonPay 的 View/Pay Bill 里点 View 就能下载或截图。<b>所以顺序是：9/2 出账 → 下载账单 → 才能发起 Flywire。</b>" },
+      { id: "pay-nocard", name: "❌ 别刷父母的 Visa 副卡付学校账单", tag: "must",
+        note: "TritonPay 收信用卡/借记卡手续费 <b>2.85%</b>，<b>境外发行的卡是 3.25%</b>。你的账单约 $7,300–9,200，等于多付 <b>$237–299</b>，而且这笔手续费<b>不退</b>——就算后来退了住宿费，手续费也不退。",
+        tip: "副卡留给日常消费（吃饭、买东西、订机票），别用来付四位数的学校账单。顺便：出发前让父母给发卡行报备<b>出境时间和国家</b>，境外大额消费容易触发风控被拒。" },
+      { id: "pay-echeck", name: "有了美国账户之后，改用 eCheck：$0.50 一笔", tag: "sug",
+        note: "eCheck 就是输入美国支票账户的 routing number + account number 直接扣款，<b>每笔只收 $0.50</b>。它需要美国账户，所以 9 月那笔来不及用，但 10/15、11/15、12/15 的住宿餐费账单可以用。",
+        tip: "策略很清楚：<b>9 月大额走 Flywire（一笔 $20），落地开好账户后把 eCheck 存成默认付款方式，后面每月 $0.50。</b>比每次都 Flywire 省 $60，比刷卡省几百。注意 eCheck 用的是 checking（支票）账户；如果用 savings 账户要先问银行允不允许。" },
+      { id: "pay-trip", name: "T.R.I.P. 分期计划：你不需要", tag: "opt",
+        note: "TritonPay 有个把学费拆三期的分期计划，每季收 $40 手续费，而且<b>只覆盖学费和注册费，不覆盖住宿</b>。",
+        tip: "你的学费交国内学校，注册费本身才 $600–700，为它付 $40 手续费不划算。<b>跳过这一项</b>，一次付清。" },
+      { id: "pay-directdeposit", name: "开好银行账户后立刻登记 Direct Deposit（这条最容易漏）", tag: "must",
+        note: "住宿押金退还、账户多缴的钱，UCSD 默认走 Direct Deposit 打到美国账户。<b>没登记的话学校寄纸质 check 到你的美国地址</b>——你 12 月已经回国，这张支票基本作废。",
+        tip: "在 TritonLink 的 Direct Deposit 页面填 routing + account number，五分钟的事。<b>开完银行账户当天就做</b>，别拖到 12 月才想起来。" },
+      { id: "pay-authorize", name: "把父母加成 Authorized Payer（可选但省事）", tag: "opt",
+        note: "TritonPay 支持你授权父母登录看账单、直接付款。<b>必须由你发起授权</b>，他们自己注册不了。",
+        tip: "如果 9 月那笔是父母从国内汇，加成 authorized payer 后他们能自己下载账单、自己走 Flywire，你不用当中转。授权入口在 TritonPay 里，几步就完成。" }
+    ]
+  },
+  {
+    id: "insurance", emoji: "🏥", title: "UC SHIP：$1,065 的一个决定（9/11 截止）",
+    desc: "这是三件事里唯一一个「现在、在国内、有截止日」的动作。结论先说：我建议你什么都不做，让它自动投保",
+    items: [
+      { id: "ins-default", name: "🎯 关键机制：不申请放弃 = 自动投保并计入账单", tag: "must",
+        note: "UCSD 对所有注册学生<b>默认自动投 UC SHIP</b>，本科 <b>$1,065/季度</b>，直接挂到你的账单上。想省这笔钱必须主动在 TritonLink 提交 Health Fee Waiver。Fall 2026 窗口：<b>8/7–9/11</b>，补交期 9/12–9/15（这段不收滞纳金）。",
+        tip: "换句话说：<b>如果你同意买 UC SHIP，9/11 这个日期对你毫无威胁，什么都不用做。</b>只有想放弃才需要赶这个截止日。" },
+      { id: "ins-keep", name: "我的建议：留着 UC SHIP，别折腾放弃", tag: "must",
+        note: "省下的钱有限（合规的国际学生保险 4 个月约 $400–600，最多省几百），但风险不对称：UCSD 会<b>抽查审计</b>，审不过就撤销豁免、把 $1,065 加回账单，那时你已经在美国了。而且 <b>J-1 身份本身有美国国务院强制保险要求</b>（写在 DS-2019 第二页），UC SHIP 自动满足，换别的计划要自己逐条比对。",
+        tip: "还有一条对你特别相关：UC SHIP 覆盖到 <b>1/3/2027</b>，正好包住你 12 月的拉美行程。<b>报到那周去 Student Health 问清一件事：UC SHIP 在墨西哥、哥斯达黎加、阿根廷/智利的境外就医和紧急转运怎么报</b>——如果覆盖，那这 $1,065 顺带解决了旅行保险，性价比完全不一样了。" },
+      { id: "ins-cnplan", name: "国内买的保险几乎肯定不合格，别指望它", tag: "must",
+        note: "UCSD 的豁免门槛很具体：符合 ACA 的 Minimum Essential Coverage、<b>校园 40 英里内有 in-network 的家庭医生和医院</b>、年度自付上限 ≤$8,700、含精神健康和处方药；国际学生还要<b>英文保单 + 美国理赔办事处 + $50,000 医疗转运 + $25,000 遗体运返</b>。",
+        tip: "「美国理赔办事处」和「40 英里内 in-network」这两条，国内保险公司的留学险基本都过不了。如果国内学校给你统一买了保险，<b>现在就把英文保单发给 SHIP3@ucsd.edu 问能不能过</b>——别自己判断，也别等落地。" },
+      { id: "ins-j1", name: "无论如何都要做：确认 J-1 保险合规并存好证明", tag: "must",
+        note: "J-1 学生必须<b>从入境当天到项目结束全程</b>保持符合国务院标准的保险，这是签证身份条件。<b>willfully 不合规可能导致 SEVIS 被终止</b>——这不是罚款级别的问题。",
+        tip: "报到那周去 ISEO 走一遍保险确认流程，把保单证明（PDF）存到手机和邮箱各一份。以后看病、买处方药、办 travel signature 都可能要出示。" },
+      { id: "ins-usecard", name: "落地后领 UC SHIP 保险卡并存进手机", tag: "sug",
+        note: "UC SHIP 的就医入口是校内的 Student Health Services（在校园里），不是直接去外面医院。保险卡在 AHP 的在线账户里能下载电子版。",
+        tip: "存三样到手机相册：保险卡、Student Health 的地址电话、最近的 urgent care 位置。<b>美国不能像国内一样随便走进医院</b>，直接去 emergency room 一次几千美元；小病走 Student Health 基本不额外花钱。" }
+    ]
+  },
+  {
+    id: "housing", emoji: "🏠", title: "校内住宿费：和学校账单是同一条线",
+    desc: "住校的好处之一就是这个——房租不用单独付给房东，直接挂在 TritonPay 账单上，和杂费保险一个入口",
+    items: [
+      { id: "hou-onbill", name: "住宿费直接进 TritonPay，不用另找地方交", tag: "sug",
+        note: "校内住宿和餐饮的费用会 post 到你的学生账户，出现在<b>每月的非学费账单</b>里（月初出账、15 日截止）。付款方式和杂费完全一样：Flywire / eCheck / 信用卡。",
+        tip: "这是校内住宿相对校外租房最省事的地方：<b>不用 Zelle 转房东、不用开支票、不用付押金给个人</b>。逾期滞纳金 $20，别漏看邮件就行。" },
+      { id: "hou-contract", name: "把你自己的住宿合同读一遍，别照标准表算钱", tag: "must",
+        note: "官方 2026–27 表是<b>9 个月合同</b>的口径（双人间秋季 $4,557，单人间 $5,229）。你只住一个季度，合同形式、金额、退房日期都可能不一样，交换生也常被安排在特定楼或 International House。",
+        tip: "在合同里找三件事：① <b>秋季这一期到底要付多少、什么时候截止</b>；② <b>退房日期是不是 12/12 期末结束那几天</b>（这决定你拉美行程的出发日和行李寄存方案）；③ 押金金额和退还方式。找不到就直接问 HDH。" },
+      { id: "hou-dining", name: "确认餐饮计划是不是强制绑定——这是最大的浮动项", tag: "must",
+        note: "Revelle、Muir、Sixth、Marshall、Warren、ERC、Seventh、Eighth、Pangea 等书院宿舍<b>强制要求买 Dining Plan</b>；只有 Pepper Canyon East / Matthews / Rita Atkinson / Pepper Canyon West 能选便宜档或不买。秋季从 $1,050（Sun God Blue）到 $2,919（Triton Gold）不等，<b>差价近 $1,900</b>。",
+        tip: "如果能选档位，<b>选最低档</b>：99 Ranch 就在 UCSD 附近，你有厨房的话自己做便宜得多，而且校内餐厅吃三个月会腻。如果被强制绑定高档位，那就当成固定成本算进预算，别指望能改。" },
+      { id: "hou-nofee", name: "能一次付清就别分期（省 $30）", tag: "opt",
+        note: "住宿费选按月或按季分期要收<b>一次性 $30 管理费</b>，另外所有人都有 $20 活动费。",
+        tip: "你只住一个季度，一次付清最省。$30 不多，但这是唯一一笔完全可以避免的费用。" },
+      { id: "hou-deposit", name: "押金退还要提前铺路（和 Direct Deposit 绑在一起）", tag: "must",
+        note: "住宿押金和多缴款通常在你退房后<b>几周才结算</b>——那时你人已经在拉美或者已经回国了。没登记 Direct Deposit 的话学校寄纸质支票到你的美国地址。",
+        tip: "两个动作：① 开完银行账户就登记 Direct Deposit；② <b>12 月销户前先确认押金已经到账</b>。如果押金还没退就把账户关了，那笔钱会非常难要回来。这是「先别急着销户」的唯一理由。" }
+    ]
+  },
+  {
+    id: "bank", emoji: "🏦", title: "美国支票账户：办，但不是为了交学费",
+    desc: "先纠正一个词：中文的「储蓄卡」= 美国的 checking account（支票账户）+ debit card。美国的 savings account 是另一种东西。你去银行要说 student checking account",
+    items: [
+      { id: "bk-why", name: "真正需要它的三个理由（都不是交学费）", tag: "must",
+        note: "① <b>Venmo / Zelle</b>——美国二手交易和同学分账的默认方式，<b>只接受美国银行账户或美国借记卡</b>，你父母的国内 Visa 副卡绑不上；② <b>收退款</b>——住宿押金、账户多缴款走 Direct Deposit；③ 日常消费省掉境外卡 1.5–3% 的货币转换费。",
+        tip: "对你尤其重要的是第一条：你 9 月要在 Facebook Marketplace 和 UCSD Free &amp; For Sale 买二手电饭锅、煎锅、吹风机，<b>12 月走之前还要把它们卖掉</b>——买家付钱的方式就是 Venmo 或现金。<b>没有美国账户，你的二手回收方案就只能收现金。</b>" },
+      { id: "bk-where", name: "去 Chase 或 Bank of America，UTC 一带都有分行", tag: "sug",
+        note: "两家都是大行、ATM 多、App 好用、支持 Zelle。Chase College Checking 在学生期内免月费；BoA 25 岁以下的账户也免月费。开户初存 $25–100。",
+        tip: "顺路做：UTC Westfield 你本来就要去（Zara/Target/黑五），银行就在那一带，逛商场那天顺便办。<b>建议先在官网或 App 预约</b>，没预约可能等很久或被告知当天办不了国际学生开户。" },
+      { id: "bk-nossn", name: "没有 SSN 能开——但必须本人去分行，不能网上办", tag: "must",
+        note: "网上开户流程会强制要求 SSN；<b>国际学生的开户路径是到店面对柜员办理</b>，用护照 + 签证 + DS-2019 替代，没有 SSN 就填 W-8BEN 表，银行会处理。",
+        tip: "别在网上试了发现填不下去就以为办不了。<b>直接去分行，明确说「I'm an international student, I don't have an SSN」</b>，柜员见得多了，有标准流程。" },
+      { id: "bk-docs", name: "开户要带的材料（缺一样就白跑一趟）", tag: "must",
+        note: "<b>护照正本</b>（不接受复印件或手机截图）· <b>J-1 签证页</b> · <b>DS-2019</b> · <b>UCSD 学生 ID</b> · <b>美国住址证明</b>（宿舍分配信 / 写着你名字和地址的学校信件）· <b>国内永久住址</b>（要写到街道门牌，提前写好省事）· 初存的现金或卡。",
+        tip: "宿舍分配信是关键那张——它同时是住址证明和在读证明。<b>落地后从学校邮件里把它下载下来打印一份</b>，顺便多打一份，之后办手机卡、买保险、寄快递都可能要。" },
+      { id: "bk-order", name: "顺序不能反：住址 → 手机号 → 银行账户", tag: "must",
+        note: "开户要美国住址（住进宿舍才有）和最好有美国手机号（银行要发验证码、后续 Zelle 注册也要）。<b>所以银行账户不可能在国内提前办好，也不可能落地第一天办好。</b>",
+        tip: "现实节奏：落地当天买电话卡 → 第二天入住拿到住址证明 → 第三、四天去银行。<b>头三天你只有父母的副卡和现金可用</b>，所以随身现金建议带 $300–500（分两处放）。" },
+      { id: "bk-venmo", name: "账户开好后当天配齐：Zelle + Venmo + Direct Deposit", tag: "must",
+        note: "Zelle 直接在银行 App 里激活（用你的美国手机号）；Venmo 单独下载注册，绑刚开的账户或 debit card。这两个是你买卖二手的收付款工具。",
+        tip: "三件事一次做完：① 银行 App 里开 Zelle；② 装 Venmo 并绑卡；③ 去 TritonLink 登记 Direct Deposit。<b>都做完再离开有 WiFi 的地方</b>——这些验证流程在路上很烦。" },
+      { id: "bk-close", name: "12 月离美前当面销户（但先确认押金到账）", tag: "must",
+        note: "账户留着不管可能产生休眠费，之后用国外地址处理极其麻烦。但<b>销户前必须确认住宿押金和任何退款已经到账</b>，否则那笔钱会卡住。",
+        tip: "时间安排：期末结束后（12/12 前后）先查押金是否已到账；到账了就去分行取现或汇回国内后当面销户。<b>如果押金还没退，就先留着账户</b>，等钱到了再远程处理或托朋友——这种情况下别急着关。" },
+      { id: "bk-nocredit", name: "不用办美国信用卡（3 个月建不起信用记录）", tag: "opt",
+        note: "没有 SSN 申请信用卡基本被拒；就算办下来，3 个月的记录对回国后毫无用处，还要处理注销和年费。",
+        tip: "直接跳过。日常消费用父母的 Visa 副卡 + 新开的 debit card 组合就够了，副卡刷大额、debit 刷小额和取现。" }
+    ]
+  },
+  {
+    id: "phone", emoji: "📱", title: "电话卡：你的手机把选择范围砍掉一半",
+    desc: "这一节的全部内容都建立在一个硬件事实上——国行标准版 iPhone 17 是双物理卡槽、完全不支持 eSIM。想清楚这一点，方案就只剩两个",
+    items: [
+      { id: "ph-esim", name: "⚠️ 最重要的一条：国行 iPhone 17 不支持 eSIM，一张都装不了", tag: "must",
+        note: "iPhone 17 各地区版本差别很大：美版/加版/日版是<b>纯 eSIM 无卡槽</b>，港版台版是 1 实体 + 1 eSIM，而<b>国行标准版（A3521）是双 nano-SIM，完全没有 eSIM 功能</b>——不是没开通，是硬件层面不支持，出国也激活不了。",
+        tip: "直接后果：网上那些「落地扫码即用」的美国 eSIM 套餐（Holafly、Airalo、Visible 等）<b>你一个都用不了</b>，别买，买了退不掉。<b>你必须拿到一张实体 nano-SIM 卡。</b>看到「支持 eSIM」的攻略就直接跳过。" },
+      { id: "ph-dualslot", name: "双卡怎么配：联通留槽 1，美国卡进槽 2", tag: "must",
+        note: "槽 1 插联通，<b>关掉数据漫游</b>，只用来接国内银行、支付宝、微信的短信验证码——这些服务都绑着你的联通号，换号会连环出问题。槽 2 插美国卡，设为默认数据 + 默认通话。",
+        tip: "出发前把<b>联通话费充够 4 个月</b>（含最低月租），停机比什么都麻烦。iOS 里在「蜂窝网络」给两张卡改名（比如「联通-只收码」「美国-主用」），避免误用联通流量产生天价漫游。" },
+      { id: "ph-tmobile", name: "🥇 方案 A（推荐）：落地当天去 UTC 的 T-Mobile 门店买实体预付费卡", tag: "must",
+        note: "到店买实体卡、<b>当场激活、当场拿到美国号码</b>，约 $50/月无限流量（绑自动付款约 $40）。3.5 个月约 $150–175。留学生最常用，圣地亚哥覆盖好。",
+        tip: "为什么推荐贵的那个：<b>你落地第一周要办银行、激活 SEVIS、买家具、联系房东同学，全都要电话</b>——那一周不是省钱的时候。而且开银行账户就要美国号码，当天拿到号 = 第三天就能去开户。带上护照，店员会帮你装卡激活。" },
+      { id: "ph-mint", name: "方案 B（省约 $120）：Mint Mobile 三个月套餐，但有空档期", tag: "opt",
+        note: "新用户约 $15/月一次性买 3 个月（约 $45），用的也是 T-Mobile 网络，<b>支持实体卡</b>。缺点：<b>实体卡要邮寄，需要美国地址</b>，落地后才能寄，中间有几天到一周没信号，开银行账户会被卡住。",
+        tip: "只有一种情况值得选：<b>你出发前就确切知道宿舍地址</b>，能提前下单让卡在你入住那几天寄到。否则前一周没号码的代价比省的 $120 大。折中办法：先买 T-Mobile 一个月（$50）拿号办完银行，再转 Mint 并把号码 port 过去。" },
+      { id: "ph-bands", name: "小心理准备：国行机在美国的信号会略弱", tag: "sug",
+        note: "国行 iPhone 17（A3521）缺 <b>n14 / n29 / n71</b> 几个频段，这几个正是 AT&amp;T / T-Mobile 用来做<b>室内穿透和郊区覆盖</b>的低频。",
+        tip: "圣地亚哥城区和 UCSD 校园完全不影响。<b>去沙漠、国家公园、墨西哥边境公路可能明显感觉到没信号</b>——所以拉美和短途出行前一定<b>提前下载离线地图</b>（Google Maps 离线区域），别指望路上有信号。" },
+      { id: "ph-firstday", name: "落地前几小时怎么办：别买机场游客卡", tag: "sug",
+        note: "机场卖的游客卡又贵又难续期。落地到买卡之间可能有几小时到一天的空档。",
+        tip: "两个便宜的过渡方案：① 出发前在联通买一个<b>短期国际漫游流量包</b>（按天计费，只用一两天）；② 机场和酒店 WiFi + 提前截图好路线和地址。<b>落地当天要用到的信息（宿舍地址、接机方式、UCSD 联系电话）全部提前截图存相册</b>，别依赖网络。" },
+      { id: "ph-leave", name: "12 月走的时候：预付费卡不用销号，停充值就失效", tag: "sug",
+        note: "T-Mobile 和 Mint 都是预付费，<b>不续费自动停用，不用打电话取消、不用违约金</b>。这是预付费相对合约套餐最大的好处。",
+        tip: "唯一要注意的：走之前<b>把绑了美国号码的服务解绑或换回联通号</b>——尤其 Venmo、银行 App、Uber。号码失效后这些账户可能收不到验证码而锁死，而里面可能还有你卖二手收的钱。" }
+    ]
+  },
+  {
+    id: "order", emoji: "📆", title: "把三件事排成一条时间线",
+    desc: "从现在（8 月底）到落地后第二周。前两条在国内做，其余全部落地后做——顺序是被依赖关系锁死的，不能提前",
+    items: [
+      { id: "od-now", name: "现在（8 月底–9 月初）：只有两件事要做", tag: "must",
+        note: "① <b>决定 UC SHIP</b>——如果接受 $1,065 就什么都不做（9/11 自动生效）；如果国内学校给你买了保险，现在就把英文保单发 SHIP3@ucsd.edu 问能不能豁免。② <b>9/2 之后登录 TritonPay 看账单</b>，把 Billing Statement 下载下来。",
+        tip: "顺便查两件事：向你的交换项目确认<b>哪些杂费你需要付、哪些能免</b>（因为学费交国内学校，杂费口径可能和标准表不同）；读一遍<b>你自己的住宿合同</b>，找出秋季应付金额和退房日期。" },
+      { id: "od-flywire", name: "9/10–9/15：发起 Flywire 付款（最不能拖的一步）", tag: "must",
+        note: "人民币转账到账要 <b>5–7 个工作日</b>，加上上传账单的审核时间。<b>9/23 是注册费到账的硬截止</b>——注册费没付清可能被取消选课，你那两门限专业的 CSE 抢回来非常困难。",
+        tip: "留足缓冲：<b>9/10 拿到账单就发起，最晚 9/15</b>。发起后在 Flywire 网站建个账号可以随时追踪到账状态。到账后回 TritonPay 确认余额已清零，<b>不要只看 Flywire 那边显示「已发送」就放心</b>。" },
+      { id: "od-land", name: "落地第 1 天：UTC 的 T-Mobile，拿到美国号码", tag: "must",
+        note: "带护照到店买实体 nano-SIM 卡，当场激活。这是后面所有事的前提。",
+        tip: "同一天顺手做：装 PRONTO（MTS 公交电车）、Uber/Lyft 绑上父母的副卡。<b>随身现金 $300–500 分两处放</b>，头三天银行账户还没有。" },
+      { id: "od-day2", name: "落地第 2 天：入住 + 拿到住址证明 + ISEO 报到", tag: "must",
+        note: "住进宿舍后把<b>宿舍分配信</b>下载打印（两份）——它是开银行账户的住址证明。同时 30 天内要去 ISEO 报到激活 SEVIS，越早越好。",
+        tip: "去 ISEO 那趟一次问完三件事：J-1 的最低单位数、保险合规确认、travel signature 怎么办（12 月去拉美再回美国需要）。<b>一次问完，别跑三趟。</b>" },
+      { id: "od-day34", name: "落地第 3–4 天：开 student checking account", tag: "must",
+        note: "带齐护照、签证页、DS-2019、学生 ID、宿舍分配信、国内住址，去 UTC 的 Chase 或 BoA 分行（建议先预约）。",
+        tip: "开完账户当天一口气做完四件事：① 银行 App 激活 <b>Zelle</b>；② 装 <b>Venmo</b> 绑卡；③ TritonLink 登记 <b>Direct Deposit</b>；④ TritonPay 里把 <b>eCheck</b> 存成付款方式。<b>这四件事做完，钱的事就全部通了。</b>" },
+      { id: "od-week2", name: "落地第 2 周起：进入日常节奏", tag: "sug",
+        note: "每月 12 日左右查一次 TritonPay 的非学费账单（住宿餐费），<b>15 日前用 eCheck 付掉，每笔 $0.50</b>。二手采购全部用 Venmo 或现金。",
+        tip: "日历里设一个每月 12 日的重复提醒「查 TritonPay 账单」。逾期滞纳金 $20–25，一次就抵掉你省下来的所有手续费。" },
+      { id: "od-dec", name: "12 月离美前的收尾顺序", tag: "must",
+        note: "① 卖掉二手电器家具（Venmo 收钱）→ ② 确认住宿押金已退到账 → ③ 银行取现/汇回国内后<b>当面销户</b> → ④ 电话卡停止充值 → ⑤ 解绑所有用美国号码验证的服务。",
+        tip: "<b>顺序不能乱</b>：押金没到账就别销户，钱没收完就别停电话卡（Venmo 要验证码）。这一段和<a href='../luggage/'>行李清单</a>里的「12 月离美」那一节是同一批事，一起做。" }
+    ]
+  }
+];
+
+const TAG_LABEL = { must: "必做", sug: "建议", opt: "可选", skip: "查一下" };
+const STORE_KEY = "ucsd-money-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { state = {}; }
+let filter = "all";
+
+const totalItems = DATA.reduce((s, g) => s + g.items.length, 0);
+const $sections = document.getElementById("sections");
+function render() {
+  $sections.innerHTML = DATA.map(group => {
+    const rows = group.items.map(it => {
+      const st = state[it.id] || "todo";
+      return `
+      <div class="item state-${st}" data-id="${it.id}" data-state="${st}">
+        <div class="item-main">
+          <div class="item-name">${it.name}<span class="badge ${it.tag}">${TAG_LABEL[it.tag]}</span></div>
+          <div class="item-note">${it.note}</div>
+          <div class="item-meta"><span class="meta-icon">💡</span><span><b class="meta-label">怎么做：</b>${it.tip}</span></div>
+        </div>
+        <div class="item-actions">
+          <button class="chip ${st === "done" ? "on-done" : ""}" data-act="done">${st === "done" ? "✓ 已搞定" : "已搞定"}</button>
+          <button class="chip na-chip ${st === "na" ? "on-na" : ""}" data-act="na">${st === "na" ? "— 不适用" : "不适用"}</button>
+        </div>
+      </div>`;
+    }).join("");
+    return `
+    <section class="section" id="${group.id}" data-group="${group.id}">
+      <div class="section-head">
+        <div class="emoji">${group.emoji}</div>
+        <div><h2>${group.title}</h2>${group.desc ? `<div class="desc">${group.desc}</div>` : ""}</div>
+        <span class="count" data-count="${group.id}"></span>
+      </div>
+      ${rows}
+    </section>`;
+  }).join("");
+  update();
+}
+
+function update() {
+  let done = 0, na = 0;
+  Object.values(state).forEach(v => { if (v === "done") done++; if (v === "na") na++; });
+  const todo = totalItems - done - na;
+  const effective = totalItems - na;
+  const pct = effective === 0 ? 100 : Math.round(done / effective * 100);
+
+  document.getElementById("n-todo").textContent = todo;
+  document.getElementById("n-done").textContent = done;
+  document.getElementById("n-na").textContent = na;
+  document.getElementById("pct").textContent = pct + "%";
+  const C = 213.6;
+  document.getElementById("ring").style.strokeDashoffset = C * (1 - pct / 100);
+
+  DATA.forEach(g => {
+    const gDone = g.items.filter(it => (state[it.id] || "todo") !== "todo").length;
+    const el = document.querySelector(`[data-count="${g.id}"]`);
+    el.textContent = `${gDone} / ${g.items.length}`;
+    el.classList.toggle("ok", gDone === g.items.length);
+  });
+
+  document.querySelectorAll(".item").forEach(el => {
+    el.classList.toggle("hidden", filter === "todo" && el.dataset.state !== "todo");
+  });
+  document.querySelectorAll(".section").forEach(sec => {
+    const visible = sec.querySelectorAll(".item:not(.hidden)").length;
+    sec.classList.toggle("hidden", filter === "todo" && visible === 0);
+  });
+}
+
+$sections.addEventListener("click", e => {
+  const btn = e.target.closest(".chip");
+  if (!btn) return;
+  const id = btn.closest(".item").dataset.id;
+  const act = btn.dataset.act;
+  state[id] = (state[id] === act) ? "todo" : act;
+  if (state[id] === "todo") delete state[id];
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  render();
+});
+
+document.querySelectorAll("[data-filter]").forEach(b => {
+  b.addEventListener("click", () => {
+    filter = b.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(x => x.classList.toggle("active", x === b));
+    update();
+  });
+});
+
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (confirm("确定要清空所有勾选进度吗？")) {
+    state = {};
+    localStorage.removeItem(STORE_KEY);
+    render();
+  }
+});
+document.getElementById("btn-print").addEventListener("click", () => window.print());
+
+render();
+</script>
+</body>
+</html>
