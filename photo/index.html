@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拍照装备清单 · iPhone 17 + Pocket 3 + 第三台怎么选</title>
+<style>
+  :root {
+    --bg: #f2f6fa;
+    --card: #ffffff;
+    --ink: #16283b;
+    --ink-2: #5b6b7d;
+    --line: #e1e9f1;
+    --accent: #00629b;
+    --accent-soft: #e4f0f7;
+    --green: #0fa968;
+    --green-soft: #e6f7ef;
+    --gray: #8b96a3;
+    --gray-soft: #edf1f5;
+    --amber: #c77800;
+    --amber-soft: #fff4e0;
+    --red: #c0392b;
+    --red-soft: #ffecec;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(15, 40, 70, .05), 0 8px 24px rgba(15, 40, 70, .07);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.6;
+  }
+  .hero {
+    background: linear-gradient(140deg, #182b49 0%, #00629b 48%, #00a5b5 82%, #ffcd00 118%);
+    color: #fff; padding: 44px 20px 130px;
+  }
+  .hero-inner { max-width: 920px; margin: 0 auto; }
+  .hero .tag {
+    display: inline-block; font-size: 12.5px; letter-spacing: .06em;
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28);
+    border-radius: 999px; padding: 4px 12px; margin-bottom: 14px;
+  }
+  .hero h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; }
+  .hero p.sub { margin-top: 10px; color: rgba(255,255,255,.88); font-size: 15px; max-width: 700px; }
+  .wrap { max-width: 920px; margin: -92px auto 0; padding: 0 20px 80px; }
+
+  .panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
+  .panel + .panel { margin-top: 18px; }
+  .panel h2 { font-size: 18px; margin-bottom: 4px; }
+  .panel .sub { font-size: 13.5px; color: var(--ink-2); margin-bottom: 16px; }
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+  .cell {
+    border: 1px solid var(--line); border-radius: 12px; padding: 14px 15px;
+    background: linear-gradient(180deg, #fbfdff, #f4f9fc);
+  }
+  .cell .c-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .cell .c-emoji { font-size: 22px; }
+  .cell b { font-size: 14.5px; }
+  .cell .temp { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .cell .c-desc { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; }
+  .rule-note { margin-top: 14px; font-size: 13px; color: var(--ink-2); background: var(--amber-soft); border-radius: 9px; padding: 9px 13px; }
+  .rule-note b { color: var(--amber); }
+
+  .dashboard {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 18px 24px; display: flex; align-items: center; gap: 26px; flex-wrap: wrap; margin-top: 18px;
+  }
+  .ring-box { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .ring-box svg { transform: rotate(-90deg); }
+  .ring-bg { stroke: var(--gray-soft); }
+  .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .45s ease; }
+  .ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-label b { font-size: 17px; line-height: 1.1; }
+  .ring-label span { font-size: 10.5px; color: var(--ink-2); }
+  .stats { display: flex; gap: 26px; flex-wrap: wrap; flex: 1; }
+  .stat b { display: block; font-size: 22px; line-height: 1.2; }
+  .stat span { font-size: 12.5px; color: var(--ink-2); }
+  .stat.todo b { color: var(--amber); }
+  .stat.done b { color: var(--green); }
+  .stat.na b { color: var(--gray); }
+
+  .toolbar { display: flex; align-items: center; gap: 10px; margin: 20px 0 4px; flex-wrap: wrap; }
+  .toolbar .spacer { flex: 1; }
+  .btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    border-radius: 999px; padding: 7px 16px; font-size: 13.5px; cursor: pointer; transition: all .15s ease;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.danger:hover { border-color: #d64545; color: #d64545; }
+
+  .jump { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 2px; align-items: center; }
+  .jump span { font-size: 12.5px; color: var(--gray); }
+  .jump a {
+    text-decoration: none; font-size: 13px; background: #fff; border: 1px solid var(--line);
+    border-radius: 999px; padding: 5px 13px; color: var(--ink);
+  }
+
+  .section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-top: 18px; overflow: hidden; }
+  .section-head { display: flex; align-items: center; gap: 12px; padding: 18px 22px 14px; border-bottom: 1px solid var(--line); }
+  .section-head .emoji {
+    width: 40px; height: 40px; border-radius: 11px; background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+  }
+  .section-head h2 { font-size: 17px; font-weight: 700; }
+  .section-head .desc { font-size: 12.5px; color: var(--ink-2); margin-top: 1px; }
+  .section-head .count {
+    margin-left: auto; font-size: 12.5px; color: var(--ink-2);
+    background: var(--gray-soft); border-radius: 999px; padding: 3px 11px; white-space: nowrap;
+  }
+  .section-head .count.ok { background: var(--green-soft); color: var(--green); }
+
+  .item { display: flex; gap: 14px; align-items: flex-start; padding: 15px 22px; border-bottom: 1px solid var(--line); }
+  .item:last-child { border-bottom: none; }
+  .item.state-done { background: #fbfefc; }
+  .item.state-done .item-name { color: var(--ink-2); text-decoration: line-through; text-decoration-color: rgba(15,169,104,.5); }
+  .item.state-na { opacity: .55; }
+  .item.state-na .item-name { text-decoration: line-through; }
+  .item-main { flex: 1; min-width: 0; }
+  .item-name { font-size: 15px; font-weight: 600; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 5px; padding: 1px 7px; margin-left: 7px; vertical-align: 2px; }
+  .badge.must { background: var(--red-soft); color: var(--red); }
+  .badge.sug  { background: var(--amber-soft); color: var(--amber); }
+  .badge.opt  { background: var(--gray-soft); color: var(--gray); }
+  .badge.skip { background: #edeafd; color: #6a51d8; }
+  .item-note { font-size: 13px; color: var(--ink-2); margin-top: 3px; }
+  .item-meta {
+    display: flex; gap: 8px; font-size: 12.5px; color: var(--ink-2); margin-top: 7px;
+    background: #f6fafd; border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; line-height: 1.55;
+  }
+  .item-meta .meta-icon { flex-shrink: 0; }
+  .item-meta b.meta-label { color: var(--ink); font-weight: 600; margin-right: 2px; }
+  .item-meta a { color: var(--accent); text-decoration: none; }
+  .item-meta a:hover { text-decoration: underline; }
+  .item.state-na .item-meta { display: none; }
+  .item-actions { display: flex; gap: 7px; flex-shrink: 0; padding-top: 2px; }
+  .chip {
+    border: 1px solid var(--line); background: #fff; border-radius: 999px;
+    font-size: 12.5px; padding: 5px 13px; cursor: pointer; color: var(--ink-2);
+    transition: all .13s ease; white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--green); color: var(--green); }
+  .chip.na-chip:hover { border-color: var(--gray); color: var(--ink); }
+  .chip.on-done { background: var(--green); border-color: var(--green); color: #fff; }
+  .chip.on-na { background: var(--gray); border-color: var(--gray); color: #fff; }
+  .item.hidden { display: none; }
+  .section.hidden { display: none; }
+
+  .disclaimer { margin-top: 22px; font-size: 12.5px; color: var(--gray); text-align: center; }
+  .disclaimer a { color: var(--accent); }
+
+  @media (max-width: 560px) {
+    .item { flex-direction: column; gap: 9px; }
+    .item-actions { padding-top: 0; }
+  }
+  @media print {
+    .hero { padding: 20px; }
+    .toolbar, .item-actions { display: none !important; }
+    .section, .dashboard, .panel { box-shadow: none; border: 1px solid var(--line); }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="tag">拍照装备 · 圣地亚哥 9–12 月 + 墨西哥 + 巴塔哥尼亚 + 哥斯达黎加</span>
+    <h1>拍照装备清单</h1>
+    <p class="sub">已定：<b>iPhone 17</b>（主力）+ <b>DJI Pocket 3</b>（视频/vlog）。待定的第三台，结论先说：<b>拍立得和 CCD 我都不推荐单独买，但有一台正好同时解决——Instax Mini Evo</b>（数码取景挑图 + 可选打印 + 100 种复古滤镜）。理由和替代方案见第一节。另外 <b>Pocket 3 没有内置存储</b>，不先买张卡它开不了工。</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="panel">
+    <h2>🎯 先看清缺口在哪：你现有两台已经覆盖了什么</h2>
+    <div class="sub">买第三台之前先问「它补的是什么」。答案不是画质——是风格和实物产出。</div>
+    <div class="grid4">
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">📱</span><b>iPhone 17</b></div>
+        <div class="temp">主力：静态照片全包</div>
+        <div class="c-desc">风景、人像、夜景、随手拍、直接发社交平台。<b>画质上第三台不可能超过它</b>——这点要先接受。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🎥</span><b>DJI Pocket 3</b></div>
+        <div class="temp">视频 + 自拍：1 英寸底</div>
+        <div class="c-desc">1 英寸 CMOS、20mm f/2、4K60、三轴云台、2 英寸旋转屏。徒步走动镜头、vlog 自拍、延时全靠它。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🕳️</span><b>真正的缺口</b></div>
+        <div class="temp">只有两个</div>
+        <div class="c-desc">① <b>风格</b>——一种手机拍不出的复古味道；② <b>实体产出</b>——一张能当场送人的照片。<b>其余全是重复投资。</b></div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🥇</span><b>我的建议</b></div>
+        <div class="temp">Instax Mini Evo · 约 ¥1,000–1,300</div>
+        <div class="c-desc">它是「数码拍立得」：<b>100 种复古滤镜组合 = CCD 想给你的味道</b>，<b>屏幕挑图再打印 = 不浪费相纸</b>，还能当手机照片打印机。两个缺口一台补齐。</div>
+      </div>
+    </div>
+    <div class="rule-note"><b>如果预算要压：</b>Instax Mini 12（¥500–700）只干「实体照片」这一件事，但<b>每按一次快门就是 3–5 块钱</b>，闭眼、糊了、曝光坏了都得认。<b>如果只想要 CCD 那个味道：一分钱都不用花</b>——用手机拍完套滤镜，效果接近，还没有二手机器坏在半路的风险。详见第一节。</div>
+  </div>
+
+  <div class="panel">
+    <h2>🛒 什么在国内买、什么等黑五、什么别买</h2>
+    <div class="sub">你 9 月落地、11/27 黑五、12 月进拉美。拍照这块的采购窗口和装备清单不一样——<b>存储和电源越早买越好，因为落地就要用</b>。</div>
+    <div class="grid4">
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🇨🇳</span><b>国内买（出发前）</b></div>
+        <div class="temp">相机本体 + 相纸 + 转换插头</div>
+        <div class="c-desc">Instax Mini Evo 国内比美国便宜；<b>相纸国内约 ¥3/张，美国约 $0.8–1/张</b>，差近一倍——但相纸有安检和保质期问题，别囤太多，20–40 张够。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🛍️</span><b>黑五买（11/27）</b></div>
+        <div class="temp">microSD + 移动硬盘 + 三脚架</div>
+        <div class="c-desc">存储在美国黑五价格优势最大。<b>但 microSD 别等黑五</b>——Pocket 3 落地就要用，先在国内买一张 256GB，黑五再补一张便宜的备用。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">📍</span><b>到了买 / 不用买</b></div>
+        <div class="temp">干燥剂 · 密封袋 · 镜头布</div>
+        <div class="c-desc">Target/CVS 都有，几美元。<b>八爪鱼三脚架</b>如果要拍巴塔哥尼亚星空和合影就买一个（$15–25），否则跳过。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🚫</span><b>明确别买</b></div>
+        <div class="temp">CCD · 单反微单 · 运动相机</div>
+        <div class="c-desc">CCD 见第一节。<b>微单</b>：重、贵、你没有学习曲线的时间，而且 Pocket 3 已经覆盖视频。<b>GoPro</b>：你不潜水不骑行，和 Pocket 3 完全重复。</div>
+      </div>
+    </div>
+    <div class="rule-note"><b>总预算参考：</b>Mini Evo ¥1,100 + 相纸 ¥120（40 张）+ microSD 256GB ¥100 + 充电宝/插头 ¥150 ≈ <b>国内 ¥1,500 左右</b>；黑五在美国再花 <b>$40–80</b>（备用卡 + 三脚架 + 移动硬盘可选）。<b>12 月离美前 Mini Evo 别卖</b>——它是你带回国还会一直用的东西，和电饭锅吹风机不一样。</div>
+  </div>
+
+  <div class="dashboard">
+    <div class="ring-box">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle class="ring-bg" cx="40" cy="40" r="34" fill="none" stroke-width="8"/>
+        <circle class="ring-fg" id="ring" cx="40" cy="40" r="34" fill="none" stroke-width="8"
+                stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+      </svg>
+      <div class="ring-label"><b id="pct">0%</b><span>完成度</span></div>
+    </div>
+    <div class="stats">
+      <div class="stat todo"><b id="n-todo">0</b><span>还没做</span></div>
+      <div class="stat done"><b id="n-done">0</b><span>已搞定</span></div>
+      <div class="stat na"><b id="n-na">0</b><span>不适用</span></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn active" data-filter="all">全部</button>
+    <button class="btn" data-filter="todo">只看没做的</button>
+    <span class="spacer"></span>
+    <button class="btn" id="btn-print">打印清单</button>
+    <button class="btn danger" id="btn-reset">重置进度</button>
+  </div>
+
+  <div class="jump">
+    <span>快速跳转：</span>
+    <a href="#decide">🤔 第三台怎么选</a>
+    <a href="#iphone">📱 iPhone 17</a>
+    <a href="#pocket3">🎥 Pocket 3</a>
+    <a href="#power">🔌 电与卡</a>
+    <a href="#backup">💾 备份防盗</a>
+    <a href="#env">🌧️ 雨林风沙低温</a>
+    <a href="#spots">📍 出片点位</a>
+  </div>
+  <div id="sections"></div>
+
+  <p class="disclaimer">配套清单：<a href="../latam/">拉美装备</a> · <a href="../luggage/">行李打包</a> · <a href="../money/">交费与银行卡</a> · <a href="../courses/">选课准备</a> · <a href="../packing/">行前准备</a> · <a href="../visa/">签证材料</a><br>器材参数来自 DJI 与富士官方规格页，价格为 2026 年参考区间，<b>相机和相纸价格波动大，下单前自己再比一次</b>。</p>
+</main>
+
+<script>
+const DATA = [
+  {
+    id: "decide", emoji: "🤔", title: "拍立得还是 CCD：先把这个决定做完",
+    desc: "两者不是同类产品，不该放在一起比。拍立得卖的是「实体照片」，CCD 卖的是「一种味道」。分开算完你会发现有第三个答案",
+    items: [
+      { id: "d-ccd-truth", name: "❌ 不建议买 CCD，三个具体理由", tag: "must",
+        note: "① <b>画质上它打不过 iPhone 17</b>，一点机会都没有——十几年前的小底数码，弱光噪点、无防抖、屏幕暗；② <b>它唯一的卖点「CCD 味」现在能用手机滤镜大致模拟</b>，成本为零；③ <b>它现在被炒到 ¥500–1,500</b>，而你买的是一台十几年前的二手电子产品：电池老化、屏幕坏点、开机不亮都很常见，<b>坏在半路没地方修、没地方退</b>。",
+        tip: "第三条对你尤其致命：你是 3.5 个月的短期行程，中途坏掉就等于钱白花、还占了行李。如果你就是喜欢那个味道，<b>免费方案</b>：iPhone 拍完用 Dazz、NOMO、老式胶片相机（App）套滤镜，或者在 Lightroom 里降饱和 + 加噪点 + 偏青绿。效果不完全一样，但差距远小于价差。" },
+      { id: "d-instax-truth", name: "拍立得的真正价值：它是社交货币，不是拍照工具", tag: "sug",
+        note: "画质上它比 CCD 更差。但它有一件事<b>手机永远替代不了：一张立刻能塞到对方手里的实体照片</b>。你要在 UCSD 住一个季度、认识一批新同学、参加社团活动——「我帮你拍一张，送你」是极高效的破冰方式，而且你走之后，别人手上还留着你拍的照片。",
+        tip: "想清楚你要的是哪个：<b>要「拍出好看的照片」→ 拍立得帮不了你，别买</b>；要「和人建立关系、留下实体纪念」→ 它是这份清单里性价比最高的一件。这两个目标经常被混在一起，混了就会买错。" },
+      { id: "d-evo", name: "🥇 我的推荐：Instax Mini Evo（约 ¥1,000–1,300）", tag: "must",
+        note: "它是<b>混合式「数码拍立得」</b>，正好同时解决你纠结的两件事：<b>10 种镜头效果 × 10 种胶片效果 = 100 种复古风格</b>（这就是 CCD 想给你的味道，而且是可复用的数码文件）；<b>拍完先在 3 英寸屏幕上看，满意才扳拨杆打印</b>（不浪费相纸）；还能<b>当手机照片打印机</b>用蓝牙打印 iPhone 里的照片。28mm f/2、USB-C 充电。",
+        tip: "算一下账就明白为什么它更划算：纯胶片机 Mini 12 便宜 ¥500，但如果你整个行程拍 100 张、其中 30 张废掉（闭眼、糊、曝光坏），<b>光废掉的相纸就是 ¥90–150</b>，还全是不可挽回的瞬间。Evo 让你「只印好的」，用得越多越回本。<b>另外它带回国还会一直用</b>，不像吹风机电饭锅要在 12 月贱卖。" },
+      { id: "d-mini12", name: "预算方案：Instax Mini 12（¥500–700）", tag: "opt",
+        note: "纯胶片机，没有屏幕、不能挑图、按下去就是一张相纸的钱。自动曝光、有自拍镜，操作极简。颜色可爱，party 上最受欢迎。",
+        tip: "只有一种情况选它：<b>你确定自己只在聚会和送人的场合用，一个季度拍不到 40 张</b>。否则相纸成本会追上 Evo 的差价。如果选它，务必接受「盲拍」——别在重要瞬间指望它拍好。" },
+      { id: "d-film-cost", name: "相纸：国内买便宜近一半，但别囤太多", tag: "must",
+        note: "Instax mini 相纸国内约 <b>¥3/张</b>（20 张装约 ¥60），美国约 <b>$0.8–1/张</b>。看起来该在国内多囤，但相纸<b>有保质期、怕热怕潮、占体积</b>，而且过安检麻烦（见下条）。",
+        tip: "带 <b>20–40 张</b>（2–4 盒）出发就够，用完了在美国 Target/Walmart 补，或者让家人寄。别为了省一百块塞进去十盒——你的行李是 2×23kg，相纸不重但占地方，而且用不完带回来也是浪费。" },
+      { id: "d-film-xray", name: "⚠️ 相纸过安检要走手检，别放托运", tag: "must",
+        note: "未拍摄的相纸是感光材料。<b>绝对不能放托运行李</b>（托运扫描剂量大，直接毁掉）。而且美国机场越来越多使用 <b>CT 扫描仪</b>，它对胶片的损伤比传统 X 光大得多。",
+        tip: "做法：相纸<b>全部放随身包</b>，过安检时把它单独拿出来，对安检员说 <b>“Film, hand inspection please”</b>（美国 TSA 规定旅客可以要求胶片手检）。已经拍好打印出来的照片没问题，随便过。你这趟要飞中美 + 拉美好几段，每次都记得这一步。" },
+      { id: "d-evo-battery", name: "Evo 的电池和 Pocket 3 一样怕冷，一起管", tag: "sug",
+        note: "混合式机器靠锂电池工作，低温掉电快。另外<b>相纸显影需要温度</b>——在接近 0°C 的环境里打印，照片会偏蓝、显影不完全。",
+        tip: "巴塔哥尼亚的做法：<b>相机和相纸都贴身放在冲锋衣里层</b>（靠体温），拍完的照片也塞进内袋显影几分钟再拿出来看。别在户外大风里当场打印——又冷又容易被吹掉。<b>真想在百内打印，等回到旅馆再打</b>，Evo 支持事后挑图打印，这正是它的优势。" }
+    ]
+  },
+  {
+    id: "iphone", emoji: "📱", title: "iPhone 17：它才是主力，别本末倒置",
+    desc: "这一节没有购物，全是设置和习惯。第三台相机是加分项，而 90% 的照片会来自这台手机",
+    items: [
+      { id: "ip-storage", name: "⚠️ 先解决存储：这是最容易在旅途中爆掉的东西", tag: "must",
+        note: "3.5 个月的日常 + 墨西哥数趟 + 巴塔哥尼亚和哥斯达黎加各一周，再加上 Pocket 3 导出的素材。<b>4K 视频约 400MB/分钟</b>，几段就是几个 G。手机存满的那一刻通常正好是你最想拍的时候。",
+        tip: "出发前做两件事：① 检查 iPhone 剩余容量，<b>清掉旧的视频和微信缓存</b>（微信缓存往往能腾出十几个 G）；② <b>买 iCloud 200GB（¥21/月）或 2TB</b>，开自动备份。这不只是存储问题，也是防丢问题——手机被偷了照片还在（见「备份防盗」节）。" },
+      { id: "ip-format", name: "拍摄格式：日常用 HEIF，重要场景才开 ProRAW", tag: "sug",
+        note: "ProRAW 单张 25–50MB，后期空间大但吃存储；HEIF 高效兼容，日常完全够用。视频 <b>4K/60 很占空间，4K/30 或 1080p/60 对社交平台已经绰绰有余</b>。",
+        tip: "建议配置：默认 HEIF + 4K/30；只在<b>百内塔底日出、菲茨罗伊、星空</b>这几个不可重来的场景切 ProRAW。设置路径：设置 → 相机 → 格式 / 录制视频。<b>别全程开 ProRAW</b>，你会在第三周就存满。" },
+      { id: "ip-style", name: "落地前把 Photographic Styles 调好，省掉大部分后期", tag: "sug",
+        note: "iPhone 的摄影风格是<b>拍摄时就写进文件</b>的（不是滤镜），能直接决定成片的色调和对比。调好一次全程受益，比每张单独修快得多。",
+        tip: "适合你行程的方向：<b>加州和墨西哥</b>可以偏暖、略降饱和（那种褪色胶片感）；<b>巴塔哥尼亚</b>偏冷调、加对比更有张力。在设置 → 相机 → 摄影风格里预设一个，拍的时候还能临时切换。" },
+      { id: "ip-wide", name: "风景用 0.5x 超广角，但别用数码变焦", tag: "sug",
+        note: "巴塔哥尼亚和百内的山体尺度极大，<b>0.5x 超广角是你最常用的焦段</b>。反过来，超过光学范围的数码变焦（比如 10x）就是裁切放大，画质崩坏。",
+        tip: "两个习惯：① 拍大景先切 0.5x，但<b>前景要放东西</b>（人、石头、步道）——纯广角拍山会显得又平又远；② 想拍远处的东西<b>用脚走近</b>，或者直接原图拍完后期裁，效果比机内数码变焦好。" },
+      { id: "ip-night", name: "巴塔哥尼亚的星空：南半球，而且光污染极低", tag: "sug",
+        note: "这是你整趟行程最特别的拍摄机会——<b>南十字座、大小麦哲伦云</b>在北半球完全看不到，而百内和埃尔查尔滕一带几乎没有光污染。iPhone 的夜间模式在三脚架上能曝到 <b>10–30 秒</b>。",
+        tip: "需要一个<b>八爪鱼小三脚架</b>（$15–25，黑五买），手持拍不出星空。做法：关闭闪光灯、把手机架稳、对准天空、等夜间模式自动拉到最长曝光。<b>提前查月相</b>——满月会把星星洗掉，新月前后最好。顺手用 Pocket 3 拍一段星空延时。" },
+      { id: "ip-people", name: "拍人：逆光和人像模式，两个立刻能用的技巧", tag: "sug",
+        note: "旅行照里最值钱的是有人的照片，不是纯风景。而拍人最常见的失败是<b>逆光下脸黑</b>和<b>背景太乱</b>。",
+        tip: "① <b>逆光</b>：点一下屏幕上的脸锁定曝光，或者干脆让对方背对光源拍剪影——加州和墨西哥的黄昏光线极好，剪影几乎不会失败；② <b>背景乱</b>：切人像模式虚化，或者往后退两步、蹲低一点用天空当背景。" },
+      { id: "ip-edit", name: "后期只需要一个 App，别装五个", tag: "opt",
+        note: "手机自带的编辑已经能做 80% 的事（曝光、对比、色温、裁切）。真要进一步，<b>Lightroom Mobile 免费版</b>够用，还能存自己的预设批量套用。",
+        tip: "实用做法：<b>每趟旅行回来选 10–15 张精修，套同一套预设</b>，这样一组照片风格统一，发出来比单张漂亮。别每张都修——你会修不完然后一张都不发。" }
+    ]
+  },
+  {
+    id: "pocket3", emoji: "🎥", title: "Pocket 3：一张卡是开工前提，低温是最大变量",
+    desc: "参数来自 DJI 官方规格页。这一节最重要的两条是「没卡不能用」和「工作温度下限 0°C」——后者正好卡在巴塔哥尼亚的清晨",
+    items: [
+      { id: "p3-sd", name: "⚠️ Pocket 3 没有内置存储，先买卡", tag: "must",
+        note: "官方规格写明：<b>机身无内置存储容量</b>，必须插 microSD 才能拍。而且它对卡的速度有要求——4K/60 码率高，慢卡会掉帧甚至中断录制。DJI 推荐 <b>UHS-I Speed Grade 3（V30）及以上</b>。",
+        tip: "买 <b>256GB V30/A2</b> 就够（约 ¥100，SanDisk Extreme Pro / Lexar / Kingston Canvas Go! Plus 都在 DJI 推荐名单里）。<b>出发前在国内买好并实测录一段 4K</b>，别等落地——买到假卡或不兼容的卡在国外换很麻烦。黑五再补一张便宜的做备用。" },
+      { id: "p3-cold", name: "⚠️ 工作温度 0–40°C：巴塔哥尼亚清晨在下限上", tag: "must",
+        note: "官方标注<b>工作环境温度 0°C 至 40°C，充电环境温度 5°C 至 45°C</b>。巴塔哥尼亚 12 月是夏天，但<b>清晨和大风时体感接近 0–5°C</b>——正好压在下限。低温下锂电池掉电极快，标称 166 分钟（25°C、1080p、关屏关 Wi-Fi 的实验室条件）在现实里会短得多。",
+        tip: "三个具体动作：① <b>不拍的时候把机器贴身放在冲锋衣内层</b>，靠体温保温，别挂在包外面；② <b>不要在低温下充电</b>（低于 5°C 充电会伤电池），回旅馆回温后再充；③ 百内塔底日出这种关键场景，<b>预算按标称续航的一半算</b>。" },
+      { id: "p3-power", name: "续航方案：续航手柄 or 充电宝，选一个", tag: "must",
+        note: "内置电池 1300mAh / 10.01Wh。官方<b>续航手柄内含 950mAh</b>，直接插机身底部 USB-C 就能延长续航，同时兼作握把。或者直接用充电宝边充边拍（USB-C，65W PD 可 32 分钟充满）。",
+        tip: "<b>推荐充电宝方案</b>：你本来就要带充电宝给手机用，一个 10000mAh 的能给 Pocket 3 充好几轮，比再买一个专用手柄划算，也少一个要收纳的配件。但如果你在意手持稳定性和自拍握感，续航手柄确实更顺手——二选一，别都买。" },
+      { id: "p3-gimbal", name: "云台是全机最脆弱的部件，收纳有固定动作", tag: "must",
+        note: "三轴机械云台怕撞、怕在通电状态被硬掰。它坏了整台机器就废了，而这是你唯一的视频设备。",
+        tip: "养成一个肌肉记忆：<b>每次收之前把镜头转回收纳位（竖直合拢）再关机，装进原装保护套</b>。塞包时不要和水瓶、充电宝挤在一格——找个有隔层的位置或者单独放。骇客 22 的顶袋适合放它。" },
+      { id: "p3-vertical", name: "旋转屏 = 直接出竖屏，别拍完再裁", tag: "sug",
+        note: "Pocket 3 的 2 英寸屏可以旋转，<b>横竖构图无缝切换</b>，机内直接录 9:16。这是它比 GoPro 好用的核心优势之一。",
+        tip: "习惯：<b>要发小红书/Instagram Reels 的内容一开始就转竖屏拍</b>。横屏拍完再裁成竖屏会损失一半画面，而且构图往往不成立。想两个版本都要，就同一个场景横竖各拍一遍——反正每段只要几秒。" },
+      { id: "p3-tracking", name: "一个人旅行时最有用的功能：主角跟随", tag: "sug",
+        note: "开启后云台会自动追着你转，你可以把机器放在石头或栏杆上，自己走进画面里，它会一直跟着你。<b>单人旅行拍「有自己在场景里」的镜头，这是最省事的方式</b>。",
+        tip: "在巴塔哥尼亚和墨西哥试这个：把 Pocket 3 架在步道边，开跟随，然后自己从远处走过来。比找陌生人帮你拍靠谱得多，也不用担心机器被拿走（你一直在画面里看着它）。<b>三脚架接口在底部，八爪鱼能直接拧上</b>。" },
+      { id: "p3-city", name: "在拉美城市街头别长时间举着它", tag: "must",
+        note: "Pocket 3 外形明显是台相机，价值一看就懂。墨西哥城、圣何塞的部分区域抢夺电子设备是真实风险。",
+        tip: "它小巧本来就是优势——<b>用完立刻收进腰包或背包，别挂在胸前招摇</b>。要拍街景就短促地拿出来拍几秒再收。真正安全的拍摄场合是步道、景区、和有人陪的时候。这条和<a href='../latam/'>拉美装备</a>页的防盗建议是一套。" }
+    ]
+  },
+  {
+    id: "power", emoji: "🔌", title: "电与卡：航空规定和美标插头",
+    desc: "拍照装备的隐形短板不是相机，是「没电」和「没地方存」。这一节还包含两条不能违反的航空规定",
+    items: [
+      { id: "pw-bank-rule", name: "⚠️ 充电宝必须随身，不能托运（航空硬规定）", tag: "must",
+        note: "锂电池充电宝<b>只能放随身行李</b>，绝对不能托运。容量限制：<b>≤100Wh 可直接带</b>（相当于约 27,000mAh），100–160Wh 需航司批准，>160Wh 禁止。充电宝上必须<b>印有清晰的 Wh 或 mAh 标识</b>，没标识的会被没收。",
+        tip: "买一个 <b>10,000mAh（约 37Wh）</b>的就够，容量小、过安检零风险、能给 iPhone 充两轮或 Pocket 3 充三轮。<b>出发前确认机身上的容量标识清楚可读</b>——三无充电宝在国内和美国机场都会被扣。" },
+      { id: "pw-camera-battery", name: "Pocket 3 和 Evo 的电池都合规，放心带", tag: "sug",
+        note: "Pocket 3 内置电池 <b>10.01Wh</b>，远低于 100Wh 限制，且是内置式（机身一起带）。Instax Evo 同理。这两台<b>随身带、开机能演示</b>就没有问题。",
+        tip: "统一原则：<b>所有带电池的东西都放随身包</b>——相机、充电宝、备用电池、Kindle。托运箱里只放没有电池的东西。这样过安检时你不用现场翻箱。" },
+      { id: "pw-plug", name: "美标插头 + 一个多口 GaN 充电器", tag: "must",
+        note: "美国是 110V / 美标扁插。你的 iPhone、Pocket 3、Evo、充电宝都是 USB-C 充电，<b>不需要变压器，只需要插头形状对</b>（这些设备都支持 100–240V 宽压）。",
+        tip: "买一个 <b>65W 三口以上的 GaN 充电器 + 美标插头</b>（国内约 ¥100–150），一个头同时充手机和相机，比带四个原装头省一半体积。<b>注意区分</b>：这条只适用于 USB 设备；国内的 220V 电吹风、电饭锅在美国用不了（见<a href='../luggage/'>行李清单</a>）。" },
+      { id: "pw-reader", name: "读卡器：把 Pocket 3 的素材导进手机或电脑", tag: "must",
+        note: "Pocket 3 可以用 App 无线传，但 4K 素材无线传<b>又慢又费电</b>。有线导入快得多。",
+        tip: "买一个 <b>USB-C microSD 读卡器</b>（¥20–30，很小），iPhone 17 是 USB-C 口，可以直接插上把素材导进「文件」或相册。带笔记本的话更方便。<b>这是每周备份流程的关键工具，别省这 20 块。</b>" },
+      { id: "pw-drive", name: "移动硬盘：可选，但拉美行前值得配", tag: "opt",
+        note: "如果你 12 月要拍很多 4K 视频，iCloud 上传慢、手机也存不下。一个 1TB 移动固态硬盘（黑五约 $60–80）能把所有原始素材落地保存。",
+        tip: "判断标准：<b>如果你只发社交平台、不做剪辑，跳过</b>，iCloud + 手机够用。<b>如果你想认真剪一支拉美 vlog，就买</b>，而且黑五买完 12 月正好用上。注意硬盘也算电子设备，随身带。" },
+      { id: "pw-spare-sd", name: "备用 microSD：便宜的保险", tag: "sug",
+        note: "卡满了、卡坏了、卡丢了——在巴塔哥尼亚山里这三件事没有任何补救办法。一张 128GB 备用卡黑五只要十几美元。",
+        tip: "策略：<b>主卡 256GB 平时用，备用卡 128GB 一直放在腰包或钱包里</b>。另外<b>重要行程结束后就把卡里的东西导出来</b>，别让一整趟拉美的素材只存在一张卡上。" }
+    ]
+  },
+  {
+    id: "backup", emoji: "💾", title: "备份与防盗：这一节比买什么相机都重要",
+    desc: "相机能再买，照片不能。3.5 个月加两趟拉美的照片，是这趟行程唯一带不回来第二份的东西——而拉美的偷窃风险是真实的",
+    items: [
+      { id: "bk-icloud", name: "🥇 第一优先：iCloud 自动备份开着，全程别关", tag: "must",
+        note: "这是唯一一个「手机被偷了照片还在」的方案。iCloud 200GB 每月 ¥21，2TB 每月 ¥68。<b>开着自动备份，连 Wi-Fi 就传</b>，你什么都不用记。",
+        tip: "出发前设好并<b>确认真的在上传</b>（设置 → Apple ID → iCloud → 照片，看进度）。注意：<b>数据漫游下别传 4K 视频</b>，会烧掉流量套餐——设成「仅 Wi-Fi」。宿舍和咖啡馆的 Wi-Fi 足够它慢慢传。" },
+      { id: "bk-weekly", name: "每周一个 15 分钟的动作：导 Pocket 3 的卡", tag: "must",
+        note: "Pocket 3 的素材<b>不会自动进 iCloud</b>——它在一张实体卡里。卡丢了、坏了、机器被偷了，那些视频就永久消失了。",
+        tip: "固定成习惯：<b>每周日晚上用读卡器把卡导进手机相册（或电脑）</b>，导完再删卡上的。这样最坏情况也只损失一周素材。和你「每月 12 日查 TritonPay 账单」放同一个提醒序列里。" },
+      { id: "bk-latam", name: "拉美出发前：把重要照片再存一份在别处", tag: "must",
+        note: "12 月你会连续在外两周，手机不离身。<b>出发前把 9–11 月在美国拍的所有东西确认已经在云端</b>——这样即使手机在拉美丢了，前三个月的记录还完整。",
+        tip: "具体做法：出发前一晚检查 iCloud 已同步完，再<b>把最珍贵的一批（比如 50 张）额外传一份到微信收藏或网盘</b>。听起来笨，但它是完全独立的第二份，不依赖 Apple 账号。" },
+      { id: "bk-appleid", name: "⚠️ 一个容易忽略的连锁风险：Apple ID 双因素靠国内号码", tag: "must",
+        note: "如果你的 Apple ID 双因素验证发到<b>联通号码</b>，而你在美国换了美国卡做主卡、或者手机丢了——<b>你可能既进不去 iCloud，也拿不回照片</b>。这是最坏情况：手机丢了，备份也打不开。",
+        tip: "出发前务必做两件事：① 在 Apple ID 里<b>加一个受信任设备</b>（iPad、家人的手机），或者把双因素改到你会一直能收的号码；② <b>把 Apple ID 恢复密钥或恢复联系人设好</b>（家人）。这条和<a href='../money/'>电话卡那节</a>是同一个问题的两面——联通号在美国要一直保持有效。" },
+      { id: "bk-theft", name: "防盗的具体做法（不是「小心一点」）", tag: "must",
+        note: "墨西哥城、圣何塞、以及圣地亚哥市中心部分区域，抢夺手机相机是常见犯罪。抽象的「注意安全」没用，要有具体动作。",
+        tip: "四条可执行的：① <b>走路时不拿着手机</b>——要用就停下来靠墙站住；② <b>相机拍完立刻收</b>，不挂胸前；③ <b>贴身腰包装护照现金，外挂腰包只装手机耳机</b>（丢了不致命，见你的腰包两穿方案）；④ <b>公交和市集上把包背在身前</b>。核心逻辑：让「丢了会毁掉行程的东西」和「暴露在外的东西」永不重叠。" },
+      { id: "bk-findmy", name: "落地就开「查找」并记下三个号码", tag: "sug",
+        note: "「查找」能定位、远程锁定、抹除数据。丢了以后再开就来不及了。",
+        tip: "存进手机备忘录和一张纸条（分开放）：<b>Apple ID 邮箱 + 中国驻当地使领馆电话 + 银行挂失电话</b>。手机丢了你需要借别人的设备操作，那时你什么都记不起来。纸条放在贴身腰包里。" }
+    ]
+  },
+  {
+    id: "env", emoji: "🌧️", title: "三种环境会杀设备：雨林、大风、低温",
+    desc: "你这趟要连续经过湿热雨林、强风砾石、接近零度的清晨——每种对设备的威胁不一样，应对也不一样",
+    items: [
+      { id: "ev-rainforest", name: "哥斯达黎加雨林：湿度是主敌，镜头会起雾", tag: "must",
+        note: "雨林湿度常年 90%+。<b>从空调房走到户外，镜头会立刻起雾</b>，十几分钟拍不了东西；长期高湿还可能让镜片长霉。这对 Pocket 3 和 Evo 都成立。",
+        tip: "三个便宜方案：① 带一包<b>硅胶干燥剂</b>（几美元，Target 有），和相机一起放在密封袋里过夜；② <b>出门前先把相机放在门口适应外面温度</b>再拿出来，别从冷房直接掏出来用；③ <b>每台机器配一个 ziplock 密封袋</b>，突然下雨随手就能塞进去。" },
+      { id: "ev-rain", name: "下雨怎么拍：Pocket 3 不防水，别赌", tag: "must",
+        note: "Pocket 3 <b>没有防水等级</b>，云台和镜头缝隙进水就可能报废。雨林和巴塔哥尼亚都会随时下雨。",
+        tip: "分工很清楚：<b>下雨时用 iPhone 拍</b>（iPhone 17 有 IP68，淋雨没问题，擦干就好），<b>Pocket 3 收进包里</b>。想在雨中拍视频就用手机。别为此买防水壳——你的场景没到那个必要性。" },
+      { id: "ev-wind", name: "巴塔哥尼亚大风：沙尘和「东西被吹走」", tag: "must",
+        note: "百内一带阵风常年很大。两个具体风险：<b>细沙尘吹进云台缝隙</b>；<b>换卡、拿相纸、摘镜头盖时东西直接被吹走</b>。",
+        tip: "① 带一块<b>超细纤维镜头布</b>（几块钱），别用衣角擦——沙粒会划镜片；② <b>所有换卡、换电池的操作都在背风处或车里/室内做</b>，蹲下、把包当挡风；③ 相纸和小配件全部装在<b>拉链袋</b>里，不要用敞口口袋。风里丢东西是那边最常见的意外。" },
+      { id: "ev-cold", name: "低温：电池会「假死」，别以为机器坏了", tag: "sug",
+        note: "锂电池在接近 0°C 时电压下降，可能<b>显示没电直接关机，回温后又能用</b>。这不是坏了。Pocket 3 官方工作下限就是 0°C。",
+        tip: "做法：<b>备用电源和相机都贴身放</b>（冲锋衣内层、靠胸口），别放背包外袋。如果机器在山上突然关机，塞进内层捂十分钟再试。<b>拍日出这种场景，提前半小时就把机器揣在怀里保温</b>，而不是到了才拿出来。" },
+      { id: "ev-salt", name: "圣地亚哥海边：盐雾比你想的伤设备", tag: "sug",
+        note: "你会常去 La Jolla、Torrey Pines、Sunset Cliffs——海风带盐分，附着在机身和镜头上，长期会腐蚀接口和金属件。",
+        tip: "简单但有效：<b>每次去海边回来用微湿的布擦一遍机身，再干擦</b>，特别是 USB-C 接口周围。别把相机直接放在沙滩上——沙子进云台是不可逆的。" }
+    ]
+  },
+  {
+    id: "spots", emoji: "📍", title: "出片点位与时间：从校园到巴塔哥尼亚",
+    desc: "按「你会去哪」排的拍摄清单。圣地亚哥这几个地方走路或坐电车就能到，不用专门安排一天",
+    items: [
+      { id: "sp-salk", name: "🥇 Salk Institute：全世界最著名的建筑摄影地之一，就在 UCSD 隔壁", tag: "must",
+        note: "路易斯·康设计的索尔克研究所，中央那条把视线引向太平洋的石砌广场是建筑摄影的经典机位。<b>从 UCSD 走过去十几分钟</b>，免费开放（有开放时段限制）。",
+        tip: "<b>日落前一小时去</b>——那条中轴水槽正对太阳落海的方向，是这地方最出名的画面。对称构图、超广角、站在中轴线上。这是你在圣地亚哥能拍到的最「作品级」的照片，而且几乎没有成本。去之前查一下当天的对外开放时间。" },
+      { id: "sp-campus", name: "UCSD 校园本身：Geisel 图书馆 + 太阳神", tag: "sug",
+        note: "Geisel 图书馆是科幻感极强的地标建筑（《盗梦空间》气质），Sun God 雕像是校园符号。这两个是「我在 UCSD」最有辨识度的证明。",
+        tip: "Geisel <b>阴天或黄金时刻拍最好</b>，正午顶光会让混凝土发白、失去体积感。角度：从下往上贴近拍出悬挑结构的压迫感，或者退远拍它悬浮在树林之上。<b>开学第一周就去拍一次</b>，之后每个月再拍一次，季节变化很明显。" },
+      { id: "sp-lajolla", name: "La Jolla Cove：海豹和海狮，全年都在", tag: "must",
+        note: "离 UCSD 很近，<b>能近距离拍到野生海豹和海狮</b>（有围栏和距离规定，必须遵守）。悬崖、海蚀洞、海鸟一并有。",
+        tip: "<b>早上人少光柔</b>，中午游客爆满。用 iPhone 的长焦或原图裁切拍海豹（别靠近，法律禁止骚扰海洋哺乳动物）。<b>Pocket 3 拍海浪和悬崖的走动镜头非常出片</b>。顺路可以走到 Sunset Cliffs 看日落。" },
+      { id: "sp-torrey", name: "Torrey Pines：既是磨合徒步鞋的地方，也是出片点", tag: "sug",
+        note: "海崖 + 沙岩地貌 + 步道下到海滩，坡度足够用来<b>磨合你的徒步鞋</b>（拉美清单里那条），顺便拍照。",
+        tip: "一举两得：<b>9–11 月每两周去走一次</b>，既完成鞋的磨合（下坡才能测出顶脚趾），又能拍不同光线下的海崖。傍晚金色时刻整片沙岩会发橙色，是最好的时段。" },
+      { id: "sp-mexico", name: "墨西哥短途：色彩是主题，不是风景", tag: "sug",
+        note: "墨西哥的视觉特征是<b>饱和的墙面色彩、市集、街头食物、招牌</b>——和加州的海岸线完全不同的题材，也更适合拍人和细节。",
+        tip: "拍摄策略：<b>多拍细节和局部</b>（一扇蓝色的门、一摊水果、一双手在做玉米饼），比拍全景更有味道。这也是 Instax 最合适的场合——<b>给摊主拍一张送给他</b>，几乎是最快获得真诚笑容的方式。注意安全：相机不长时间外露。" },
+      { id: "sp-torres", name: "百内塔底日出：整趟行程的最高优先级画面", tag: "must",
+        note: "Torres del Paine 三塔在日出时被染成红色，是南美最著名的画面之一。往返约 20km 的一日徒步，<b>需要在天亮前出发</b>。",
+        tip: "准备清单：<b>头灯</b>（黑暗中上山必需）· <b>相机贴身保温</b>（清晨接近 0°C）· <b>iPhone 切 ProRAW</b>（这个画面值得最大后期空间）· <b>八爪鱼三脚架</b>（日出前可以先拍星空）。<b>日照只持续十几分钟</b>，提前到位、先构图好再等。天气不给面子的概率不低，这是运气成分最大的一天。" },
+      { id: "sp-fitzroy", name: "菲茨罗伊（El Chaltén）：比百内更容易接近", tag: "sug",
+        note: "阿根廷埃尔查尔滕的菲茨罗伊峰，多条一日徒步路线从镇上直接出发，<b>不需要长途接驳</b>。Laguna de los Tres 是经典机位，但强度较大；较轻松的观景点也很出片。",
+        tip: "对你「只做一日徒步」的定位，<b>可以选中短线的观景点而不必冲最难那条</b>——菲茨罗伊的锯齿状轮廓在很多角度都成立。这里也是<b>星空最好的地方之一</b>，镇上光污染很低，走出镇子几百米就能拍。" },
+      { id: "sp-cr", name: "哥斯达黎加雨林：光线暗，是 iPhone 的主场", tag: "sug",
+        note: "雨林树冠遮光，<b>比你想象的暗得多</b>。这种环境下 iPhone 的计算摄影（夜间模式、Deep Fusion）比小底相机更能出片，Pocket 3 反而吃亏。",
+        tip: "① <b>主力用 iPhone</b>，Pocket 3 只在开阔处（吊桥、瀑布、海滩）用；② 拍动物（树懒、巨嘴鸟）用长焦裁切，别指望走近；③ <b>雨林的题材是氛围不是清晰度</b>——雾气、水滴、层层叠叠的绿，拍出湿度感比拍清楚更重要。" },
+      { id: "sp-dec", name: "12 月离美前：拍一组「告别」，然后卖掉不带走的", tag: "sug",
+        note: "退房前把宿舍、校园、常去的咖啡馆各拍一组。<b>你当时会觉得没必要，回国后这些是最想看的照片</b>。",
+        tip: "具体：宿舍房间空掉之前拍一张、Geisel 再拍一次、和同学用 Instax 各拍一张互换。<b>相机别卖</b>（Mini Evo 和 Pocket 3 回国还会一直用），要卖的是电饭锅吹风机那类——见<a href='../luggage/'>行李清单</a>的 12 月离美一节。" }
+    ]
+  }
+];
+
+const TAG_LABEL = { must: "必做", sug: "建议", opt: "可选", skip: "查一下" };
+const STORE_KEY = "ucsd-photo-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { state = {}; }
+let filter = "all";
+
+const totalItems = DATA.reduce((s, g) => s + g.items.length, 0);
+const $sections = document.getElementById("sections");
+function render() {
+  $sections.innerHTML = DATA.map(group => {
+    const rows = group.items.map(it => {
+      const st = state[it.id] || "todo";
+      return `
+      <div class="item state-${st}" data-id="${it.id}" data-state="${st}">
+        <div class="item-main">
+          <div class="item-name">${it.name}<span class="badge ${it.tag}">${TAG_LABEL[it.tag]}</span></div>
+          <div class="item-note">${it.note}</div>
+          <div class="item-meta"><span class="meta-icon">💡</span><span><b class="meta-label">怎么做：</b>${it.tip}</span></div>
+        </div>
+        <div class="item-actions">
+          <button class="chip ${st === "done" ? "on-done" : ""}" data-act="done">${st === "done" ? "✓ 已搞定" : "已搞定"}</button>
+          <button class="chip na-chip ${st === "na" ? "on-na" : ""}" data-act="na">${st === "na" ? "— 不适用" : "不适用"}</button>
+        </div>
+      </div>`;
+    }).join("");
+    return `
+    <section class="section" id="${group.id}" data-group="${group.id}">
+      <div class="section-head">
+        <div class="emoji">${group.emoji}</div>
+        <div><h2>${group.title}</h2>${group.desc ? `<div class="desc">${group.desc}</div>` : ""}</div>
+        <span class="count" data-count="${group.id}"></span>
+      </div>
+      ${rows}
+    </section>`;
+  }).join("");
+  update();
+}
+
+function update() {
+  let done = 0, na = 0;
+  Object.values(state).forEach(v => { if (v === "done") done++; if (v === "na") na++; });
+  const todo = totalItems - done - na;
+  const effective = totalItems - na;
+  const pct = effective === 0 ? 100 : Math.round(done / effective * 100);
+
+  document.getElementById("n-todo").textContent = todo;
+  document.getElementById("n-done").textContent = done;
+  document.getElementById("n-na").textContent = na;
+  document.getElementById("pct").textContent = pct + "%";
+  const C = 213.6;
+  document.getElementById("ring").style.strokeDashoffset = C * (1 - pct / 100);
+
+  DATA.forEach(g => {
+    const gDone = g.items.filter(it => (state[it.id] || "todo") !== "todo").length;
+    const el = document.querySelector(`[data-count="${g.id}"]`);
+    el.textContent = `${gDone} / ${g.items.length}`;
+    el.classList.toggle("ok", gDone === g.items.length);
+  });
+
+  document.querySelectorAll(".item").forEach(el => {
+    el.classList.toggle("hidden", filter === "todo" && el.dataset.state !== "todo");
+  });
+  document.querySelectorAll(".section").forEach(sec => {
+    const visible = sec.querySelectorAll(".item:not(.hidden)").length;
+    sec.classList.toggle("hidden", filter === "todo" && visible === 0);
+  });
+}
+
+$sections.addEventListener("click", e => {
+  const btn = e.target.closest(".chip");
+  if (!btn) return;
+  const id = btn.closest(".item").dataset.id;
+  const act = btn.dataset.act;
+  state[id] = (state[id] === act) ? "todo" : act;
+  if (state[id] === "todo") delete state[id];
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  render();
+});
+
+document.querySelectorAll("[data-filter]").forEach(b => {
+  b.addEventListener("click", () => {
+    filter = b.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(x => x.classList.toggle("active", x === b));
+    update();
+  });
+});
+
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (confirm("确定要清空所有勾选进度吗？")) {
+    state = {};
+    localStorage.removeItem(STORE_KEY);
+    render();
+  }
+});
+document.getElementById("btn-print").addEventListener("click", () => window.print());
+
+render();
+</script>
+</body>
+</html>
