@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>亡灵节 · 墨西哥城 4 天 · 10/30–11/2</title>
+<style>
+  :root {
+    --bg: #f2f6fa;
+    --card: #ffffff;
+    --ink: #16283b;
+    --ink-2: #5b6b7d;
+    --line: #e1e9f1;
+    --accent: #00629b;
+    --accent-soft: #e4f0f7;
+    --green: #0fa968;
+    --green-soft: #e6f7ef;
+    --gray: #8b96a3;
+    --gray-soft: #edf1f5;
+    --amber: #c77800;
+    --amber-soft: #fff4e0;
+    --red: #c0392b;
+    --red-soft: #ffecec;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(15, 40, 70, .05), 0 8px 24px rgba(15, 40, 70, .07);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.6;
+  }
+  .hero {
+    background: linear-gradient(140deg, #182b49 0%, #00629b 48%, #00a5b5 82%, #ffcd00 118%);
+    color: #fff; padding: 44px 20px 130px;
+  }
+  .hero-inner { max-width: 920px; margin: 0 auto; }
+  .hero .tag {
+    display: inline-block; font-size: 12.5px; letter-spacing: .06em;
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28);
+    border-radius: 999px; padding: 4px 12px; margin-bottom: 14px;
+  }
+  .hero h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; }
+  .hero p.sub { margin-top: 10px; color: rgba(255,255,255,.88); font-size: 15px; max-width: 700px; }
+  .wrap { max-width: 920px; margin: -92px auto 0; padding: 0 20px 80px; }
+
+  .panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
+  .panel + .panel { margin-top: 18px; }
+  .panel h2 { font-size: 18px; margin-bottom: 4px; }
+  .panel .sub { font-size: 13.5px; color: var(--ink-2); margin-bottom: 16px; }
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+  .cell {
+    border: 1px solid var(--line); border-radius: 12px; padding: 14px 15px;
+    background: linear-gradient(180deg, #fbfdff, #f4f9fc);
+  }
+  .cell .c-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .cell .c-emoji { font-size: 22px; }
+  .cell b { font-size: 14.5px; }
+  .cell .temp { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .cell .c-desc { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; }
+  .rule-note { margin-top: 14px; font-size: 13px; color: var(--ink-2); background: var(--amber-soft); border-radius: 9px; padding: 9px 13px; }
+  .rule-note b { color: var(--amber); }
+
+  .dashboard {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 18px 24px; display: flex; align-items: center; gap: 26px; flex-wrap: wrap; margin-top: 18px;
+  }
+  .ring-box { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .ring-box svg { transform: rotate(-90deg); }
+  .ring-bg { stroke: var(--gray-soft); }
+  .ring-fg { stroke: var(--accent); transition: stroke-dashoffset .45s ease; }
+  .ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-label b { font-size: 17px; line-height: 1.1; }
+  .ring-label span { font-size: 10.5px; color: var(--ink-2); }
+  .stats { display: flex; gap: 26px; flex-wrap: wrap; flex: 1; }
+  .stat b { display: block; font-size: 22px; line-height: 1.2; }
+  .stat span { font-size: 12.5px; color: var(--ink-2); }
+  .stat.todo b { color: var(--amber); }
+  .stat.done b { color: var(--green); }
+  .stat.na b { color: var(--gray); }
+
+  .toolbar { display: flex; align-items: center; gap: 10px; margin: 20px 0 4px; flex-wrap: wrap; }
+  .toolbar .spacer { flex: 1; }
+  .btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    border-radius: 999px; padding: 7px 16px; font-size: 13.5px; cursor: pointer; transition: all .15s ease;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.danger:hover { border-color: #d64545; color: #d64545; }
+
+  .jump { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 2px; align-items: center; }
+  .jump span { font-size: 12.5px; color: var(--gray); }
+  .jump a {
+    text-decoration: none; font-size: 13px; background: #fff; border: 1px solid var(--line);
+    border-radius: 999px; padding: 5px 13px; color: var(--ink);
+  }
+
+  .section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-top: 18px; overflow: hidden; }
+  .section-head { display: flex; align-items: center; gap: 12px; padding: 18px 22px 14px; border-bottom: 1px solid var(--line); }
+  .section-head .emoji {
+    width: 40px; height: 40px; border-radius: 11px; background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+  }
+  .section-head h2 { font-size: 17px; font-weight: 700; }
+  .section-head .desc { font-size: 12.5px; color: var(--ink-2); margin-top: 1px; }
+  .section-head .count {
+    margin-left: auto; font-size: 12.5px; color: var(--ink-2);
+    background: var(--gray-soft); border-radius: 999px; padding: 3px 11px; white-space: nowrap;
+  }
+  .section-head .count.ok { background: var(--green-soft); color: var(--green); }
+
+  .item { display: flex; gap: 14px; align-items: flex-start; padding: 15px 22px; border-bottom: 1px solid var(--line); }
+  .item:last-child { border-bottom: none; }
+  .item.state-done { background: #fbfefc; }
+  .item.state-done .item-name { color: var(--ink-2); text-decoration: line-through; text-decoration-color: rgba(15,169,104,.5); }
+  .item.state-na { opacity: .55; }
+  .item.state-na .item-name { text-decoration: line-through; }
+  .item-main { flex: 1; min-width: 0; }
+  .item-name { font-size: 15px; font-weight: 600; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 5px; padding: 1px 7px; margin-left: 7px; vertical-align: 2px; }
+  .badge.must { background: var(--red-soft); color: var(--red); }
+  .badge.sug  { background: var(--amber-soft); color: var(--amber); }
+  .badge.opt  { background: var(--gray-soft); color: var(--gray); }
+  .badge.skip { background: #edeafd; color: #6a51d8; }
+  .item-note { font-size: 13px; color: var(--ink-2); margin-top: 3px; }
+  .item-meta {
+    display: flex; gap: 8px; font-size: 12.5px; color: var(--ink-2); margin-top: 7px;
+    background: #f6fafd; border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; line-height: 1.55;
+  }
+  .item-meta .meta-icon { flex-shrink: 0; }
+  .item-meta b.meta-label { color: var(--ink); font-weight: 600; margin-right: 2px; }
+  .item-meta a { color: var(--accent); text-decoration: none; }
+  .item-meta a:hover { text-decoration: underline; }
+  .item.state-na .item-meta { display: none; }
+  .item-actions { display: flex; gap: 7px; flex-shrink: 0; padding-top: 2px; }
+  .chip {
+    border: 1px solid var(--line); background: #fff; border-radius: 999px;
+    font-size: 12.5px; padding: 5px 13px; cursor: pointer; color: var(--ink-2);
+    transition: all .13s ease; white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--green); color: var(--green); }
+  .chip.na-chip:hover { border-color: var(--gray); color: var(--ink); }
+  .chip.on-done { background: var(--green); border-color: var(--green); color: #fff; }
+  .chip.on-na { background: var(--gray); border-color: var(--gray); color: #fff; }
+  .item.hidden { display: none; }
+  .section.hidden { display: none; }
+
+  .disclaimer { margin-top: 22px; font-size: 12.5px; color: var(--gray); text-align: center; }
+  .disclaimer a { color: var(--accent); }
+
+  @media (max-width: 560px) {
+    .item { flex-direction: column; gap: 9px; }
+    .item-actions { padding-top: 0; }
+  }
+  @media print {
+    .hero { padding: 20px; }
+    .toolbar, .item-actions { display: none !important; }
+    .section, .dashboard, .panel { box-shadow: none; border: 1px solid var(--line); }
+    body { background: #fff; }
+  }
+</style>
+<style>
+  :root { --accent: #b5179e; --accent-soft: #fbe8f7; }
+  .hero { background: linear-gradient(140deg, #241132 0%, #6a1b7a 40%, #c1275f 72%, #f4a01c 112%); }
+  .cell { background: linear-gradient(180deg, #fffdf8, #fdf6ee); }
+  .item-meta { background: #fdf7fb; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="tag">DÍA DE MUERTOS 2026 · CIUDAD DE MÉXICO · 一个人 · 3 晚 4 天</span>
+    <h1>亡灵节 · 墨西哥城</h1>
+    <p class="sub">路线定了：<b>10/30 周五下课后走 → 11/2 周一下午回校</b>。走 CBX 步行过境、TIJ 飞 MEX，全程<b>不坐夜间长途大巴</b>、不去 Level 4 的州。<b>Mixquic 按 11/1 晚准备</b>（资料上 1 号 / 2 号两种说法都有，团票买 11/1 那场，且下面写了怎么二次确认）。预算约 <b>$390–560</b>，只缺周一上午两节课。</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="panel">
+    <h2>🗓 四天怎么走（时间已按时区算过）</h2>
+    <div class="sub">墨西哥不用夏令时，美国的夏令时在 <b>11/1 结束</b>。所以去程墨城比蒂华纳快 1 小时，回程快 2 小时——别自己换算，直接看航司写的当地时间。</div>
+    <div class="grid4">
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">✈️</span><b>10/30 周五 · 纯赶路</b></div>
+        <div class="temp">12:50 下课 → 23:00 到旅舍</div>
+        <div class="c-desc">LTSP 2C 12:50 下课，Uber 直奔 <b>CBX 圣地亚哥侧</b>（约 30 分钟）。挑 <b>TIJ 16:30–17:30</b> 的航班，落地 MEX 约 21:20–22:20。当晚只做一件事：睡觉。<b>零缺课。</b></div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">💀</span><b>10/31 周六 · 主场日</b></div>
+        <div class="temp">Zócalo + 大游行</div>
+        <div class="c-desc">上午 <b>Zócalo 巨型 ofrenda</b>（免费、10/25 起就搭好）+ 大教堂 + Templo Mayor。下午到傍晚 <b>Desfile de Día de Muertos 大游行</b>，Reforma 走到 Zócalo。晚上 Bellas Artes 夜景。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🌼</span><b>11/1 周日 · 白天</b></div>
+        <div class="temp">Coyoacán / 花市</div>
+        <div class="c-desc">11/1 是 <b>Día de los Angelitos</b>（迎孩子的灵魂）。上午 <b>Mercado de Jamaica</b> 花市看万寿菊墙，下午 <b>Coyoacán</b> 老城 + 市场 + 芙烈达故居（票要提前网上买）。<b>18:00 前回旅舍补一觉。</b></div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🕯</span><b>11/1 周日 · 通夜</b></div>
+        <div class="temp">Mixquic 守灵 → 凌晨返</div>
+        <div class="c-desc">傍晚跟团去 <b>San Andrés Mixquic</b>（Tláhuac 区，市内最东南角）。教堂钟声、墓园烛海、家属守到天亮。团车凌晨 2–3 点送回市中心。<b>务必跟团，别自己回。</b></div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🛬</span><b>11/2 周一 · 回校</b></div>
+        <div class="temp">睡 3–4 小时 → 下午到 UCSD</div>
+        <div class="c-desc">凌晨 3 点回旅舍睡到 8 点，洗澡退房，Uber 去 MEX（30–45 分钟）。<b>MEX 11:00–12:00 起飞 → TIJ 约 12:45–13:45 落地</b>，过 CBX 回校约 15:30。<b>赶得上 17:00 的 CSE 152A。</b></div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">📉</span><b>缺课账单</b></div>
+        <div class="temp">只有周一 2 节</div>
+        <div class="c-desc">周五 12:50 后本来就空，所以去程零成本。回程只丢 <b>LIGN 17 11:00</b> 和 <b>LTSP 2C 12:00</b>——LIGN 17 正是你可能要退的那门，LTSP 2C 缺一次要提前发邮件给 Mastromartino。</div>
+      </div>
+    </div>
+    <div class="rule-note"><b>为什么不订 11/2 清晨那班（虽然更便宜）：</b>守灵到凌晨 2–3 点，再赶 6 点的飞机等于连续清醒 30 小时，落地圣地亚哥还要过境。<b>睡 3 小时再走，多花的只有半天。</b><br><b>如果你反悔想要 Mixquic 的「La Alumbrada」：</b>官方旅游口径和多数当地团都说烛海最盛的是 <b>11/2 晚</b>。想要那一晚就整体后推一天（10/31 早上飞、11/3 早班机回），同样 3 晚、同样的钱，代价是周一周二各缺半天。<b>现在按 11/1 订不是错——1 号晚 Mixquic 也在守夜、也点灯，只是不是最高峰。</b></div>
+  </div>
+
+  <div class="panel">
+    <h2>💵 预算：约 $390–560（单人，青旅）</h2>
+    <div class="sub">大头是机票和过境票，这两项越早订越便宜；亡灵节是墨西哥国内最贵的旅行周之一，<b>9 月订 vs 10 月中订能差 40%</b>。</div>
+    <div class="grid4">
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">✈️</span><b>TIJ ⇄ MEX 往返</b></div>
+        <div class="temp">$140–220</div>
+        <div class="c-desc">Volaris / VivaAerobus。单程常见 $72–148（1,300–2,700 MXN），亡灵节周溢价明显。<b>只买手提行李的最便宜档就够。</b></div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🌉</span><b>CBX 过境票 往返</b></div>
+        <div class="temp">$38–54</div>
+        <div class="c-desc">官方价：单程 $19.95（淡季）/ $23.95（平季）/ $26.95（旺季），往返套票约 $37.95。<b>官网或 CBX App 提前买，现场也能买但会排队。</b></div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🛏</span><b>青旅 3 晚</b></div>
+        <div class="temp">$75–130</div>
+        <div class="c-desc">Roma Norte / Condesa / Juárez 的女生间或 4–6 人间，$25–43/晚。<b>亡灵节周会满房，这是最该今天就订的一项。</b></div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🕯</span><b>Mixquic 夜团</b></div>
+        <div class="temp">$45–80</div>
+        <div class="c-desc">本地团约 <b>820 MXN ≈ $45</b> 起，含往返车。自己坐 Metro + combi 只要 ~$6，但凌晨没有公共交通回来——<b>这 $45 买的是安全回程，不可省。</b></div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🌮</span><b>吃 3.5 天</b></div>
+        <div class="temp">$45–70</div>
+        <div class="c-desc">街头 taco / tlacoyo 一顿 $3–5，市场 comida corrida 套餐 $5–7，坐下来的餐厅 $12–20。按一天 $15 算很宽裕。</div>
+      </div>
+      <div class="cell">
+        <div class="c-head"><span class="c-emoji">🚇</span><b>市内交通 + 门票</b></div>
+        <div class="temp">$25–55</div>
+        <div class="c-desc">Metro 单程 <b>5 比索（约 $0.28）</b>，需要买一张充值卡。夜间和 Coyoacán 往返用 Uber，单程 $4–9。芙烈达故居约 $16（要提前网上订）。</div>
+      </div>
+    </div>
+    <div class="rule-note"><b>现金策略：</b>你手上是父母的 Visa 副卡，境外刷卡有手续费，而且亡灵节期间街头摊、市场、Mixquic 的小贩<b>全是现金</b>。落地 MEX 后在航站楼里的正规银行 ATM（BBVA / Santander / Banorte）取 <b>3,000–4,000 比索（约 $170–220）</b>一次到底，别取多次。<b>拒绝 Euronet 那种独立黄色 ATM</b>，汇率极差。<b>取钱时选「拒绝对方汇率转换」（decline conversion）</b>，让发卡行走 Visa 汇率。</div>
+  </div>
+  <div class="dashboard">
+    <div class="ring-box">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle class="ring-bg" cx="40" cy="40" r="34" fill="none" stroke-width="8"/>
+        <circle class="ring-fg" id="ring" cx="40" cy="40" r="34" fill="none" stroke-width="8"
+                stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+      </svg>
+      <div class="ring-label"><b id="pct">0%</b><span>完成度</span></div>
+    </div>
+    <div class="stats">
+      <div class="stat todo"><b id="n-todo">0</b><span>还没做</span></div>
+      <div class="stat done"><b id="n-done">0</b><span>已搞定</span></div>
+      <div class="stat na"><b id="n-na">0</b><span>不适用</span></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn active" data-filter="all">全部</button>
+    <button class="btn" data-filter="todo">只看没做的</button>
+    <span class="spacer"></span>
+    <button class="btn" id="btn-print">打印清单</button>
+    <button class="btn danger" id="btn-reset">重置进度</button>
+  </div>
+
+  <div class="jump">
+    <span>快速跳转：</span>
+    <a href="#book">🎟 现在就订</a>
+    <a href="#docs">🛂 证件与过境</a>
+    <a href="#day1">✈️ 10/30 周五</a>
+    <a href="#day2">💀 10/31 周六</a>
+    <a href="#day3">🕯 11/1 周日</a>
+    <a href="#day4">🛬 11/2 周一</a>
+    <a href="#safe">🛡 单人安全</a>
+    <a href="#pack">🎒 只带一个包</a>
+  </div>
+  <div id="sections"></div>
+
+  <p class="disclaimer">配套清单：<a href="../courses/">选课与学期节奏</a> · <a href="../money/">交费与银行卡</a> · <a href="../latam/">拉美装备</a> · <a href="../meds/">药品清单</a> · <a href="../luggage/">行李打包</a><br>行程日期、游行安排、团票价格<b>每年都变</b>，出发前一定回到官方来源核对（CDMX 政府公告、CBX 官网、INM、航司）。安全提示参考美国国务院旅行建议，墨西哥城为 Level 2。</p>
+</main>
+
+<script>
+const DATA = [
+  {
+    id: "book", emoji: "🎟", title: "现在就订的 5 件事（9 月订 vs 10 月订差 40%）",
+    desc: "亡灵节是墨西哥国内旅行最旺的一周，青旅和国内航班会真的卖空",
+    items: [
+      { id: "bk-air", name: "订 TIJ ⇄ MEX 往返机票", tag: "must",
+        note: "去程 <b>10/30 周五 TIJ 16:30–17:30</b> 起飞（给下课后过境留足时间），回程 <b>11/2 周一 MEX 11:00–12:00</b> 起飞。Volaris 和 VivaAerobus 都飞，往返 <b>$140–220</b>。",
+        tip: "两家都是超低成本航司：<b>基础票只含一个随身小包</b>，加一件 10kg 手提要另付。这趟 3 晚，按只带随身包规划就不用加钱。订票时护照姓名拼写必须和护照一致（姓/名别填反）。<b>别订带中转的</b>，TIJ–MEX 有大量直飞。" },
+      { id: "bk-hostel", name: "订青旅 3 晚（10/30、10/31、11/1）", tag: "must",
+        note: "区域选 <b>Roma Norte / Condesa / Juárez</b>（安静、餐厅多、走夜路相对安心），或 <b>Centro Histórico</b>（离 Zócalo 和游行最近，但入夜后街区差异大）。$25–43/晚。",
+        tip: "筛选条件按顺序：① <b>女生专用房间（female-only dorm）</b>；② 评分 8.5 以上且评论数 > 300；③ 有 24 小时前台——你 11/1 凌晨 3 点要回来，这条是硬性的；④ 有行李寄存（11/2 退房后如果时间不对得用）。订可免费取消的房型。" },
+      { id: "bk-mixquic", name: "订 11/1 晚的 Mixquic 夜团（本清单最不能省的钱）", tag: "must",
+        note: "约 <b>820 MXN ≈ $45</b> 起，含市中心往返车。GetYourGuide / Viator / Airbnb Experiences / 本地 Instagram 团都有卖，搜「Mixquic 1 de noviembre」或「Mixquic Día de Muertos tour」。",
+        tip: "下单前逐条确认：① 出发日期是 <b>11/1</b> 不是 11/2；② <b>包含返程车</b>且写明大概几点回市中心；③ 集合点在 Reforma / Bellas Artes 一带（好打车）；④ 有英文或西语导游。<b>把导游的 WhatsApp 存下来。</b>" },
+      { id: "bk-cbx", name: "买 CBX 过境票（往返约 $37.95）", tag: "must",
+        note: "crossborderxpress.com 或 CBX App。单程官方价 $19.95（淡季）/ $23.95（平季）/ $26.95（旺季）。过桥时要同时出示：<b>CBX 票 + 护照 + 当天的登机牌</b>。",
+        tip: "回程从 TIJ 走过桥进美国那一侧，检查的是美国 CBP，<b>需要你的机票落地时间在 24 小时内</b>。所以别买「回程当天不飞」的票。App 版本可以把票绑到手机，比纸质快。" },
+      { id: "bk-frida", name: "订芙烈达故居（Museo Frida Kahlo）门票", tag: "sug",
+        note: "Coyoacán，约 <b>$16</b>，只能<b>网上限时段预约</b>，现场基本买不到，亡灵节周更是提前一两周就满。安排在 11/1 下午。",
+        tip: "官网 museofridakahlo.org.mx。如果没抢到票不用勉强——Coyoacán 老城本身、Mercado de Coyoacán、Jardín Centenario 和周边的 ofrenda 装置都是免费的，而且 11/1 那天氛围比馆内更值。" },
+      { id: "bk-parade", name: "确认 Desfile 大游行的确切日期和路线", tag: "must",
+        note: "CDMX 政府一般在 <b>9 月底到 10 月中</b>公布。近几年都排在离 11/2 最近的周六，2026 年最可能是 <b>10/31 周六</b>。另外还有一个 <b>Mega Procesión de Catrinas</b>，通常在前一个周六（约 10/24，你去不了）。",
+        tip: "盯两个官方源：cdmx.gob.mx 和 turismo.cdmx.gob.mx，以及 @CulturaCiudadMx 的社交账号。<b>就算游行改到 11/1，你的行程也不塌</b>——那天白天本来是 Coyoacán，可以换成看游行，Coyoacán 挪到 10/31。核心的 11/1 通夜是日期确定的。" },
+      { id: "bk-class", name: "给 LTSP 2C 老师发邮件说明 11/2 缺课", tag: "sug",
+        note: "你只缺周一上午两节：LIGN 17 11:00 和 LTSP 2C 12:00。语言课点名和参与分占比高，<b>提前打招呼和事后补说明完全是两回事</b>。",
+        tip: "开学第一周拿到 syllabus 后就看 attendance policy，确认允许几次 absence。邮件写清日期、说明是文化体验行程（西语课老师通常反而支持）、并主动问那天的作业怎么补。<b>顺便查 ECON 181 的两次 Reflection 课有没有落在 11/2</b>，那两次是必须到场的。" }
+    ]
+  },
+  {
+    id: "docs", emoji: "🛂", title: "证件与过境：这块出错整趟就没了",
+    desc: "你是 J-1，出美国再进美国比一般旅客多两道要求；而且你走 CBX 属于「陆路入境墨西哥」，规则和坐飞机直飞墨西哥不一样",
+    items: [
+      { id: "dc-sig", name: "🚨 找 ISEO 在 DS-2019 上签 travel signature（第一周就去）", tag: "must",
+        note: "J-1 离开美国再入境，<b>必须</b>有 RO/ARO 在 DS-2019 第 6 栏签的旅行签名（有效期 1 年）。<b>没有签名，CBP 有权不放你回来。</b>ISEO 处理要几个工作日到两周，亡灵节前会排队。",
+        tip: "9 月落地后第一周就在 iPortal 提交 travel signature request，别等 10 月。拿到后<b>随身带 DS-2019 原件</b>（不是复印件、不是照片），和护照放一起。同时确认 SEVIS 状态是 ACTIVE。" },
+      { id: "dc-visa", name: "确认墨西哥不需要另外签证（你的美签就是通行证）", tag: "must",
+        note: "中国护照去墨西哥本来要签证，但<b>持有效美国签证可免签入境</b>。条件是：美签必须<b>在整个停留期间都有效</b>，且贴在你正在使用的这本护照上。你的 J-1 签证满足。",
+        tip: "把这条规则的官方出处（墨西哥 INM 网站）截图存手机，万一 Volaris 地勤不熟悉可以出示。另外护照本身：墨西哥只要求覆盖行程期间，但<b>美国入境实务上希望 6 个月以上</b>，顺手核一下你的护照有效期。" },
+      { id: "dc-fmm", name: "过 CBX 时一定要停下来办 FMM 并盖章（4 天是免费的）", tag: "must",
+        note: "走 CBX 算<b>陆路入境</b>，FMM 不含在机票里。<b>停留 6 天以内、从 CBX 入境 = 免费</b>，超过 7 天要付 983 比索（约 $55）。你是 4 天，免费——<b>但必须办，不办不等于不用办。</b>",
+        tip: "过桥后按指示牌找 <b>INM（Instituto Nacional de Migración）</b>柜台，出示护照，拿纸质 FMM，<b>确认上面盖了章、写了天数</b>。这张纸出境时要交回，<b>丢了要补办要罚钱</b>——夹在护照里全程别拿出来。注意：CBX 的 FMM <b>不支持多次入境</b>，一进一出各办一次。" },
+      { id: "dc-reentry", name: "回程过 CBX 进美国要带的四样东西", tag: "must",
+        note: "护照（含有效 J-1 签证）+ <b>签过 travel signature 的 DS-2019 原件</b> + 学生证或在读证明 + 当天的登机牌。CBP 会问你在 UCSD 读什么、待到什么时候。",
+        tip: "带一份 <b>UCSD 在读证明（enrollment verification，TritonLink 能自己下）</b>的打印件，比口头解释有用得多。回校后上 <b>i94.cbp.dhs.gov</b> 查最新 I-94，确认类别是 <b>J-1</b>、到期日是 <b>D/S</b>——填错了要趁早去 ISEO 修，拖到年底会影响身份。" },
+      { id: "dc-insur", name: "确认 UC SHIP 在墨西哥境内有效 + 存好紧急联系方式", tag: "sug",
+        note: "UC SHIP 含境外紧急医疗和 Assist America 之类的救援服务，但<b>非紧急门诊在国外通常要自己先垫付再报销</b>。墨西哥城的私立医院（如 ABC Medical Center）水平不错但要现付。",
+        tip: "出发前把三个号码存进手机（含离线可看的截图）：UC SHIP 的境外求助电话、美国驻墨西哥城使馆 +52-55-5080-2000、墨西哥全国紧急号码 <b>911</b>（和美国一样好记）。再把保险卡正反面拍照存本地相册。" },
+      { id: "dc-copy", name: "做一套证件的离线备份", tag: "sug",
+        note: "护照首页、美签页、DS-2019、FMM（盖章后立刻补拍）、机票、保险卡、青旅地址。手机丢了或没网的时候，这套东西决定你能不能自救。",
+        tip: "三份冗余：① 手机相册本地存一份；② 发一封给自己的邮件（有网就能取）；③ <b>一张纸质复印件塞在随身包最里层</b>，和证件原件分开放。青旅地址要有<b>西语版本</b>，好给 Uber 司机看。" }
+    ]
+  },
+  {
+    id: "day1", emoji: "✈️", title: "10/30 周五 · 下课直接走，零缺课",
+    desc: "唯一的任务是准点到达 CBX。这天不安排任何观光",
+    items: [
+      { id: "d1-leave", name: "12:50 LTSP 2C 下课 → Uber 直奔 CBX（约 30 分钟）", tag: "must",
+        note: "UCSD 到 CBX 圣地亚哥侧（Otay Mesa，2745 Otay Pacific Dr）开车约 30–40 分钟，Uber <b>$40–55</b>。坐 Trolley 蓝线 + 转公交要 1 小时 15 分以上，<b>这天别省这笔钱</b>。",
+        tip: "行李前一晚就打包好放门口。<b>13:40 前要到 CBX</b>：过桥 + 走到 TIJ 航站楼 + 值机排队，给自己留 2 小时。如果 Uber 高峰期涨价，前一晚在 App 里预约固定时间的车。" },
+      { id: "d1-cross", name: "过桥流程：CBX 票 → 美方出境 → 桥 → INM 办 FMM → TIJ 值机", tag: "must",
+        note: "全程步行约 10 分钟桥面。<b>瓶颈是 INM 那道</b>——亡灵节前的周五会排队。办完 FMM 才算合法入境墨西哥。",
+        tip: "手机提前下好 CBX 票的二维码（别指望现场有网）。<b>过桥前在美国这侧上厕所、买水</b>。TIJ 航站楼小，值机柜台就在桥出口不远，跟着 Volaris / VivaAerobus 的指示走。" },
+      { id: "d1-sim", name: "落地 MEX 前解决上网：买 Telcel 实体 SIM", tag: "must",
+        note: "你的<b>国行 iPhone 17 没有 eSIM</b>，所有旅行 eSIM 方案（Airalo 之类）对你全部无效，只能插实体卡。Telcel <b>Amigo Sin Límite</b> 之类的预付卡，200 比索（约 $11）能有几个 GB + 通话。",
+        tip: "两个买法：① <b>TIJ 机场</b>过完安检后的便利店/Telcel 柜台（推荐，还没起飞就有网）；② MEX 落地后航站楼内的 Telcel 店。<b>别在 CBX 圣地亚哥侧买</b>，那边是美国卡。买的时候让店员帮你插卡激活并测试一次上网。<b>你的联通卡装在卡槽 2，别拔掉。</b>" },
+      { id: "d1-arrive", name: "MEX 落地 → 只坐官方出租或 Uber 去旅舍（约 30–45 分钟）", tag: "must",
+        note: "夜里 21:20–22:20 落地。机场到 Roma Norte / Condesa 约 <b>$8–14</b>（Uber）或 <b>250–350 比索</b>（机场官方 taxi autorizado，柜台先买票）。当晚不要再出门。",
+        tip: "<b>绝对不要接航站楼里主动搭话的司机。</b>Uber 在 MEX 机场要走指定上车点（T1 在到达层出去再上楼，T2 类似，App 会指路）；不想折腾就在到达厅找 <b>写着「Taxi Autorizado」的柜台</b>先付钱拿凭条。到旅舍先办入住、确认 24 小时前台真的有人。" }
+    ]
+  },
+  {
+    id: "day2", emoji: "💀", title: "10/31 周六 · Zócalo + 大游行（人最多的一天，也是最安全的一天）",
+    desc: "全天在市中心，几乎不用花钱，人潮本身就是你要的那种安全感",
+    items: [
+      { id: "d2-zocalo", name: "上午：Zócalo 巨型 ofrenda + 大教堂 + Templo Mayor 外围", tag: "must",
+        note: "市政府从 <b>10/25 前后</b>就在 Zócalo 广场搭好巨型祭坛和骷髅装置，<b>免费</b>，白天人多好拍。旁边就是 Catedral Metropolitana 和阿兹特克 Templo Mayor 遗址。",
+        tip: "从旅舍坐 Metro 到 <b>Zócalo 站（2 号线）</b>，5 比索。<b>早上 9–10 点去</b>：光线好、人还没挤满、可以拍到装置全貌；下午同一个地方会变成人墙。Templo Mayor 博物馆要门票，遗址外围免费看。" },
+      { id: "d2-desfile", name: "下午到傍晚：Desfile de Día de Muertos 大游行", tag: "must",
+        note: "花车、巨型骷髅、Catrina 队伍，从 <b>Paseo de la Reforma</b>（一般从 Puerta de los Leones / Ángel de la Independencia 一带）走到 <b>Zócalo</b>，全程数小时。免费。",
+        tip: "别站终点 Zócalo（挤到看不见），<b>在 Reforma 中段找位置，提前 1.5 小时到</b>。这天穿<b>贴身模式的腰包</b>（塞 T 恤里）——游行沿线是全城扒手密度最高的场景。带一瓶水，沿线厕所要付 5–10 比索，备零钱。" },
+      { id: "d2-catrina", name: "想化 Catrina 妆：沿 Reforma 有大量摊位，100–300 比索", tag: "opt",
+        note: "游行沿线和 Alameda 附近临时摊位很多，<b>100–300 比索（$6–17）</b>，10–20 分钟画完。当地人和游客都在化，不算 cosplay 也不算不尊重——这就是节日的一部分。",
+        tip: "选摊位看两点：用的是不是<b>专业油彩而不是丙烯颜料</b>（丙烯闷痘）、有没有给每个客人换新海绵。画完当天晚上一定要用卸妆油卸干净。如果你皮肤敏感就跳过——这不是必做项。" },
+      { id: "d2-night", name: "晚上：Bellas Artes + Alameda 夜景，21:30 前回旅舍", tag: "sug",
+        note: "Palacio de Bellas Artes 在亡灵节期间打灯，加上 Alameda Central 的装置，走路 15 分钟能从 Zócalo 逛过去。人流一直到很晚都很密。",
+        tip: "白天靠 Metro，<b>入夜之后回旅舍一律 Uber</b>（$4–7），别为省 5 比索走夜路或坐夜间地铁。明天要通宵守灵，<b>今晚必须睡够</b>——这是全程唯一一个能正常睡的夜晚。" }
+    ]
+  },
+  {
+    id: "day3", emoji: "🕯", title: "11/1 周日 · 白天花市与 Coyoacán，晚上 Mixquic 通夜",
+    desc: "全程的核心。白天必须留出补觉时间，因为这一夜你不会睡",
+    items: [
+      { id: "d3-jamaica", name: "上午：Mercado de Jamaica 花市（万寿菊墙）", tag: "sug",
+        note: "墨西哥城最大的花市，亡灵节前后整条通道堆满 <b>cempasúchil（万寿菊）</b>和紫色鸡冠花，本地人来给家里的祭坛买花。<b>免费、几乎没有游客、色彩密度全城第一。</b>",
+        tip: "Metro 到 <b>Jamaica 站（4/9 号线）</b>。<b>8–10 点去</b>，是批发时段也是最热闹的时候。想拍摊主就先用西语问一句「¿Puedo tomar una foto?」，基本都会答应。买一小把花（20–30 比索）拿着，接下来一整天的照片都会好看。" },
+      { id: "d3-coyoacan", name: "下午：Coyoacán 老城 + 市场 +（如果抢到票）芙烈达故居", tag: "must",
+        note: "11/1 是 <b>Día de los Angelitos</b>，迎接夭折孩子的灵魂，祭坛上摆玩具和糖果。Coyoacán 的 Jardín Centenario、Mercado de Coyoacán 一带满是社区 ofrenda，气氛温柔而不阴森。",
+        tip: "Metro 到 <b>Coyoacán 站或 Viveros 站（3 号线）</b>再走 15–20 分钟，或直接 Uber（$5–8）。在 Mercado de Coyoacán 吃午饭（tostadas 摊有名）。<b>务必留出返程时间：17:00 前离开，18:00 前回到旅舍。</b>" },
+      { id: "d3-nap", name: "🚨 18:00–20:00 强制补觉（这条不是建议）", tag: "must",
+        note: "你今晚要从傍晚一直清醒到凌晨 3 点，明天上午还要坐 4 小时飞机 + 过境。<b>不睡这两小时，Mixquic 会变成一件靠意志力扛过去的事，而不是一段体验。</b>",
+        tip: "回旅舍设两个闹钟，洗个澡，躺下。同时做完三件出发前准备：<b>手机和相机全部充满电</b>、把充电宝装进包、把腰包切到<b>贴身模式</b>（塞进 T 恤，冲锋衣穿在外面）。晚饭在集合前吃，或者带两个面包。" },
+      { id: "d3-mixquic", name: "傍晚集合 → San Andrés Mixquic 守灵", tag: "must",
+        note: "Tláhuac 区，市中心东南约 <b>40 公里、车程 1.5–2 小时</b>（节日堵车）。<b>Panteón de San Andrés</b> 里家属整夜清扫、摆花、点蜡烛守着自家坟；教堂敲钟，孩子们提灯挨家挨户要「calaverita」。街上有小吃摊和露天舞台。",
+        tip: "<b>全程跟紧团、不要单独离队。</b>墓园里拍照前先看气氛：拍全景和烛光没问题，<b>对着正在哭或祈祷的家属拍特写是不礼貌的</b>。夜里山区风冷（海拔 2,240 米），<b>冲锋衣一定穿着</b>。带现金零钱买 pan de muerto 和 atole——热的东西在凌晨很重要。" },
+      { id: "d3-back", name: "凌晨 2–3 点：跟团车回市中心 → Uber 回旅舍", tag: "must",
+        note: "这是整趟行程里<b>唯一一个「必须依赖团」的环节</b>。Mixquic 凌晨没有回市区的公共交通，自己去的人到点只能干等或者拼到不明来路的车上。",
+        tip: "上团车前确认导游说的下车点在哪。下车后<b>不要走路回旅舍，一律 Uber</b>，凌晨 3 点的 $5 是全程性价比最高的一笔钱。上车前核对车牌和司机头像，上车后在 App 里分享行程给国内家人。" },
+      { id: "d3-alt", name: "如果查到 Mixquic 那晚的团只有 11/2：改去 San Gregorio Atlapulco", tag: "skip",
+        note: "Xochimilco 区的 <b>Panteón de San Gregorio Atlapulco</b> 是墨西哥城 <b>11/1 通夜</b>最知名的守灵地，整片墓地被蜡烛铺满、家属守到 madrugada，本地团 11/1 那场约 <b>820 MXN</b>。离市区比 Mixquic 近。",
+        tip: "这是同一个价位、同一种体验的备选，<b>不是降级</b>。搜「San Gregorio Atlapulco 1 de noviembre velación」或「Xochimilco Día de Muertos noche」。<b>10 月中旬做一次决定：哪个有 11/1 的团就订哪个</b>，两个都别拖到 10 月底。" }
+    ]
+  },
+  {
+    id: "day4", emoji: "🛬", title: "11/2 周一 · 睡 3 小时，中午飞，下午回校",
+    desc: "赶得上 17:00 的 CSE 152A，只缺上午两节",
+    items: [
+      { id: "d4-sleep", name: "03:00 回旅舍 → 睡到 08:00 → 洗澡退房", tag: "must",
+        note: "5 小时睡眠不算够，但足够让你安全地过境。<b>这也是为什么 11/1 的房要订到 11/2 早上，别为省一晚钱在机场熬。</b>",
+        tip: "退房前把 FMM 那张纸、DS-2019、在读证明<b>拿出来放到随身包最外层的固定位置</b>——你会在半睡半醒的状态下经过两道边检，不想到时候翻包。" },
+      { id: "d4-fly", name: "09:30 Uber 去 MEX → 11:00–12:00 起飞 → TIJ 约 13:00 落地", tag: "must",
+        note: "国内航班提前 2 小时到机场够了。飞行 <b>3 小时 42 分</b>，但因为 <b>11/1 美国夏令时结束</b>，墨城比蒂华纳快 <b>2 小时</b>，所以落地当地时间看起来只晚了 1 小时多——<b>看航司写的时间就行。</b>",
+        tip: "出境时把 <b>FMM 交回 INM</b>（在 TIJ 出境或过 CBX 时）。Uber 去机场约 $8–14；如果 App 打不到车，让旅舍前台帮你叫官方 taxi。<b>确认航站楼</b>：Volaris 和 VivaAerobus 在 MEX 用的航站楼不同（T1/T2），登机牌上有。" },
+      { id: "d4-cbx", name: "TIJ → 过 CBX 桥进美国 → Uber 回 UCSD", tag: "must",
+        note: "落地后跟着「CBX / San Diego」指示牌走到桥入口，出示 <b>CBX 票 + 登机牌 + 护照</b>。桥美国侧是 CBP 检查：护照、有效 J-1 签证、<b>签过名的 DS-2019</b>、在读证明。",
+        tip: "CBP 排队时间不定，<b>20 分钟到 1.5 小时</b>都可能。出关后 Uber 回 UCSD 约 $40–55、30–40 分钟。<b>按 15:30 到校算，17:00 的 CSE 152A 赶得上</b>；如果 CBP 排到 15:00 之后就放弃这节课，别赶。" },
+      { id: "d4-after", name: "回校当天做完两件收尾", tag: "sug",
+        note: "① 上 <b>i94.cbp.dhs.gov</b> 查新的 I-94，确认 <b>J-1 / D/S</b>；② 给 LTSP 2C 老师补一封邮件，问上午那节的作业和进度。",
+        tip: "I-94 如果显示错误类别或具体到期日（而不是 D/S），<b>当周就去找 ISEO</b>——这个错误拖久了会影响你 12 月出境去拉美、甚至影响 SEVIS 状态。截图存档。" }
+    ]
+  },
+  {
+    id: "safe", emoji: "🛡", title: "单人安全规则：六条，只有六条",
+    desc: "墨西哥城是 Level 2（和法国、意大利同级）。真实风险不是暴力犯罪，是扒窃、假出租车和喝到不该喝的东西",
+    items: [
+      { id: "sf-taxi", name: "只用 Uber / Didi，永远不拦路边出租车", tag: "must",
+        note: "墨西哥城的绿白路边出租有真实的抢劫和「强制取款」案例，而 Uber / Didi 有车牌、司机身份和行程记录。夜里 Uber 单程 $4–9，<b>没有任何值得为省这点钱破例的场景。</b>",
+        tip: "上车前对三样：<b>车牌、车型、司机头像</b>。上车后在 App 里点「分享行程」发给国内家人（微信也能收链接）。坐<b>后排</b>。司机要你取消 App 用现金私下走——直接下车重新叫。" },
+      { id: "sf-metro", name: "白天坐地铁没问题，但只带贴身的东西 + 走女性车厢", tag: "must",
+        note: "Metro 5 比索、覆盖全城、白天很安全，<b>唯一的问题是扒手</b>，尤其 1/2/3 号线和 Zócalo、Pino Suárez 这些站的高峰时段。前几节车厢是 <b>女性和儿童专用（mujeres y niños）</b>，有工作人员分流。",
+        tip: "上车前把<b>腰包切到贴身模式</b>（T 恤里面）。手机不要拿在手上刷，不要挂在脖子上。<b>入夜后（20:00 之后）不坐地铁</b>，改 Uber——不是因为治安突变，是因为你一个人、不熟站点、拿着相机。" },
+      { id: "sf-pouch", name: "腰包两种穿法，按场景切换", tag: "must",
+        note: "你已经试过它比背包腰带更低、卡在胯上不打架。<b>贴身模式（T 恤里、冲锋衣外面看不见）</b>用于游行、地铁、Mixquic 人群；<b>外挂模式（冲锋衣外面）</b>用于白天拍照、市场、Coyoacán 这类需要频繁取手机的场景。",
+        tip: "分层放：贴身腰包里只放<b>护照 + FMM + 一张卡 + 大部分现金</b>；口袋或外挂包里放<b>当天要用的零钱（300–500 比索）+ 手机</b>。原则是<b>任何一次掏钱都不能暴露全部财物的位置</b>。" },
+      { id: "sf-drink", name: "青旅和酒吧：不接别人递的酒，不喝离开视线的杯子", tag: "must",
+        note: "墨西哥城的青旅社交气氛很好，亡灵节期间更是热闹，这本身是好事。风险只有一条：<b>下药（尤其针对独行女性）</b>。这是当地报案里最常见的针对游客的犯罪类型之一。",
+        tip: "自己去吧台点、自己端回来、杯子不离手。去洗手间就把杯子放弃。<b>和青旅认识的人一起出门是好主意，但要在青旅公共区域先认识半个晚上，而不是刚说三句话就走。</b>出门前把去哪告诉前台或室友。" },
+      { id: "sf-zone", name: "记住去哪和不去哪：城市不是均质的", tag: "sug",
+        note: "<b>去：</b>Roma Norte、Condesa、Juárez、Polanco、Coyoacán、Centro Histórico（白天）、Xochimilco（跟团/白天）。<b>入夜后避开：</b>Tepito、Doctores、Iztapalapa 内部、La Merced 周边、Centro 的偏僻小巷。",
+        tip: "判断法则比记地名有用：<b>看店是不是开着、街上有没有女性和小孩、路灯是不是亮的</b>。三条里有两条不成立就转身。Google Maps 上看着只有 900 米的「捷径」在 CDMX 经常穿过完全不同的街区——<b>宁可绕路或打车。</b>" },
+      { id: "sf-checkin", name: "和国内约定一天一次报平安（尤其 11/1 那晚）", tag: "sug",
+        note: "你一个人在国外通宵，家里那边正好是白天。<b>提前说清楚 11/1 晚到 11/2 凌晨你会在墓园、可能没信号</b>，免得他们联系不上开始报警。",
+        tip: "约定简单规则：每天早上一条消息，加上 <b>Mixquic 出发前一条 + 回到旅舍一条</b>。iPhone 的「<b>共享我的位置</b>」（家人共享）开着，比一直发消息省事得多，而且断网也能看最后位置。" }
+    ]
+  },
+  {
+    id: "pack", emoji: "🎒", title: "只带一个随身包（超低成本航司不给托运额）",
+    desc: "3 晚 4 天，全部塞进一个 25–35L 背包 + 腰包。多带的每一件都要背去墓园",
+    items: [
+      { id: "pk-jacket", name: "冲锋衣（MH500 Light）必带 —— 但它不保暖", tag: "must",
+        note: "墨西哥城海拔 <b>2,240 米</b>，11 月初白天 22–24°C，<b>夜里降到 8–11°C</b>，Mixquic 在城外东南、旷野，凌晨风更冷。冲锋衣挡风挡雨挡露水，<b>但保暖是中层的事</b>。",
+        tip: "三层组合：<b>速干 T 恤 + 抓绒或薄羽绒（中层）+ MH500 Light（外层）</b>。这一趟能顺便验证你的搭配够不够——12 月拉美要靠同一套。冲锋衣没有手袋，靠腰包解决，这个你已经试过了。" },
+      { id: "pk-clothes", name: "衣服按 3 天算，别按 4 天", tag: "sug",
+        note: "T 恤 ×3、长裤 ×2（一条能穿去墓园不心疼的）、内衣袜子 ×4、薄中层 ×1、冲锋衣 ×1。<b>青旅有洗衣或者手洗都行，但 3 晚其实不用洗。</b>",
+        tip: "鞋只带一双：<b>已经穿惯的、防滑的、能走一整天的</b>。Mixquic 墓园地面是土和碎石、11 月可能有露水或小雨。<b>别为这趟买新鞋</b>——新鞋磨脚会毁掉通夜那一晚。羊毛袜带一双，凌晨脚冷是最难忍的。" },
+      { id: "pk-camera", name: "相机：iPhone 17 + DJI Pocket 3 带，Sony W170 留在圣地亚哥", tag: "sug",
+        note: "这趟的关键场景是<b>夜间烛光</b>——W170 那块 CCD 超过 ISO 400 就崩，在墓园里基本用不上，还占一份重量和一套充电配件。<b>白天市场和花市它拍得好，但白天 iPhone 也够。</b>",
+        tip: "带 <b>iPhone 17（主力，夜景模式在烛光下最稳）+ Pocket 3（云台，走动中拍摄唯一不糊的方案）</b>。Pocket 3 拍 4K/60 约 1GB/分钟，<b>带够 microSD 并且当晚导到手机</b>，别指望回校再整理。充电宝 10,000mAh，一晚上要同时喂两台机器。" },
+      { id: "pk-cash", name: "现金分三处放，加一张备用卡", tag: "must",
+        note: "3,000–4,000 比索现金。<b>贴身腰包放大部分 + 当天零钱放口袋 + 一小笔（500 比索）和一张备用卡藏在背包夹层</b>。摊贩、厕所、团里的小额消费全靠现金。",
+        tip: "两张 Visa 副卡<b>别放在同一个地方</b>。零钱很重要：50 和 100 比索的钞票在小摊上找得开，500 的经常找不开。到 ATM 取钱后先去便利店买瓶水把大钞破开。" },
+      { id: "pk-meds", name: "从药包里分装一小袋：肠胃 + 止痛 + 电解质", tag: "must",
+        note: "最可能用上的三样：<b>吃街头食物后的肠胃问题</b>（蒙脱石散/洛哌丁胺）、<b>通宵后的头痛</b>（对乙酰氨基酚或布洛芬）、<b>海拔 + 缺睡 + 干燥导致的脱水</b>（电解质冲剂）。",
+        tip: "从你在国内配好的<b>药品清单</b>里分装，别整包带。街头小吃的判断标准：<b>看排队的人、看有没有明火现做、看酱料是不是敞着放很久</b>。生的东西（ceviche、切好的水果）第一天先别碰，肠胃需要适应期。" },
+      { id: "pk-offline", name: "离线准备：地图、青旅西语地址、手电", tag: "sug",
+        note: "Mixquic 的信号在人群密集时会挤爆，墓园里也未必有网。Google Maps 把<b>墨西哥城离线地图</b>下好，Metro 线路图截图存相册。",
+        tip: "另外三样小东西真的会用上：<b>小手电或头灯</b>（墓园里地面不平，别用手机手电耗电）、<b>湿巾和纸巾</b>（厕所常常没纸）、<b>一个薄塑料袋</b>（装脏鞋或防雨）。手机开省电模式，把没用的后台关掉。" }
+    ]
+  }
+];
+const TAG_LABEL = { must: "必做", sug: "建议", opt: "可选", skip: "查一下" };
+const STORE_KEY = "cdmx-muertos-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { state = {}; }
+let filter = "all";
+
+const totalItems = DATA.reduce((s, g) => s + g.items.length, 0);
+const $sections = document.getElementById("sections");
+
+function render() {
+  $sections.innerHTML = DATA.map(group => {
+    const rows = group.items.map(it => {
+      const st = state[it.id] || "todo";
+      return `
+      <div class="item state-${st}" data-id="${it.id}" data-state="${st}">
+        <div class="item-main">
+          <div class="item-name">${it.name}<span class="badge ${it.tag}">${TAG_LABEL[it.tag]}</span></div>
+          <div class="item-note">${it.note}</div>
+          <div class="item-meta"><span class="meta-icon">💡</span><span><b class="meta-label">怎么做：</b>${it.tip}</span></div>
+        </div>
+        <div class="item-actions">
+          <button class="chip ${st === "done" ? "on-done" : ""}" data-act="done">${st === "done" ? "✓ 已搞定" : "已搞定"}</button>
+          <button class="chip na-chip ${st === "na" ? "on-na" : ""}" data-act="na">${st === "na" ? "— 不适用" : "不适用"}</button>
+        </div>
+      </div>`;
+    }).join("");
+    return `
+    <section class="section" id="${group.id}" data-group="${group.id}">
+      <div class="section-head">
+        <div class="emoji">${group.emoji}</div>
+        <div><h2>${group.title}</h2>${group.desc ? `<div class="desc">${group.desc}</div>` : ""}</div>
+        <span class="count" data-count="${group.id}"></span>
+      </div>
+      ${rows}
+    </section>`;
+  }).join("");
+  update();
+}
+
+function update() {
+  let done = 0, na = 0;
+  Object.values(state).forEach(v => { if (v === "done") done++; if (v === "na") na++; });
+  const todo = totalItems - done - na;
+  const effective = totalItems - na;
+  const pct = effective === 0 ? 100 : Math.round(done / effective * 100);
+
+  document.getElementById("n-todo").textContent = todo;
+  document.getElementById("n-done").textContent = done;
+  document.getElementById("n-na").textContent = na;
+  document.getElementById("pct").textContent = pct + "%";
+  const C = 213.6;
+  document.getElementById("ring").style.strokeDashoffset = C * (1 - pct / 100);
+
+  DATA.forEach(g => {
+    const gDone = g.items.filter(it => (state[it.id] || "todo") !== "todo").length;
+    const el = document.querySelector(`[data-count="${g.id}"]`);
+    el.textContent = `${gDone} / ${g.items.length}`;
+    el.classList.toggle("ok", gDone === g.items.length);
+  });
+
+  document.querySelectorAll(".item").forEach(el => {
+    el.classList.toggle("hidden", filter === "todo" && el.dataset.state !== "todo");
+  });
+  document.querySelectorAll(".section").forEach(sec => {
+    const visible = sec.querySelectorAll(".item:not(.hidden)").length;
+    sec.classList.toggle("hidden", filter === "todo" && visible === 0);
+  });
+}
+
+$sections.addEventListener("click", e => {
+  const btn = e.target.closest(".chip");
+  if (!btn) return;
+  const id = btn.closest(".item").dataset.id;
+  const act = btn.dataset.act;
+  state[id] = (state[id] === act) ? "todo" : act;
+  if (state[id] === "todo") delete state[id];
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  render();
+});
+
+document.querySelectorAll("[data-filter]").forEach(b => {
+  b.addEventListener("click", () => {
+    filter = b.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(x => x.classList.toggle("active", x === b));
+    update();
+  });
+});
+
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if (confirm("确定要清空所有勾选进度吗？")) {
+    state = {};
+    localStorage.removeItem(STORE_KEY);
+    render();
+  }
+});
+document.getElementById("btn-print").addEventListener("click", () => window.print());
+
+render();
+</script>
+</body>
+</html>
